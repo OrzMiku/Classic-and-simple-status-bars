@@ -25,6 +25,6 @@
   ![6](/Textures/in/6.png)
   ![7](/Textures/in/7.png)
   ![8](/Textures/in/8.png)
-  ![9](/Textures/is/9.png)
+  ![9](/Textures/in/9.png)
 
 ## Wishing you a wonderful day!
