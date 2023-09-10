@@ -1,7 +1,9 @@
 ### Classic and simple status bars
-- Only 1.20.1 and based on neoforged production
-- If you are looking for other versions or originals, please visit:  https://github.com/Lanfix8/SimpleHealthBar-Forge
+- Only 1.20.1 Forge - based on neoforged production
+
 ![logo](/src/main/resources/image.png)
+> This project is based on the modification of the [SimpleHealthBar](https://github.com/Lanfix8/SimpleHealthBar-Forge) Mod produced By Lanfix8 
+>> If you are looking for other versions or originals, please visit:  [SimpleHealthBar](https://github.com/Lanfix8/SimpleHealthBar-Forge)
 
 ### Support functions
 
