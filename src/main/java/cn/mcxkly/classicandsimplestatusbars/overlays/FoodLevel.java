@@ -30,42 +30,18 @@ public class FoodLevel implements IGuiOverlay {
     private static final ResourceLocation intermediateHealthBarLocation = new ResourceLocation(ClassicAndSimpleStatusBars.MOD_ID, "textures/gui/foodbars/intermediate.png");
     private static final ResourceLocation guiIconsLocation = new ResourceLocation("minecraft", "textures/gui/icons.png");
     private float intermediateFood = 0;
-    private File file = new File(guiIconsLocation.getPath());
-    //int[] FileHW = GetImageInfo(file);
     private float intermediateFoodSaturation = 0;
-
-    public int[] GetImageInfo(File files) {
-        try {
-// 读取图片文件
-            BufferedImage image = ImageIO.read(files);
-// 获取图片的高度和宽度
-            int height = image.getHeight();
-            int width = image.getWidth();
-
-
-//            System.out.println("图片高度：" + height + " 像素");
-//            System.out.println("图片宽度：" + width + " 像素");
-            return new int[]{height, width};
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
     @Override
     public void render(ForgeGui gui, GuiGraphics guiGraphics, float partialTick, int width, int height) {
-
-
         if (gui.shouldDrawSurvivalElements()) {
             Font font = gui.getFont();
 
             Player player = (Player) Minecraft.getInstance().cameraEntity;
             if (player == null) return;
-
             int x = width / 2 + 11;
             int y = height - 39;
             y += 4;
-
+            y -= 70; //test
             updateBarTextures(player);
             renderFoodBar(font,guiGraphics, partialTick, x, y, player);
             //Sntext = renderMountValue(player);

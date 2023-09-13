@@ -1,10 +1,9 @@
 package cn.mcxkly.classicandsimplestatusbars;
 
-import cn.mcxkly.classicandsimplestatusbars.overlays.AppleSkinEventHandler;
+import cn.mcxkly.classicandsimplestatusbars.overlays.ThirstWasTaken;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 @Mod(ClassicAndSimpleStatusBars.MOD_ID)
 public class ClassicAndSimpleStatusBars {
@@ -14,10 +13,9 @@ public class ClassicAndSimpleStatusBars {
     public ClassicAndSimpleStatusBars() {
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
-    }
-    private void clientInit(final FMLClientSetupEvent event) {
-        if (ModList.get().isLoaded("appleskin")) { // Perhaps I don't need this because I can't achieve it
-            MinecraftForge.EVENT_BUS.register(new AppleSkinEventHandler());
-        }
+
+//        if (ModList.get().isLoaded("thirst")) {
+//            MinecraftForge.EVENT_BUS.register(new ThirstWasTaken());
+//        }
     }
 }

@@ -13,6 +13,7 @@ out
 *.iml
 .idea
 Textures/other/*
+isRun
 
 # gradle
 build
