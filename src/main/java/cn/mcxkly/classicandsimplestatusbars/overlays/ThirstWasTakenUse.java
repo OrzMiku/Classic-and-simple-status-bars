@@ -30,7 +30,7 @@ public class ThirstWasTakenUse implements IGuiOverlay {
             if (player == null) return;
             int x = width / 2 + 11;
             int y = height - 39;
-            y += 4;
+            y += 5; //4+1
 
             renderThirstLevelBar(font, guiGraphics, partialTick, x, y, player);
         }
