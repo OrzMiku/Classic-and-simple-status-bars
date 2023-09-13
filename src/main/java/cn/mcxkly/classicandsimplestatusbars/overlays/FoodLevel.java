@@ -31,6 +31,8 @@ public class FoodLevel implements IGuiOverlay {
     private static final ResourceLocation guiIconsLocation = new ResourceLocation("minecraft", "textures/gui/icons.png");
     private float intermediateFood = 0;
     private float intermediateFoodSaturation = 0;
+    public static boolean StopConflictRendering = true; // 支持口渴
+    public static void StopConflictRenderingIDEA(boolean is){StopConflictRendering = is;};
     @Override
     public void render(ForgeGui gui, GuiGraphics guiGraphics, float partialTick, int width, int height) {
         if (gui.shouldDrawSurvivalElements()) {
@@ -41,7 +43,7 @@ public class FoodLevel implements IGuiOverlay {
             int x = width / 2 + 11;
             int y = height - 39;
             y += 4;
-            y -= 70; //test
+            //y -= 70; // test
             updateBarTextures(player);
             renderFoodBar(font,guiGraphics, partialTick, x, y, player);
             //Sntext = renderMountValue(player);
@@ -105,15 +107,16 @@ public class FoodLevel implements IGuiOverlay {
         if (player.getAirSupply() < 300) { // max=300
             int siz = player.getAirSupply() / 3;
             String text;
-            siz = siz > 0 ? siz : 0;//防止负数
+            siz = Math.max(siz, 0); //防止负数
             text = String.valueOf(siz);
+            int Y2 = y;
+            if (!StopConflictRendering) Y2 -= 10; // 如果口渴存在，在渲染时高度 + 10
+            guiGraphics.drawString(font, "%", x + 70 - font.width("%"), Y2 - 9, 0x1E90FF, false);
 
-            guiGraphics.drawString(font, "%", x + 80 - font.width("%"), y - 9, 0x1E90FF, false);
-
-            guiGraphics.drawString(font, text, x + 80 - font.width("99%"), y - 9, 0x1E90FF, false);
+            guiGraphics.drawString(font, text, x + 70 - font.width("99%"), Y2 - 9, 0x1E90FF, false);
             guiGraphics.blit(guiIconsLocation,
-                    x + 80 - font.width("99%") - 10, y - 10,
-                    16, 19,
+                    x + 70, Y2 - 10,
+                    16, 18,
                     9, 9,
                     256, 256); // 气泡图标
         }

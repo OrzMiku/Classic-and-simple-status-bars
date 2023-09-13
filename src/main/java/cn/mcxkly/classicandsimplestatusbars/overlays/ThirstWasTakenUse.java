@@ -15,46 +15,50 @@ import net.minecraftforge.client.gui.overlay.IGuiOverlay;
 
 public class ThirstWasTakenUse implements IGuiOverlay {
     private static final Minecraft mc = Minecraft.getInstance();
+    public static boolean StopConflictRendering = true;
+    public static void StopConflictRenderingIDEA(boolean is){StopConflictRendering = is;};
     public static IThirst PLAYER_THIRST = null;
-    public static ResourceLocation THIRST_ICONS = new ResourceLocation(Thirst.ID, "textures/gui/thirst_icons.png");
+    public static final ResourceLocation THIRST_ICONS = new ResourceLocation(Thirst.ID, "textures/gui/thirst_icons.png");
     public static final ResourceLocation MC_ICONS = new ResourceLocation("minecraft", "textures/gui/icons.png");
 
     @Override
     public void render(ForgeGui gui, GuiGraphics guiGraphics, float partialTick, int width, int height) {
-        Player player = null;
-        int y = 0;
-        int x = 0;
-        Font font = null;
-        if (gui.shouldDrawSurvivalElements()) {
-            font = gui.getFont();
+        if (gui.shouldDrawSurvivalElements() && !StopConflictRendering) {
+            Font font = gui.getFont();
 
-            player = (Player) Minecraft.getInstance().cameraEntity;
+            Player player = (Player) Minecraft.getInstance().cameraEntity;
             if (player == null) return;
-            x = width / 2 + 11;
-            y = height - 39;
+            int x = width / 2 + 11;
+            int y = height - 39;
             y += 4;
+
+            renderThirstLevelBar(font, guiGraphics, partialTick, x, y, player);
         }
-        renderThirstLevelBar(font, guiGraphics, partialTick, x, y, player);
-
     }
-
     private void renderThirstLevelBar(Font font, GuiGraphics guiGraphics, float partialTick, int x, int y, Player player) {
 //            guiGraphics.blit(emptyHealthBarLocation,
 //                    x, y,
 //                    0, 0,
 //                    80, 5,
 //                    80, 5);
-        String text;
-        if (PLAYER_THIRST == null || mc.player.tickCount % 40 == 0) {
-            assert mc.player != null;
-            PLAYER_THIRST = (IThirst) mc.player.getCapability(ModCapabilities.PLAYER_THIRST).orElse(null);
+
+        PLAYER_THIRST = player.getCapability(ModCapabilities.PLAYER_THIRST).orElse(null);
+        int Thirst = PLAYER_THIRST.getThirst();
+        int Quenched = PLAYER_THIRST.getQuenched();
+
+        guiGraphics.blit(THIRST_ICONS,
+                x + 70, y - 10,
+                16.0F, 0.0F,
+                9, 9,
+                25, 9);
+
+        if (Quenched > 0){ // 如果Quenched大于0渲染.
+            int x2 = x + 70 - font.width(Quenched + "+") - font.width(String.valueOf(Thirst)); // 计算长度
+            // guiGraphics.blit(THIRST_ICONS, x, y, 0.0F, 0.0F, 9, 9, 25, 9);
+            guiGraphics.drawString(font, Quenched + "+", x2, y - 9, 0x48D1CC, false);
         }
-        text = PLAYER_THIRST.getThirst() + " | " + PLAYER_THIRST.getQuenched();
-        guiGraphics.drawString(font, text, x, y - 19, 0xF4A460, false);
-        guiGraphics.blit(THIRST_ICONS, x, y, 0.0F, 0.0F, 9, 9, 25, 9);
-
-        guiGraphics.blit(THIRST_ICONS, x, y, 8.0F, 0.0F, 9, 9, 25, 9);
-
+        font.width("0.3");
+        guiGraphics.drawString(font, String.valueOf(Thirst), x + 70 - font.width(String.valueOf(Thirst)), y - 9, 0x4876FF, false);
     }
 }
 

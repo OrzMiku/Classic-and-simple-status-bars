@@ -14,6 +14,6 @@ public class OverlayRegisteringThirstLevel {
 
     @SubscribeEvent
     public static void registerthirst(RegisterGuiOverlaysEvent event) {
-    //        event.registerBelow(chatOverlayLocation, "thirst_level", Overlays.thirstlevel);
+            event.registerBelow(chatOverlayLocation, "thirst_level", Overlays.thirstlevel);
     }
 }
