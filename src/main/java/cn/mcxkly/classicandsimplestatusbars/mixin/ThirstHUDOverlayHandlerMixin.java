@@ -8,8 +8,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(value = HUDOverlayHandler.class,remap = false)
 public class ThirstHUDOverlayHandlerMixin {
-
-
         @Inject(method = "onRenderGuiOverlayPre", at = @At("HEAD"), cancellable = true)
         private void onRenderExhaustion(CallbackInfo ci) {
             ci.cancel();

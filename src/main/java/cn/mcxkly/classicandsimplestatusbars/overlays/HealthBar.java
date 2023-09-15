@@ -113,6 +113,7 @@ public class HealthBar implements IGuiOverlay {
     private void renderHealthBar(GuiGraphics guiGraphics, float partialTick, int x, int y, Player player) {
         float health = player.getHealth();
         float maxHealth = player.getMaxHealth();
+        if (health>maxHealth)health=maxHealth; // 就是不放心，虽然绝不可能
         // Calculate bar proportions
         float healthProportion;
         float intermediateProportion;
@@ -145,6 +146,7 @@ public class HealthBar implements IGuiOverlay {
 
 
         float absorption = player.getAbsorptionAmount();
+        if (absorption > maxHealth)absorption=maxHealth;
         float absorptionProportion = absorption / maxHealth;
         if (absorptionProportion > 1) absorptionProportion = 1F;
         int absorptionWidth = (int) Math.ceil(80 * absorptionProportion);

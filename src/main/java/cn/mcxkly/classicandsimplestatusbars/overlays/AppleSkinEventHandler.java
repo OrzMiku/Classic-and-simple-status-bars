@@ -1,9 +1,7 @@
 package cn.mcxkly.classicandsimplestatusbars.overlays;
 
-import net.minecraft.world.item.Items;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import squeek.appleskin.api.event.HUDOverlayEvent;
-import squeek.appleskin.api.event.TooltipOverlayEvent;
 
 public class AppleSkinEventHandler {
     // 取消苹果皮MOD的部分渲染，应该能增加性能.
@@ -34,12 +32,12 @@ public class AppleSkinEventHandler {
 
 
 
-    @SubscribeEvent // 例子-检测手中物品，是苹果就取消渲染 - 来自wiki
-    public void onPreTooltipEvent(TooltipOverlayEvent.Pre event) {
-        // hide the tooltip for regular apples
-        if (event.itemStack.getItem() == Items.APPLE) {
-            event.setCanceled(true);
-        }
-    }
+//    @SubscribeEvent // 例子-检测手中物品，是苹果就取消渲染 - 来自wiki
+//    public void onPreTooltipEvent(TooltipOverlayEvent.Pre event) {
+//        // hide the tooltip for regular apples
+//        if (event.itemStack.getItem() == Items.APPLE) {
+//            event.setCanceled(true);
+//        }
+//    }
 }
 

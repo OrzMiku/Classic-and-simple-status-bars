@@ -14,12 +14,6 @@ import net.minecraftforge.client.gui.overlay.ForgeGui;
 import net.minecraftforge.client.gui.overlay.IGuiOverlay;
 
 
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import javax.imageio.ImageIO;
-
-
 
 public class FoodLevel implements IGuiOverlay {
     private static final ResourceLocation fullHealthBarLocation = new ResourceLocation(ClassicAndSimpleStatusBars.MOD_ID, "textures/gui/foodbars/foodeeg.png");
@@ -45,7 +39,7 @@ public class FoodLevel implements IGuiOverlay {
             y += 4;
             //y -= 70; // test
             updateBarTextures(player);
-            renderFoodBar(font,guiGraphics, partialTick, x, y, player);
+            renderFoodBar(guiGraphics, partialTick, x, y, player);
             //Sntext = renderMountValue(player);
             //Sntext = 123 + " | " + 123;
 
@@ -171,15 +165,16 @@ public class FoodLevel implements IGuiOverlay {
 //    }
 
 
-    private void renderFoodBar(Font font,GuiGraphics guiGraphics, float partialTick, int x, int y, Player player) {
-        float maxFood = 20;
+    private void renderFoodBar(GuiGraphics guiGraphics, float partialTick, int x, int y, Player player) {
+        //float maxFood = 20; // 不，不能这样用。
+        float maxFood = player.getFoodData().getLastFoodLevel();
 
         float Food = player.getFoodData().getFoodLevel();
         float saturationProportion = player.getFoodData().getSaturationLevel() / maxFood;
 
         // Calculate bar proportions
         float FoodProportion;
-
+        if (Food > maxFood)maxFood = Food;
         float intermediateProportion;
         if (Food < intermediateFood) {
             //FoodProportion = Food / maxFood;

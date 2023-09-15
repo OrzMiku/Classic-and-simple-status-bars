@@ -17,8 +17,6 @@ public class ThirstWasTakenUse implements IGuiOverlay {
     public static void StopConflictRenderingIDEA(boolean is){StopConflictRendering = is;};
     public static IThirst PLAYER_THIRST = null;
     public static final ResourceLocation THIRST_ICONS = new ResourceLocation(Thirst.ID, "textures/gui/thirst_icons.png");
-    public static final ResourceLocation MC_ICONS = new ResourceLocation("minecraft", "textures/gui/icons.png");
-
     @Override
     public void render(ForgeGui gui, GuiGraphics guiGraphics, float partialTick, int width, int height) {
         if (gui.shouldDrawSurvivalElements() && !StopConflictRendering) {
@@ -34,12 +32,6 @@ public class ThirstWasTakenUse implements IGuiOverlay {
         }
     }
     private void renderThirstLevelBar(Font font, GuiGraphics guiGraphics, float partialTick, int x, int y, Player player) {
-//            guiGraphics.blit(emptyHealthBarLocation,
-//                    x, y,
-//                    0, 0,
-//                    80, 5,
-//                    80, 5);
-
         PLAYER_THIRST = player.getCapability(ModCapabilities.PLAYER_THIRST).orElse(null);
         if (PLAYER_THIRST == null) return;
         int Thirst = PLAYER_THIRST.getThirst();
