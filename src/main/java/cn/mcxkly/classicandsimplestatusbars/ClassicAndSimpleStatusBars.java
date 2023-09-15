@@ -1,7 +1,6 @@
 package cn.mcxkly.classicandsimplestatusbars;
 
 import cn.mcxkly.classicandsimplestatusbars.overlays.FoodLevel;
-import cn.mcxkly.classicandsimplestatusbars.overlays.ThirstWasTaken;
 import cn.mcxkly.classicandsimplestatusbars.overlays.ThirstWasTakenUse;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.ModList;
@@ -17,7 +16,8 @@ public class ClassicAndSimpleStatusBars {
         MinecraftForge.EVENT_BUS.register(this);
 
         if (ModList.get().isLoaded("thirst")) {
-            //MinecraftForge.EVENT_BUS.register(new ThirstWasTaken());
+            // new ThirstWasTakenMixin();
+            //MinecraftForge.EVENT_BUS.register(new ThirstHUDOverlayHandlerMixin());
             ThirstWasTakenUse.StopConflictRenderingIDEA(false);
             FoodLevel.StopConflictRenderingIDEA(false);
         }

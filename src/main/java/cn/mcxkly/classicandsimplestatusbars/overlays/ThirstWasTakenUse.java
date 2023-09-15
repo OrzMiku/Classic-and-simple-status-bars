@@ -2,14 +2,12 @@ package cn.mcxkly.classicandsimplestatusbars.overlays;
 
 import dev.ghen.thirst.Thirst;
 import dev.ghen.thirst.foundation.common.capability.IThirst;
-import dev.ghen.thirst.foundation.gui.appleskin.HUDOverlayHandler;
 import dev.ghen.thirst.foundation.common.capability.ModCapabilities;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.client.event.RenderGuiOverlayEvent;
 import net.minecraftforge.client.gui.overlay.ForgeGui;
 import net.minecraftforge.client.gui.overlay.IGuiOverlay;
 
@@ -43,6 +41,7 @@ public class ThirstWasTakenUse implements IGuiOverlay {
 //                    80, 5);
 
         PLAYER_THIRST = player.getCapability(ModCapabilities.PLAYER_THIRST).orElse(null);
+        if (PLAYER_THIRST == null) return;
         int Thirst = PLAYER_THIRST.getThirst();
         int Quenched = PLAYER_THIRST.getQuenched();
 
