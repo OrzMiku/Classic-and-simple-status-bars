@@ -18,6 +18,11 @@
   "icon": "image.png",
 
   "environment": "*",
+  "entrypoints": {
+    "appleskin": [
+      "cn.mcxkly.classicandsimplestatusbars.overlays.AppleSkinEventHandler"
+    ]
+  },
   "mixins": [
     "classicandsimplestatusbars.mixins.json"
   ],

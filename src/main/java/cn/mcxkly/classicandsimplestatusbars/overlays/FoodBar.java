@@ -22,8 +22,8 @@ public class FoodBar {
     private static final Identifier intermediateHealthBarLocation = new Identifier(ClassicAndSimpleStatusBars.MOD_ID, "textures/gui/foodbars/intermediate.png");
     private static final Identifier guiIconsLocation = new Identifier("minecraft", "textures/gui/icons.png");
     private float intermediateFood = 0;
-//    public static boolean StopConflictRendering = true; // 支持口渴，目前没有fabric
-//    public static void StopConflictRenderingIDEA(boolean is){StopConflictRendering = is;};
+    public static boolean StopConflictRendering = true; // 支持口渴，目前没有fabric
+    public static void StopConflictRenderingIDEA(boolean is){StopConflictRendering = is;};
 
     public void render(DrawContext guiGraphics, float partialTick) {
         if (mc.cameraEntity instanceof PlayerEntity player
@@ -95,7 +95,7 @@ public class FoodBar {
             siz = Math.max(siz, 0); //防止负数
             text = String.valueOf(siz);
             int Y2 = y;
-//            if (!StopConflictRendering) Y2 -= 10; // 如果口渴存在，在渲染时高度 + 10
+            if (!StopConflictRendering) Y2 -= 10; // 如果口渴存在，在渲染时高度 + 10
 
             context.drawText(font, "%", x + 70 - font.getWidth("%"), Y2 - 9, 0x1E90FF, false);
             context.drawText(font, text, x + 70 - font.getWidth("99%"), Y2 - 9, 0x1E90FF, false);

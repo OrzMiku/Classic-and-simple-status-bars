@@ -1,5 +1,6 @@
 package cn.mcxkly.classicandsimplestatusbars.mixins;
 
+import cn.mcxkly.classicandsimplestatusbars.overlays.DehydrationBar;
 import cn.mcxkly.classicandsimplestatusbars.overlays.FoodBar;
 import cn.mcxkly.classicandsimplestatusbars.overlays.HealthBar;
 import net.minecraft.client.gui.DrawContext;
@@ -9,6 +10,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import net.fabricmc.loader.api.FabricLoader;
 
 @Mixin(InGameHud.class)
 public class StatusBarsMixin {
@@ -16,6 +18,7 @@ public class StatusBarsMixin {
     public void disableStatusBars(InGameHud instance, DrawContext context) {
         // Disable rendering of all survival elements
     }
+
     // the fish that escaped the net
     @Redirect(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/InGameHud;renderMountHealth(Lnet/minecraft/client/gui/DrawContext;)V"), method = "render")
     private void disableMountBars(InGameHud instance, DrawContext context) {
@@ -23,13 +26,21 @@ public class StatusBarsMixin {
     }
 
     // Render Food Bar and More
+    private static final DehydrationBar dehydrationBar = new DehydrationBar();
+    // Render Food Bar and More
     private static final FoodBar foodBar = new FoodBar();
     // Render Health Bar
     private static final HealthBar healthBar = new HealthBar();
+
     @Inject(method = "render", at = @At(value = "HEAD"))
     public void renderHealthBar(DrawContext context, float tickDelta, CallbackInfo ci) {
         foodBar.render(context, tickDelta);
         healthBar.render(context, tickDelta);
+        // 脱水、口渴 Dehydration Mod
+        if (FabricLoader.getInstance().isModLoaded("dehydration")) {
+            FoodBar.StopConflictRenderingIDEA(false);
+            dehydrationBar.render(context);
+        }
     }
 //
 //    @Redirect(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/InGameHud;renderHealthBar(Lnet/minecraft/client/gui/DrawContext;Lnet/minecraft/entity/player/PlayerEntity;IIIIFIIIZ)V"), method = "renderStatusBars")
