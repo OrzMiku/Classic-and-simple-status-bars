@@ -11,7 +11,8 @@
   ],
   "contact": {
     "homepage": "https://github.com/Xing-C/Classic-and-simple-status-bars",
-    "sources": "https://github.com/Xing-C/Classic-and-simple-status-bars-fabric"
+    "sources": "https://github.com/Xing-C/Classic-and-simple-status-bars-fabric",
+    "issues": "https://github.com/Xing-C/Classic-and-simple-status-bars/issues"
   },
 
   "license": "GPL-3.0-only",
