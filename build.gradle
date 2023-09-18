@@ -40,7 +40,7 @@ dependencies {
 }
 
 base {
-	archivesName = project.archives_base_name
+	archivesName = project.archives_base_name + "-Fabric" // 只是为了区分
 }
 
 processResources {
