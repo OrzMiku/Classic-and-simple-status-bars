@@ -115,9 +115,6 @@ public class FoodBar {
                     256, 256); // 气泡图标
         }
         Entity tsssmp = player.getVehicle();
-//        if  (tsssmp.getType() == EntityType. || tsssmp.getType() == EntityType.PIG tsssmp.getType() == EntityType.HORSE) {
-//            tsssmp.is
-//        }
         if (tsssmp != null) {
             if (tsssmp.getType() == EntityType.SKELETON_HORSE ||
                     tsssmp.getType() == EntityType.PIG ||
@@ -128,8 +125,6 @@ public class FoodBar {
                     tsssmp.getType() == EntityType.TRADER_LLAMA
             ) {
                 LivingEntity FsMount = (LivingEntity) tsssmp;
-                String test = String.valueOf(tsssmp.getType());
-                context.drawText(font, test, x + 10, y - 29, 0xEE0000, false);
                 double MountHealths = Math.ceil(FsMount.getHealth() * 10) / 10;
                 double MountHealthsMax = Math.ceil(FsMount.getMaxHealth() * 10) / 10;
                 if (MountHealths > 0) {
