@@ -15,7 +15,6 @@ import net.minecraftforge.client.gui.overlay.ForgeGui;
 import net.minecraftforge.client.gui.overlay.IGuiOverlay;
 
 
-
 public class FoodLevel implements IGuiOverlay {
     private static final ResourceLocation fullHealthBarLocation = new ResourceLocation(ClassicAndSimpleStatusBars.MOD_ID, "textures/gui/foodbars/foodeeg.png");
     private static final ResourceLocation emptyHealthBarLocation = new ResourceLocation(ClassicAndSimpleStatusBars.MOD_ID, "textures/gui/foodbars/empty.png");
@@ -27,7 +26,13 @@ public class FoodLevel implements IGuiOverlay {
     private float intermediateFood = 0;
     private float intermediateFoodSaturation = 0;
     public static boolean StopConflictRendering = true; // 支持口渴
-    public static void StopConflictRenderingIDEA(boolean is){StopConflictRendering = is;};
+
+    public static void StopConflictRenderingIDEA(boolean is) {
+        StopConflictRendering = is;
+    }
+
+    ;
+
     @Override
     public void render(ForgeGui gui, GuiGraphics guiGraphics, float partialTick, int width, int height) {
         if (gui.shouldDrawSurvivalElements()) {
@@ -53,6 +58,7 @@ public class FoodLevel implements IGuiOverlay {
 //            }
         }
     }
+
     public void updateBarTextures(Player player) {
         if (player.hasEffect(MobEffects.HUNGER)) {
             currentBarLocation = emmmmnBarLocation;
@@ -184,7 +190,7 @@ public class FoodLevel implements IGuiOverlay {
 
         // Calculate bar proportions
         float FoodProportion;
-        if (Food > maxFood)maxFood = Food;
+        if (Food > maxFood) maxFood = Food;
         float intermediateProportion;
         if (Food < intermediateFood) {
             //FoodProportion = Food / maxFood;
@@ -204,7 +210,7 @@ public class FoodLevel implements IGuiOverlay {
         guiGraphics.blit(emptyHealthBarLocation,
                 x, y,
                 0, 0,
-                80-FoodWidth-intermediateWidth, 5,
+                80 - FoodWidth - intermediateWidth, 5,
                 80, 5);
 
         // 饱食度
@@ -223,7 +229,7 @@ public class FoodLevel implements IGuiOverlay {
 
         // Display intermediate part
         guiGraphics.blit(intermediateHealthBarLocation,
-                x + 80 - FoodWidth - intermediateWidth,y,
+                x + 80 - FoodWidth - intermediateWidth, y,
                 80 - FoodWidth - intermediateWidth, 0,
                 intermediateWidth, 5,
                 80, 5);
@@ -242,7 +248,7 @@ public class FoodLevel implements IGuiOverlay {
 //                80, 5);
         int InsWidth = 0;
         float InsFood = 0;
-        if (player.getFoodData().getSaturationLevel() > 0){
+        if (player.getFoodData().getSaturationLevel() > 0) {
             InsWidth = (int) saturationProportion;
             InsFood = player.getFoodData().getSaturationLevel();
         } else {
