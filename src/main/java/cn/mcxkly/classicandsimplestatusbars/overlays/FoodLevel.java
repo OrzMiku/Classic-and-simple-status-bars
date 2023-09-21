@@ -7,6 +7,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
@@ -116,21 +117,30 @@ public class FoodLevel implements IGuiOverlay {
         }
         Entity tsssmp = player.getVehicle();
         if (tsssmp != null) {
-            LivingEntity FsMount = (LivingEntity) tsssmp;
-            double MountHealths = Math.ceil(FsMount.getHealth() * 10) / 10;
-            double MountHealthsMax = Math.ceil(FsMount.getMaxHealth() * 10) / 10;
-            if (MountHealths > 0){
-                if (MountHealths > MountHealthsMax)MountHealths=MountHealthsMax;
-                String MountHealthsText = String.valueOf(MountHealths);
-                MountHealthsText = MountHealthsText.replace(".0", "");
-                String MountHealthsMaxText = String.valueOf(MountHealthsMax);
-                MountHealthsMaxText = MountHealthsMaxText.replace(".0", "");
-                guiGraphics.blit(guiIconsLocation,
-                        x, y - 19,
-                        88, 9,
-                        9, 9,
-                        256, 256); // 骑乘血量
-                guiGraphics.drawString(font, MountHealthsText + "/" + MountHealthsMaxText, x + 10, y - 19, 0xEE0000, false);
+            if (tsssmp.getType() == EntityType.SKELETON_HORSE ||
+                    tsssmp.getType() == EntityType.PIG ||
+                    tsssmp.getType() == EntityType.HORSE ||
+                    tsssmp.getType() == EntityType.CAMEL ||
+                    tsssmp.getType() == EntityType.MULE ||
+                    tsssmp.getType() == EntityType.STRIDER ||
+                    tsssmp.getType() == EntityType.TRADER_LLAMA
+            ) {
+                LivingEntity FsMount = (LivingEntity) tsssmp;
+                double MountHealths = Math.ceil(FsMount.getHealth() * 10) / 10;
+                double MountHealthsMax = Math.ceil(FsMount.getMaxHealth() * 10) / 10;
+                if (MountHealths > 0) {
+                    if (MountHealths > MountHealthsMax) MountHealths = MountHealthsMax;
+                    String MountHealthsText = String.valueOf(MountHealths);
+                    MountHealthsText = MountHealthsText.replace(".0", "");
+                    String MountHealthsMaxText = String.valueOf(MountHealthsMax);
+                    MountHealthsMaxText = MountHealthsMaxText.replace(".0", "");
+                    guiGraphics.blit(guiIconsLocation,
+                            x, y - 19,
+                            88, 9,
+                            9, 9,
+                            256, 256); // 骑乘血量
+                    guiGraphics.drawString(font, MountHealthsText + "/" + MountHealthsMaxText, x + 10, y - 19, 0xEE0000, false);
+                }
             }
         } else {
             double ARMORTOUGHNESS = Math.ceil(player.getAttribute(Attributes.ARMOR_TOUGHNESS).getValue() * 10) / 10;
