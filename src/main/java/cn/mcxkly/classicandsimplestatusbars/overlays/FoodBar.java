@@ -4,12 +4,15 @@ import cn.mcxkly.classicandsimplestatusbars.ClassicAndSimpleStatusBars;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.HungerManager;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.text.OrderedText;
 import net.minecraft.util.Identifier;
 
 public class FoodBar {
@@ -23,7 +26,12 @@ public class FoodBar {
     private static final Identifier guiIconsLocation = new Identifier("minecraft", "textures/gui/icons.png");
     private float intermediateFood = 0;
     public static boolean StopConflictRendering = true; // 支持口渴，目前没有fabric
-    public static void StopConflictRenderingIDEA(boolean is){StopConflictRendering = is;};
+
+    public static void StopConflictRenderingIDEA(boolean is) {
+        StopConflictRendering = is;
+    }
+
+    ;
 
     public void render(DrawContext guiGraphics, float partialTick) {
         if (mc.cameraEntity instanceof PlayerEntity player
@@ -43,6 +51,7 @@ public class FoodBar {
             renderFoodValue(font, guiGraphics, (int) x, (int) y, player, FoodData);
         }
     }
+
     public void updateBarTextures(PlayerEntity player) {
         if (player.hasStatusEffect(StatusEffects.HUNGER)) {
             currentBarLocation = emmmmnBarLocation;
@@ -106,25 +115,39 @@ public class FoodBar {
                     256, 256); // 气泡图标
         }
         Entity tsssmp = player.getVehicle();
+//        if  (tsssmp.getType() == EntityType. || tsssmp.getType() == EntityType.PIG tsssmp.getType() == EntityType.HORSE) {
+//            tsssmp.is
+//        }
         if (tsssmp != null) {
-            LivingEntity FsMount = (LivingEntity) tsssmp;
-            double MountHealths = Math.ceil(FsMount.getHealth() * 10) / 10;
-            double MountHealthsMax = Math.ceil(FsMount.getMaxHealth() * 10) / 10;
-            if (MountHealths > 0){
-                if (MountHealths > MountHealthsMax)MountHealths=MountHealthsMax;
-                String MountHealthsText = String.valueOf(MountHealths);
-                MountHealthsText = MountHealthsText.replace(".0", "");
-                String MountHealthsMaxText = String.valueOf(MountHealthsMax);
-                MountHealthsMaxText = MountHealthsMaxText.replace(".0", "");
-                context.drawTexture(guiIconsLocation,
-                        x, y - 19,
-                        88, 9,
-                        9, 9,
-                        256, 256); // 骑乘血量
-                context.drawText(font, MountHealthsText + "/" + MountHealthsMaxText, x + 10, y - 19, 0xEE0000, false);
+            if (tsssmp.getType() == EntityType.SKELETON_HORSE ||
+                    tsssmp.getType() == EntityType.PIG ||
+                    tsssmp.getType() == EntityType.HORSE ||
+                    tsssmp.getType() == EntityType.CAMEL ||
+                    tsssmp.getType() == EntityType.MULE ||
+                    tsssmp.getType() == EntityType.STRIDER ||
+                    tsssmp.getType() == EntityType.TRADER_LLAMA
+            ) {
+                LivingEntity FsMount = (LivingEntity) tsssmp;
+                String test = String.valueOf(tsssmp.getType());
+                context.drawText(font, test, x + 10, y - 29, 0xEE0000, false);
+                double MountHealths = Math.ceil(FsMount.getHealth() * 10) / 10;
+                double MountHealthsMax = Math.ceil(FsMount.getMaxHealth() * 10) / 10;
+                if (MountHealths > 0) {
+                    if (MountHealths > MountHealthsMax) MountHealths = MountHealthsMax;
+                    String MountHealthsText = String.valueOf(MountHealths);
+                    MountHealthsText = MountHealthsText.replace(".0", "");
+                    String MountHealthsMaxText = String.valueOf(MountHealthsMax);
+                    MountHealthsMaxText = MountHealthsMaxText.replace(".0", "");
+                    context.drawTexture(guiIconsLocation,
+                            x, y - 19,
+                            88, 9,
+                            9, 9,
+                            256, 256); // 骑乘血量
+                    context.drawText(font, MountHealthsText + "/" + MountHealthsMaxText, x + 10, y - 19, 0xEE0000, false);
+                }
             }
         } else {
-            double ARMORTOUGHNESS = Math.ceil((float)player.getAttributeValue(EntityAttributes.GENERIC_ARMOR_TOUGHNESS) * 10) / 10;
+            double ARMORTOUGHNESS = Math.ceil((float) player.getAttributeValue(EntityAttributes.GENERIC_ARMOR_TOUGHNESS) * 10) / 10;
             //double ARMORTOUGHNESS = 1.7;
             String ARMORTOUGHNESSText = String.valueOf(ARMORTOUGHNESS);
             ARMORTOUGHNESSText = ARMORTOUGHNESSText.replace(".0", "");
@@ -153,7 +176,7 @@ public class FoodBar {
 
         // Calculate bar proportions
         float FoodProportion;
-        if (Food > maxFood)maxFood = Food;
+        if (Food > maxFood) maxFood = Food;
         float intermediateProportion;
         if (Food < intermediateFood) {
             //FoodProportion = Food / maxFood;
@@ -173,7 +196,7 @@ public class FoodBar {
         context.drawTexture(emptyHealthBarLocation,
                 x, y,
                 0, 0,
-                80-FoodWidth-intermediateWidth, 5,
+                80 - FoodWidth - intermediateWidth, 5,
                 80, 5);
 
         // 饱食度
@@ -192,7 +215,7 @@ public class FoodBar {
 
         // Display intermediate part
         context.drawTexture(intermediateHealthBarLocation,
-                x + 80 - FoodWidth - intermediateWidth,y,
+                x + 80 - FoodWidth - intermediateWidth, y,
                 80 - FoodWidth - intermediateWidth, 0,
                 intermediateWidth, 5,
                 80, 5);
@@ -211,7 +234,7 @@ public class FoodBar {
 //                80, 5);
         int InsWidth = 0;
         float InsFood = 0;
-        if (FoodData.getSaturationLevel() > 0){
+        if (FoodData.getSaturationLevel() > 0) {
             InsWidth = (int) saturationProportion;
             InsFood = FoodData.getSaturationLevel();
         } else {
