@@ -67,10 +67,10 @@ public class HealthBar {
         if (Absorption > 0) {
             text = helper.KeepOneDecimal(Health);
             context.drawText(font, text, xx, y - 9, 0xEE0000, false);
-            xx = xx + font.getWidth(text) ;
+            xx = xx + font.getWidth(text);
             text = "+" + helper.KeepOneDecimal(Absorption);
             context.drawText(font, text, xx, y - 9, 0xEEEE00, false);
-            xx = xx + font.getWidth(text) ;
+            xx = xx + font.getWidth(text);
             text = "/" + helper.KeepOneDecimal(MaxHealth);
             context.drawText(font, text, xx, y - 9, 0xEE0000, false);
         } else {
@@ -93,7 +93,7 @@ public class HealthBar {
         // Calculate bar proportions
         float healthProportion;
         float intermediateProportion;
-        if (intermediateHealth > maxHealth)intermediateHealth = maxHealth;
+        if (intermediateHealth > maxHealth) intermediateHealth = maxHealth;
         if (health < intermediateHealth) {
             //healthProportion = health / maxHealth;
             intermediateProportion = (intermediateHealth - health) / maxHealth;
@@ -121,7 +121,7 @@ public class HealthBar {
         float absorptionProportion = absorption / maxHealth;
         if (absorptionProportion > 1) absorptionProportion = 1F;
         int absorptionWidth = (int) Math.ceil(80 * absorptionProportion);
-        if (absorption > 0){
+        if (absorption > 0) {
             context.drawTexture(absorptionBarLocation,
                     x, y,
                     0, 0,
@@ -130,7 +130,7 @@ public class HealthBar {
         }
         int InsWidth = 0;
         float Inshealth = 0;
-        if (absorption > 0){
+        if (absorption > 0) {
             InsWidth = absorptionWidth;
             Inshealth = absorption;
         } else {

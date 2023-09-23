@@ -111,7 +111,7 @@ public class FoodBar {
                             88, 9,
                             9, 9,
                             256, 256); // 骑乘血量
-                    context.drawText(font,  helper.KeepOneDecimal(MountHealths) + "/" + helper.KeepOneDecimal(MountHealthsMax), x + 10, y - 19, 0xEE0000, false);
+                    context.drawText(font, helper.KeepOneDecimal(MountHealths) + "/" + helper.KeepOneDecimal(MountHealthsMax), x + 10, y - 19, 0xEE0000, false);
                 }
             }
         } else {
