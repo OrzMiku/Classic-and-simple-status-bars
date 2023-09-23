@@ -1,10 +1,10 @@
 package cn.mcxkly.classicandsimplestatusbars.overlays;
 
 import cn.mcxkly.classicandsimplestatusbars.ClassicAndSimpleStatusBars;
+import cn.mcxkly.classicandsimplestatusbars.other.helper;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -12,7 +12,6 @@ import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.HungerManager;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.text.OrderedText;
 import net.minecraft.util.Identifier;
 
 public class FoodBar {
@@ -42,8 +41,6 @@ public class FoodBar {
             float x = (float) width / 2 + 11;
             float y = height - 39;
             y += 4;
-            //y -= 70; // test
-
             HungerManager FoodData = player.getHungerManager();
             TextRenderer font = mc.textRenderer;
             updateBarTextures(player);
@@ -61,10 +58,6 @@ public class FoodBar {
     }
 
     private void renderFoodValue(TextRenderer font, DrawContext context, int x, int y, PlayerEntity player, HungerManager FoodData) {
-        //double food = Math.ceil(FoodData.getSaturationLevel() * 10) / 10;
-        // getSaturationLevel饱食条 | getFoodLevel饥饿度 |  getLastFoodLevel饥饿最大值 | FoodData.getExhaustionLevel(); 消耗度
-        //String text = "getSaturationLevel: " + FoodData.getSaturationLevel() + " | " + "getFoodLevel: " + FoodData.getFoodLevel() + " | " + "getLastFoodLevel: " + FoodData.getLastFoodLevel();
-        //text = text.replace(".0", ""); ARMOR_TOUGHNESS
         y += 1;
         context.drawTexture(guiIconsLocation,
                 x, y - 10,
@@ -76,36 +69,21 @@ public class FoodBar {
                 52, 27,
                 9, 9,
                 256, 256); // 鸡腿图标
+        String text = helper.KeepOneDecimal(FoodData.getFoodLevel());
+        int xx = x + 10;
+        context.drawText(font, text, xx, y - 9, 0xF4A460, false);
         if (FoodData.getSaturationLevel() > 0) {
-            //第一部分
-            double food = Math.ceil(FoodData.getFoodLevel() * 10) / 10; // 饥饿度
-            String text = String.valueOf(food);
-            text = text.replace(".0", "");
-            int xx = x + 10;
-            context.drawText(font, text, xx, y - 9, 0xF4A460, false);
             //第二部分
             xx = xx + font.getWidth(text);
-            food = Math.ceil(FoodData.getSaturationLevel() * 10) / 10; // 饱食度
-            text = "+" + food;
-            text = text.replace(".0", "");
+            text = "+" + helper.KeepOneDecimal(FoodData.getSaturationLevel());
             context.drawText(font, text, xx, y - 9, 0xEEEE00, false);
-
-
-        } else {
-            double food = Math.ceil(FoodData.getFoodLevel() * 10) / 10;
-            String text = String.valueOf(food);
-            text = text.replace(".0", "");
-            context.drawText(font, text, x + 10, y - 9, 0xF4A460, false);
         }
-
         if (player.getAir() < 300) { // max=300
             int siz = player.getAir() / 3;
-            String text;
             siz = Math.max(siz, 0); //防止负数
             text = String.valueOf(siz);
             int Y2 = y;
             if (!StopConflictRendering) Y2 -= 10; // 如果口渴存在，在渲染时高度 + 10
-
             context.drawText(font, "%", x + 70 - font.getWidth("%"), Y2 - 9, 0x1E90FF, false);
             context.drawText(font, text, x + 70 - font.getWidth("99%"), Y2 - 9, 0x1E90FF, false);
             context.drawTexture(guiIconsLocation,
@@ -125,27 +103,19 @@ public class FoodBar {
                     tsssmp.getType() == EntityType.TRADER_LLAMA
             ) {
                 LivingEntity FsMount = (LivingEntity) tsssmp;
-                double MountHealths = Math.ceil(FsMount.getHealth() * 10) / 10;
-                double MountHealthsMax = Math.ceil(FsMount.getMaxHealth() * 10) / 10;
+                float MountHealthsMax = FsMount.getMaxHealth();
+                float MountHealths = Math.min(FsMount.getHealth(), MountHealthsMax);
                 if (MountHealths > 0) {
-                    if (MountHealths > MountHealthsMax) MountHealths = MountHealthsMax;
-                    String MountHealthsText = String.valueOf(MountHealths);
-                    MountHealthsText = MountHealthsText.replace(".0", "");
-                    String MountHealthsMaxText = String.valueOf(MountHealthsMax);
-                    MountHealthsMaxText = MountHealthsMaxText.replace(".0", "");
                     context.drawTexture(guiIconsLocation,
                             x, y - 19,
                             88, 9,
                             9, 9,
                             256, 256); // 骑乘血量
-                    context.drawText(font, MountHealthsText + "/" + MountHealthsMaxText, x + 10, y - 19, 0xEE0000, false);
+                    context.drawText(font,  helper.KeepOneDecimal(MountHealths) + "/" + helper.KeepOneDecimal(MountHealthsMax), x + 10, y - 19, 0xEE0000, false);
                 }
             }
         } else {
-            double ARMORTOUGHNESS = Math.ceil((float) player.getAttributeValue(EntityAttributes.GENERIC_ARMOR_TOUGHNESS) * 10) / 10;
-            //double ARMORTOUGHNESS = 1.7;
-            String ARMORTOUGHNESSText = String.valueOf(ARMORTOUGHNESS);
-            ARMORTOUGHNESSText = ARMORTOUGHNESSText.replace(".0", "");
+            float ARMORTOUGHNESS = (float) player.getAttributeValue(EntityAttributes.GENERIC_ARMOR_TOUGHNESS);
             if (ARMORTOUGHNESS > 0) {
                 context.drawTexture(guiIconsLocation,
                         x, y - 19,
@@ -157,7 +127,7 @@ public class FoodBar {
                         43, 18,
                         9, 9,
                         256, 256); // 韧性图标
-                context.drawText(font, ARMORTOUGHNESSText, x + 10, y - 19, 0x87CEEB, false);
+                context.drawText(font, helper.KeepOneDecimal(ARMORTOUGHNESS), x + 10, y - 19, 0x87CEEB, false);
             }
         }
     }
@@ -165,13 +135,11 @@ public class FoodBar {
     private void renderFoodBar(DrawContext context, float partialTick, int x, int y, PlayerEntity player, HungerManager FoodData) {
         //float maxFood = 20; // 不，不能这样用。
         float maxFood = FoodData.getPrevFoodLevel();
-
-        float Food = FoodData.getFoodLevel();
+        float Food = Math.min(FoodData.getFoodLevel(), maxFood);
         float saturationProportion = FoodData.getSaturationLevel() / maxFood;
 
         // Calculate bar proportions
         float FoodProportion;
-        if (Food > maxFood) maxFood = Food;
         float intermediateProportion;
         if (Food < intermediateFood) {
             //FoodProportion = Food / maxFood;
@@ -214,19 +182,6 @@ public class FoodBar {
                 80 - FoodWidth - intermediateWidth, 0,
                 intermediateWidth, 5,
                 80, 5);
-
-//        // Display intermediate part
-//        context.drawTexture(intermediateHealthBarLocation,
-//                x + FoodWidth, y,
-//                FoodWidth, 0,
-//                intermediateWidth, 5,
-//                80, 5);
-//        // Display empty part
-//        context.drawTexture(emptyHealthBarLocation,
-//                x + FoodWidth + intermediateWidth, y,
-//                FoodWidth + intermediateWidth, 0,
-//                80 - FoodWidth - intermediateWidth, 5,
-//                80, 5);
         int InsWidth = 0;
         float InsFood = 0;
         if (FoodData.getSaturationLevel() > 0) {

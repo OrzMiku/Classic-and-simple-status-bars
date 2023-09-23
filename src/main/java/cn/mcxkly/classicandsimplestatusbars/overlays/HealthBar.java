@@ -1,6 +1,7 @@
 package cn.mcxkly.classicandsimplestatusbars.overlays;
 
 import cn.mcxkly.classicandsimplestatusbars.ClassicAndSimpleStatusBars;
+import cn.mcxkly.classicandsimplestatusbars.other.helper;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
@@ -51,55 +52,44 @@ public class HealthBar {
     }
 
     private void renderHealthValue(TextRenderer font, DrawContext context, int x, int y, PlayerEntity player) {
-
-        //context.drawText(textRenderer, text, x - textRenderer.getWidth(text) - 6, y + 1, 0xFF0000, false);
-
         y += 1;
         context.drawTexture(guiIconsLocation,
                 x, y - 10,
                 52, 0,
                 9, 9,
                 256, 256); // 红心图标
-        if (player.getAbsorptionAmount() > 0) {
-            double health = Math.ceil(player.getHealth() * 10) / 10; // 当前血量
-            String text = String.valueOf(health);
-            text = text.replace(".0", "");
-            int xx = x + 10;
+        float MaxHealth = player.getMaxHealth(); // 最大血量
+        float Health = Math.min(player.getHealth(), MaxHealth); // 当前血量
+        float Absorption = player.getAbsorptionAmount(); // 吸收量
+        float ARMOR = player.getArmor(); // 护甲值
+        int xx = x + 10;
+        String text;
+        if (Absorption > 0) {
+            text = helper.KeepOneDecimal(Health);
             context.drawText(font, text, xx, y - 9, 0xEE0000, false);
             xx = xx + font.getWidth(text) ;
-            health = Math.ceil(player.getAbsorptionAmount() * 10) / 10; // 吸收值
-            text = String.valueOf(health);
-            text = "+" + text.replace(".0", "");
+            text = "+" + helper.KeepOneDecimal(Absorption);
             context.drawText(font, text, xx, y - 9, 0xEEEE00, false);
             xx = xx + font.getWidth(text) ;
-            text = "/" + (int) player.getMaxHealth();
-            text = text.replace(".0", "");
+            text = "/" + helper.KeepOneDecimal(MaxHealth);
             context.drawText(font, text, xx, y - 9, 0xEE0000, false);
         } else {
-            double health = Math.ceil(player.getHealth() * 10) / 10;
-            String Text2 = health + "/" + (int) player.getMaxHealth();
-            Text2 = Text2.replace(".0", "");
-            context.drawText(font, Text2, x + 10, y - 9, 0xEE0000, false);
-
+            text = helper.KeepOneDecimal(Health) + "/" + helper.KeepOneDecimal(MaxHealth);
+            context.drawText(font, text, x + 10, y - 9, 0xEE0000, false);
         }
-        double ARMOR = Math.ceil(player.getArmor() * 10) / 10;
-
-        String ARMORText = String.valueOf(ARMOR);
-        ARMORText = ARMORText.replace(".0", "");
         if (ARMOR > 0) {
             context.drawTexture(guiIconsLocation,
                     x, y - 19,
                     43, 9,
                     9, 9,
                     256, 256); // 护甲图标
-            context.drawText(font, ARMORText, x + 10, y - 19, 0xEDEDED, false);
+            context.drawText(font, helper.KeepOneDecimal(ARMOR), x + 10, y - 19, 0xEDEDED, false);
         }
     }
 
     private void renderHealthBar(DrawContext context, float tickDelta, int x, int y, PlayerEntity player) {
-        float health = player.getHealth();
         float maxHealth = player.getMaxHealth();
-        if (health>maxHealth)health=maxHealth; // 就是不放心，虽然绝不可能
+        float health = Math.min(player.getHealth(), maxHealth);
         // Calculate bar proportions
         float healthProportion;
         float intermediateProportion;
@@ -116,24 +106,18 @@ public class HealthBar {
         //if (healthProportion + intermediateProportion > 1) intermediateProportion = 1 - healthProportion;
         int healthWidth = (int) Math.ceil(80 * healthProportion);
         int intermediateWidth = (int) Math.ceil(80 * intermediateProportion);
-        // Display full part
         // Display empty part
         context.drawTexture(emptyHealthBarLocation,
                 x + healthWidth + intermediateWidth, y,
                 healthWidth + intermediateWidth, 0,
                 80 - healthWidth - intermediateWidth, 5,
                 80, 5);
-
-        // Display full part
         context.drawTexture(currentBarLocation,
                 x, y,
                 0, 0,
                 healthWidth, 5,
                 80, 5);
-
-
-        float absorption = player.getAbsorptionAmount();
-        if (absorption > maxHealth)absorption=maxHealth;
+        float absorption = Math.min(player.getAbsorptionAmount(), maxHealth);
         float absorptionProportion = absorption / maxHealth;
         if (absorptionProportion > 1) absorptionProportion = 1F;
         int absorptionWidth = (int) Math.ceil(80 * absorptionProportion);
@@ -165,30 +149,4 @@ public class HealthBar {
             this.intermediateHealth = Inshealth;
         }
     }
-//        context.drawTexture(currentBar,
-//                (int) x, (int) y,
-//                0, 0,
-//                healthWidth, 9,
-//                80, 9);
-//        // Display intermediate part
-//        context.drawTexture(intermediateHealthBar,
-//                (int) x + healthWidth, (int) y,
-//                healthWidth, 0,
-//                intermediateWidth, 9,
-//                80, 9);
-//        // Display empty part
-//        context.drawTexture(emptyHealthBar,
-//                (int) x + healthWidth + intermediateWidth, (int) y,
-//                healthWidth + intermediateWidth, 0,
-//                80 - healthWidth - intermediateWidth, 9,
-//                80, 9);
-//        // Update intermediate health
-//        this.intermediateHealth += (health - intermediateHealth) * tickDelta * 0.08;
-//        if (Math.abs(health - intermediateHealth) <= 0.25) {
-//            this.intermediateHealth = health;
-//        }
-//    }
-
-
-
 }
