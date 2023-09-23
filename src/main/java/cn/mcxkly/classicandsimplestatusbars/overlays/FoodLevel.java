@@ -1,6 +1,7 @@
 package cn.mcxkly.classicandsimplestatusbars.overlays;
 
 import cn.mcxkly.classicandsimplestatusbars.ClassicAndSimpleStatusBars;
+import cn.mcxkly.classicandsimplestatusbars.other.helper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -24,14 +25,11 @@ public class FoodLevel implements IGuiOverlay {
     private static final ResourceLocation intermediateHealthBarLocation = new ResourceLocation(ClassicAndSimpleStatusBars.MOD_ID, "textures/gui/foodbars/intermediate.png");
     private static final ResourceLocation guiIconsLocation = new ResourceLocation("minecraft", "textures/gui/icons.png");
     private float intermediateFood = 0;
-    private float intermediateFoodSaturation = 0;
     public static boolean StopConflictRendering = true; // 支持口渴
 
     public static void StopConflictRenderingIDEA(boolean is) {
         StopConflictRendering = is;
     }
-
-    ;
 
     @Override
     public void render(ForgeGui gui, GuiGraphics guiGraphics, float partialTick, int width, int height) {
@@ -46,16 +44,7 @@ public class FoodLevel implements IGuiOverlay {
             //y -= 70; // test
             updateBarTextures(player);
             renderFoodBar(guiGraphics, partialTick, x, y, player);
-            //Sntext = renderMountValue(player);
-            //Sntext = 123 + " | " + 123;
-
-
-            //player = (Player) Minecraft.getInstance().cameraEntity;
             renderFoodValue(font, guiGraphics, x, y, player);
-//            if (player.getAbsorptionAmount() > 0) {
-//                renderAbsorptionBar(guiGraphics, x, y, player);
-//                renderAbsorptionValue(font, guiGraphics, x, y, player);
-//            }
         }
     }
 
@@ -68,10 +57,7 @@ public class FoodLevel implements IGuiOverlay {
     }
 
     private void renderFoodValue(Font font, GuiGraphics guiGraphics, int x, int y, Player player) {
-        //double food = Math.ceil(player.getFoodData().getSaturationLevel() * 10) / 10;
         // getSaturationLevel饱食条 | getFoodLevel饥饿度 |  getLastFoodLevel饥饿最大值 | player.getFoodData().getExhaustionLevel(); 消耗度
-        //String text = "getSaturationLevel: " + player.getFoodData().getSaturationLevel() + " | " + "getFoodLevel: " + player.getFoodData().getFoodLevel() + " | " + "getLastFoodLevel: " + player.getFoodData().getLastFoodLevel();
-        //text = text.replace(".0", ""); ARMOR_TOUGHNESS
         y += 1;
         guiGraphics.blit(guiIconsLocation,
                 x, y - 10,
@@ -83,31 +69,19 @@ public class FoodLevel implements IGuiOverlay {
                 52, 27,
                 9, 9,
                 256, 256); // 鸡腿图标
+        String text = helper.KeepOneDecimal(player.getFoodData().getFoodLevel());
+        guiGraphics.drawString(font, text, x + 10, y - 9, 0xF4A460, false);
         if (player.getFoodData().getSaturationLevel() > 0) {
-            //第一部分
-            double food = Math.ceil(player.getFoodData().getFoodLevel() * 10) / 10; // 饥饿度
-            String text = String.valueOf(food);
-            text = text.replace(".0", "");
-            int xx = x + 10;
-            guiGraphics.drawString(font, text, xx, y - 9, 0xF4A460, false);
             //第二部分
+            int xx = x + 10;
             xx = xx + font.width(text);
-            food = Math.ceil(player.getFoodData().getSaturationLevel() * 10) / 10; // 饱食度
-            text = "+" + food;
-            text = text.replace(".0", "");
+            text = "+" + helper.KeepOneDecimal(player.getFoodData().getSaturationLevel());
             guiGraphics.drawString(font, text, xx, y - 9, 0xEEEE00, false);
-
-
-        } else {
-            double food = Math.ceil(player.getFoodData().getFoodLevel() * 10) / 10;
-            String text = String.valueOf(food);
-            text = text.replace(".0", "");
-            guiGraphics.drawString(font, text, x + 10, y - 9, 0xF4A460, false);
         }
+
 
         if (player.getAirSupply() < 300) { // max=300
             int siz = player.getAirSupply() / 3;
-            String text;
             siz = Math.max(siz, 0); //防止负数
             text = String.valueOf(siz);
             int Y2 = y;
@@ -132,26 +106,20 @@ public class FoodLevel implements IGuiOverlay {
                     tsssmp.getType() == EntityType.TRADER_LLAMA
             ) {
                 LivingEntity FsMount = (LivingEntity) tsssmp;
-                double MountHealths = Math.ceil(FsMount.getHealth() * 10) / 10;
-                double MountHealthsMax = Math.ceil(FsMount.getMaxHealth() * 10) / 10;
+
+                float MountHealthsMax = FsMount.getMaxHealth();
+                float MountHealths = Math.min(FsMount.getHealth(), MountHealthsMax);
                 if (MountHealths > 0) {
-                    if (MountHealths > MountHealthsMax) MountHealths = MountHealthsMax;
-                    String MountHealthsText = String.valueOf(MountHealths);
-                    MountHealthsText = MountHealthsText.replace(".0", "");
-                    String MountHealthsMaxText = String.valueOf(MountHealthsMax);
-                    MountHealthsMaxText = MountHealthsMaxText.replace(".0", "");
                     guiGraphics.blit(guiIconsLocation,
                             x, y - 19,
                             88, 9,
                             9, 9,
                             256, 256); // 骑乘血量
-                    guiGraphics.drawString(font, MountHealthsText + "/" + MountHealthsMaxText, x + 10, y - 19, 0xEE0000, false);
+                    guiGraphics.drawString(font, helper.KeepOneDecimal(MountHealths) + "/" + helper.KeepOneDecimal(MountHealthsMax), x + 10, y - 19, 0xEE0000, false);
                 }
             }
         } else {
-            double ARMORTOUGHNESS = Math.ceil(player.getAttribute(Attributes.ARMOR_TOUGHNESS).getValue() * 10) / 10;
-            String ARMORTOUGHNESSText = String.valueOf(ARMORTOUGHNESS);
-            ARMORTOUGHNESSText = ARMORTOUGHNESSText.replace(".0", "");
+            float ARMORTOUGHNESS = (float) player.getAttribute(Attributes.ARMOR_TOUGHNESS).getValue();
             if (ARMORTOUGHNESS > 0) {
                 guiGraphics.blit(guiIconsLocation,
                         x, y - 19,
@@ -163,23 +131,10 @@ public class FoodLevel implements IGuiOverlay {
                         43, 18,
                         9, 9,
                         256, 256); // 韧性图标
-                guiGraphics.drawString(font, ARMORTOUGHNESSText, x + 10, y - 19, 0x87CEEB, false);
+                guiGraphics.drawString(font, helper.KeepOneDecimal(ARMORTOUGHNESS), x + 10, y - 19, 0x87CEEB, false);
             }
         }
     }
-
-
-//    private String renderMountValue(Player player) {
-//
-//        float MountHealths;
-//        MountHealths = FMount.getHealth();
-//        if (MountHealths > FMount.getMaxHealth())MountHealths=FMount.getMaxHealth();
-//        if (FMount.getHealth() > 0) {
-//            return MountHealths + "/" + FMount.getMaxHealth();
-//        }
-//        return null;
-//    }
-
 
     private void renderFoodBar(GuiGraphics guiGraphics, float partialTick, int x, int y, Player player) {
         //float maxFood = 20; // 不，不能这样用。

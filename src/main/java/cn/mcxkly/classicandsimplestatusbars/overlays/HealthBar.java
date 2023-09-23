@@ -1,6 +1,7 @@
 package cn.mcxkly.classicandsimplestatusbars.overlays;
 
 import cn.mcxkly.classicandsimplestatusbars.ClassicAndSimpleStatusBars;
+import cn.mcxkly.classicandsimplestatusbars.other.helper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -59,65 +60,43 @@ public class HealthBar implements IGuiOverlay {
                 52, 0,
                 9, 9,
                 256, 256); // 红心图标
-//            guiGraphics.blit(guiIconsLocation,
-//                    x, y - 9,
-//                    16, 0,
-//                    9, 9,
-//                    256, 256);
-//            // blit heart
-//            //guiGraphics.setColor(127F, 127F, 0F, 0.5F);
-//            guiGraphics.blit(guiIconsLocation,
-//                    x, y - 9,
-//                    160, 0,
-//                    9, 9,
-//                    256, 256);
-//            //guiGraphics.setColor(1F, 1F, 1F, 1F);
-
-        if (player.getAbsorptionAmount() > 0) {
-            double health = Math.ceil(player.getHealth() * 10) / 10; // 当前血量
-            String text = String.valueOf(health);
-            text = text.replace(".0", "");
-            int xx = x + 10;
+        float MaxHealth = player.getMaxHealth(); // 最大血量
+        float Health = Math.min(player.getHealth(), MaxHealth); // 当前血量
+        float Absorption = player.getAbsorptionAmount(); // 吸收量
+        float ARMOR = player.getArmorValue(); // 护甲值
+        int xx = x + 10;
+        String text;
+        if (Absorption > 0) {
+            text = helper.KeepOneDecimal(Health);
             guiGraphics.drawString(font, text, xx, y - 9, 0xEE0000, false);
-            xx = xx + font.width(text) ;
-            health = Math.ceil(player.getAbsorptionAmount() * 10) / 10; // 吸收值
-            text = String.valueOf(health);
-            text = "+" + text.replace(".0", "");
+            xx = xx + font.width(text);
+            text = "+" + helper.KeepOneDecimal(Absorption);
             guiGraphics.drawString(font, text, xx, y - 9, 0xEEEE00, false);
-            xx = xx + font.width(text) ;
-            text = "/" + (int) player.getMaxHealth();
-            text = text.replace(".0", "");
+            xx = xx + font.width(text);
+            text = "/" + helper.KeepOneDecimal(MaxHealth);
             guiGraphics.drawString(font, text, xx, y - 9, 0xEE0000, false);
         } else {
-            double health = Math.ceil(player.getHealth() * 10) / 10;
-            String Text2 = health + "/" + (int) player.getMaxHealth();
-            Text2 = Text2.replace(".0", "");
-            guiGraphics.drawString(font, Text2, x + 10, y - 9, 0xEE0000, false);
-
+            text = helper.KeepOneDecimal(Health) + "/" + helper.KeepOneDecimal(MaxHealth);
+            guiGraphics.drawString(font, text, xx, y - 9, 0xEE0000, false);
         }
-        double ARMOR = Math.ceil(player.getArmorValue() * 10) / 10;
-
-        String ARMORText = String.valueOf(ARMOR);
-        ARMORText = ARMORText.replace(".0", "");
         if (ARMOR > 0) {
             guiGraphics.blit(guiIconsLocation,
                     x, y - 19,
                     43, 9,
                     9, 9,
                     256, 256); // 护甲图标
-            guiGraphics.drawString(font, ARMORText, x + 10, y - 19, 0xEDEDED, false);
+            guiGraphics.drawString(font, helper.KeepOneDecimal(ARMOR), x + 10, y - 19, 0xEDEDED, false);
         }
 
     }
 
     private void renderHealthBar(GuiGraphics guiGraphics, float partialTick, int x, int y, Player player) {
-        float health = player.getHealth();
         float maxHealth = player.getMaxHealth();
-        if (health>maxHealth)health=maxHealth; // 就是不放心，虽然绝不可能
+        float health = Math.min(player.getHealth(), maxHealth);
         // Calculate bar proportions
         float healthProportion;
         float intermediateProportion;
-        if (intermediateHealth > maxHealth)intermediateHealth = maxHealth;
+        if (intermediateHealth > maxHealth) intermediateHealth = maxHealth;
         if (health < intermediateHealth) {
             //healthProportion = health / maxHealth;
             intermediateProportion = (intermediateHealth - health) / maxHealth;
@@ -146,11 +125,11 @@ public class HealthBar implements IGuiOverlay {
 
 
         float absorption = player.getAbsorptionAmount();
-        if (absorption > maxHealth)absorption=maxHealth;
+        if (absorption > maxHealth) absorption = maxHealth;
         float absorptionProportion = absorption / maxHealth;
         if (absorptionProportion > 1) absorptionProportion = 1F;
         int absorptionWidth = (int) Math.ceil(80 * absorptionProportion);
-        if (absorption > 0){
+        if (absorption > 0) {
             guiGraphics.blit(absorptionBarLocation,
                     x, y,
                     0, 0,
@@ -159,7 +138,7 @@ public class HealthBar implements IGuiOverlay {
         }
         int InsWidth = 0;
         float Inshealth = 0;
-        if (absorption > 0){
+        if (absorption > 0) {
             InsWidth = absorptionWidth;
             Inshealth = absorption;
         } else {
