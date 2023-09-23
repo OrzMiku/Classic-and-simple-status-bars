@@ -4,7 +4,7 @@
 
 ## [CSSB]经典且简易的状态栏 Classic and simple status bars
 - 支持Forge和NeoForged加载器，支持1.20-1.20.1版本。
-- 支持Fabric加载器，支持1.20.1版本。
+- 支持Fabric加载器，支持1.20-1.20.2版本。
 - 计划支持未来更新的版本。
 #### ⏬下载方式
 - [Modrinth](https://modrinth.com/mod/cssb)

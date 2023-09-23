@@ -4,7 +4,7 @@
 
 ## Classic and simple status bars
 - Supports Version 1.20-1.20.1 Forge And NeoForged
-- Supports Version 1.20.1 Fabric
+- Supports Version 1.20-1.20.2 Fabric
 - Supports Future Minecraft Versions
 #### ⏬Download
 - [Modrinth](https://modrinth.com/mod/cssb)
