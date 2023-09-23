@@ -70,16 +70,14 @@ public class FoodLevel implements IGuiOverlay {
                 9, 9,
                 256, 256); // 鸡腿图标
         String text = helper.KeepOneDecimal(player.getFoodData().getFoodLevel());
-        guiGraphics.drawString(font, text, x + 10, y - 9, 0xF4A460, false);
+        int xx = x + 10;
+        guiGraphics.drawString(font, text, xx, y - 9, 0xF4A460, false);
         if (player.getFoodData().getSaturationLevel() > 0) {
             //第二部分
-            int xx = x + 10;
             xx = xx + font.width(text);
             text = "+" + helper.KeepOneDecimal(player.getFoodData().getSaturationLevel());
             guiGraphics.drawString(font, text, xx, y - 9, 0xEEEE00, false);
         }
-
-
         if (player.getAirSupply() < 300) { // max=300
             int siz = player.getAirSupply() / 3;
             siz = Math.max(siz, 0); //防止负数
@@ -140,12 +138,11 @@ public class FoodLevel implements IGuiOverlay {
         //float maxFood = 20; // 不，不能这样用。
         float maxFood = player.getFoodData().getLastFoodLevel();
 
-        float Food = player.getFoodData().getFoodLevel();
+        float Food = Math.min(player.getFoodData().getFoodLevel(), maxFood);
         float saturationProportion = player.getFoodData().getSaturationLevel() / maxFood;
 
         // Calculate bar proportions
         float FoodProportion;
-        if (Food > maxFood) maxFood = Food;
         float intermediateProportion;
         if (Food < intermediateFood) {
             //FoodProportion = Food / maxFood;

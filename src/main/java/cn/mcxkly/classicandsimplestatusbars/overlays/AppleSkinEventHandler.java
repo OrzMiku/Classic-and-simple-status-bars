@@ -11,25 +11,27 @@ public class AppleSkinEventHandler {
             event.setCanceled(true);
         }
     }
+
     @SubscribeEvent
     public void StopRenderingSaturation(HUDOverlayEvent.Saturation event) {
         if (event.isCancelable()) {
             event.setCanceled(true);
         }
     }
+
     @SubscribeEvent
     public void StopRenderingEstimated(HUDOverlayEvent.Exhaustion event) {
         if (event.isCancelable()) {
             event.setCanceled(true);
         }
     }
+
     @SubscribeEvent
     public void StopRenderingHealth(HUDOverlayEvent.HealthRestored event) {
         if (event.isCancelable()) {
             event.setCanceled(true);
         }
     }
-
 
 
 //    @SubscribeEvent // 例子-检测手中物品，是苹果就取消渲染 - 来自wiki

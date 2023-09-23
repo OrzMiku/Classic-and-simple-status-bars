@@ -124,8 +124,7 @@ public class HealthBar implements IGuiOverlay {
                 80, 5);
 
 
-        float absorption = player.getAbsorptionAmount();
-        if (absorption > maxHealth) absorption = maxHealth;
+        float absorption = Math.min(player.getAbsorptionAmount(), maxHealth);
         float absorptionProportion = absorption / maxHealth;
         if (absorptionProportion > 1) absorptionProportion = 1F;
         int absorptionWidth = (int) Math.ceil(80 * absorptionProportion);

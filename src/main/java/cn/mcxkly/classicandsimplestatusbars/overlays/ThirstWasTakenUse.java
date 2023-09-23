@@ -14,9 +14,15 @@ import net.minecraftforge.client.gui.overlay.IGuiOverlay;
 public class ThirstWasTakenUse implements IGuiOverlay {
     private static final Minecraft mc = Minecraft.getInstance();
     public static boolean StopConflictRendering = true;
-    public static void StopConflictRenderingIDEA(boolean is){StopConflictRendering = is;};
+
+    public static void StopConflictRenderingIDEA(boolean is) {
+        StopConflictRendering = is;
+    }
+
+    ;
     public static IThirst PLAYER_THIRST = null;
     public static final ResourceLocation THIRST_ICONS = new ResourceLocation(Thirst.ID, "textures/gui/thirst_icons.png");
+
     @Override
     public void render(ForgeGui gui, GuiGraphics guiGraphics, float partialTick, int width, int height) {
         if (gui.shouldDrawSurvivalElements() && !StopConflictRendering) {
@@ -31,6 +37,7 @@ public class ThirstWasTakenUse implements IGuiOverlay {
             renderThirstLevelBar(font, guiGraphics, partialTick, x, y, player);
         }
     }
+
     private void renderThirstLevelBar(Font font, GuiGraphics guiGraphics, float partialTick, int x, int y, Player player) {
         PLAYER_THIRST = player.getCapability(ModCapabilities.PLAYER_THIRST).orElse(null);
         if (PLAYER_THIRST == null) return;
@@ -43,7 +50,7 @@ public class ThirstWasTakenUse implements IGuiOverlay {
                 9, 9,
                 25, 9);
 
-        if (Quenched > 0){ // 如果Quenched大于0渲染.
+        if (Quenched > 0) { // 如果Quenched大于0渲染.
             int x2 = x + 70 - font.width(Quenched + "+") - font.width(String.valueOf(Thirst)); // 计算长度
             // guiGraphics.blit(THIRST_ICONS, x, y, 0.0F, 0.0F, 9, 9, 25, 9);
             guiGraphics.drawString(font, Quenched + "+", x2, y - 9, 0x48D1CC, false);
