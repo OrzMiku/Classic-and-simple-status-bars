@@ -2,6 +2,7 @@ package cn.mcxkly.classicandsimplestatusbars.overlays;
 
 import cn.mcxkly.classicandsimplestatusbars.ClassicAndSimpleStatusBars;
 import cn.mcxkly.classicandsimplestatusbars.other.helper;
+import net.minecraft.SharedConstants;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
@@ -23,15 +24,21 @@ public class FoodBar {
     private static final Identifier emmmmnBarLocation = new Identifier(ClassicAndSimpleStatusBars.MOD_ID, "textures/gui/foodbars/debuff-hunger.png");
     private static final Identifier intermediateHealthBarLocation = new Identifier(ClassicAndSimpleStatusBars.MOD_ID, "textures/gui/foodbars/intermediate.png");
     private static final Identifier guiIconsLocation = new Identifier("minecraft", "textures/gui/icons.png");
-    private float intermediateFood = 0;
-    public static boolean StopConflictRendering = true; // 支持口渴，目前没有fabric
-
+    public static boolean isUseSeparateIcons = false;
+    private static final Identifier food_empty = new Identifier("minecraft", "textures/gui/sprites/hud/food_empty.png");
+    private static final Identifier food_full = new Identifier("minecraft", "textures/gui/sprites/hud/food_full.png");
+    private static final Identifier air = new Identifier("minecraft", "textures/gui/sprites/hud/air.png");
+    private static final Identifier vehicle_full = new Identifier("minecraft", "textures/gui/sprites/hud/heart/vehicle_full.png");
+    private static final Identifier armor_toughness = new Identifier(ClassicAndSimpleStatusBars.MOD_ID, "textures/gui/foodbars/armor_toughness.png"); // The official deleted it, and I can only do this
+    private static final Identifier armor_full = new Identifier("minecraft", "textures/gui/sprites/hud/armor_full.png");
+    public static boolean StopConflictRendering = true; // 支持 脱水Mod
+    public static void isUseSeparateIconsIDEA(boolean is) {
+        isUseSeparateIcons = is;
+    }
     public static void StopConflictRenderingIDEA(boolean is) {
         StopConflictRendering = is;
     }
-
-    ;
-
+    private float intermediateFood = 0;
     public void render(DrawContext guiGraphics, float partialTick) {
         if (mc.cameraEntity instanceof PlayerEntity player
                 && !mc.options.hudHidden
@@ -59,16 +66,29 @@ public class FoodBar {
 
     private void renderFoodValue(TextRenderer font, DrawContext context, int x, int y, PlayerEntity player, HungerManager FoodData) {
         y += 1;
-        context.drawTexture(guiIconsLocation,
-                x, y - 10,
-                16, 27,
-                9, 9,
-                256, 256); // 鸡腿图标-背景
-        context.drawTexture(guiIconsLocation,
-                x, y - 10,
-                52, 27,
-                9, 9,
-                256, 256); // 鸡腿图标
+        if (isUseSeparateIcons) {
+            context.drawTexture(food_empty,
+                    x, y - 10,
+                    0, 0,
+                    9, 9,
+                    9, 9); // 鸡腿图标-背景
+            context.drawTexture(food_full,
+                    x, y - 10,
+                    0, 0,
+                    9, 9,
+                    9, 9); // 鸡腿图标
+        } else {
+            context.drawTexture(guiIconsLocation,
+                    x, y - 10,
+                    16, 27,
+                    9, 9,
+                    256, 256); // 鸡腿图标-背景
+            context.drawTexture(guiIconsLocation,
+                    x, y - 10,
+                    52, 27,
+                    9, 9,
+                    256, 256); // 鸡腿图标
+        }
         String text = helper.KeepOneDecimal(FoodData.getFoodLevel());
         int xx = x + 10;
         context.drawText(font, text, xx, y - 9, 0xF4A460, false);
@@ -86,11 +106,19 @@ public class FoodBar {
             if (!StopConflictRendering) Y2 -= 10; // 如果口渴存在，在渲染时高度 + 10
             context.drawText(font, "%", x + 70 - font.getWidth("%"), Y2 - 9, 0x1E90FF, false);
             context.drawText(font, text, x + 70 - font.getWidth("99%"), Y2 - 9, 0x1E90FF, false);
-            context.drawTexture(guiIconsLocation,
-                    x + 70, Y2 - 10,
-                    16, 18,
-                    9, 9,
-                    256, 256); // 气泡图标
+            if (isUseSeparateIcons) {
+                context.drawTexture(air,
+                        x + 70, Y2 - 10,
+                        0, 0,
+                        9, 9,
+                        9, 9); // 气泡图标
+            } else {
+                context.drawTexture(guiIconsLocation,
+                        x + 70, Y2 - 10,
+                        16, 18,
+                        9, 9,
+                        256, 256); // 气泡图标
+            }
         }
         Entity tsssmp = player.getVehicle();
         if (tsssmp != null) {
@@ -106,27 +134,48 @@ public class FoodBar {
                 float MountHealthsMax = FsMount.getMaxHealth();
                 float MountHealths = Math.min(FsMount.getHealth(), MountHealthsMax);
                 if (MountHealths > 0) {
-                    context.drawTexture(guiIconsLocation,
-                            x, y - 19,
-                            88, 9,
-                            9, 9,
-                            256, 256); // 骑乘血量
-                    context.drawText(font, helper.KeepOneDecimal(MountHealths) + "/" + helper.KeepOneDecimal(MountHealthsMax), x + 10, y - 19, 0xEE0000, false);
+                    if (isUseSeparateIcons) {
+                        context.drawTexture(vehicle_full,
+                                x, y - 19,
+                                0, 0,
+                                9, 9,
+                                9, 9); // 骑乘血量
+                    } else {
+                        context.drawTexture(guiIconsLocation,
+                                x, y - 19,
+                                88, 9,
+                                9, 9,
+                                256, 256); // 骑乘血量
+                    }
+                        context.drawText(font, helper.KeepOneDecimal(MountHealths) + "/" + helper.KeepOneDecimal(MountHealthsMax), x + 10, y - 19, 0xEE0000, false);
                 }
             }
         } else {
             float ARMORTOUGHNESS = (float) player.getAttributeValue(EntityAttributes.GENERIC_ARMOR_TOUGHNESS);
             if (ARMORTOUGHNESS > 0) {
-                context.drawTexture(guiIconsLocation,
-                        x, y - 19,
-                        43, 9,
-                        9, 9,
-                        256, 256); // 护甲图标
-                context.drawTexture(guiIconsLocation,
-                        x, y - 19,
-                        43, 18,
-                        9, 9,
-                        256, 256); // 韧性图标
+                if (isUseSeparateIcons) {
+                    context.drawTexture(armor_full,
+                            x, y - 19,
+                            0, 0,
+                            9, 9,
+                            9, 9); // 韧性图标
+                    context.drawTexture(armor_toughness,
+                            x, y - 19,
+                            0, 0,
+                            9, 9,
+                            9, 9); // 背景图标 - 覆盖在上面的图标
+                } else {
+                    context.drawTexture(guiIconsLocation,
+                            x, y - 19,
+                            43, 9,
+                            9, 9,
+                            256, 256); // 背景图标
+                    context.drawTexture(guiIconsLocation,
+                            x, y - 19,
+                            43, 18,
+                            9, 9,
+                            256, 256); // 韧性图标
+                }
                 context.drawText(font, helper.KeepOneDecimal(ARMORTOUGHNESS), x + 10, y - 19, 0x87CEEB, false);
             }
         }

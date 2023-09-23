@@ -3,6 +3,7 @@ package cn.mcxkly.classicandsimplestatusbars.mixins;
 import cn.mcxkly.classicandsimplestatusbars.overlays.DehydrationBar;
 import cn.mcxkly.classicandsimplestatusbars.overlays.FoodBar;
 import cn.mcxkly.classicandsimplestatusbars.overlays.HealthBar;
+import net.minecraft.SharedConstants;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
 import org.spongepowered.asm.mixin.Mixin;
@@ -33,7 +34,19 @@ public class StatusBarsMixin {
     private static final HealthBar healthBar = new HealthBar();
 
     @Inject(method = "render", at = @At(value = "HEAD"))
-    public void renderHealthBar(DrawContext context, float tickDelta, CallbackInfo ci) {
+    public void renderBars(DrawContext context, float tickDelta, CallbackInfo ci) {
+        int ProtocolVersion = SharedConstants.getProtocolVersion(); // 从版本23w31a（1.20.2）开始，icons.png 被移除.
+        String Version = String.valueOf(ProtocolVersion);
+        if (Version.length() > 3) { // 长度大于3是快照版本
+            if (SharedConstants.getProtocolVersion() >= 1073741968) { // 23w31a的协议版本.
+                FoodBar.isUseSeparateIconsIDEA(true);
+                HealthBar.isUseSeparateIconsIDEA(true);
+            }
+
+        } else if (SharedConstants.getProtocolVersion() > 763) { // 763是1.20.1的协议版本.
+            FoodBar.isUseSeparateIconsIDEA(true);
+            HealthBar.isUseSeparateIconsIDEA(true);
+        }
         foodBar.render(context, tickDelta);
         healthBar.render(context, tickDelta);
         // 脱水、口渴 Dehydration Mod

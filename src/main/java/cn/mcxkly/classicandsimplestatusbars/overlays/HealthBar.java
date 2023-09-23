@@ -19,8 +19,13 @@ public class HealthBar {
     private static final Identifier intermediateHealthBarLocation = new Identifier(ClassicAndSimpleStatusBars.MOD_ID, "textures/gui/healthbars/intermediate.png");
     private static final Identifier emptyHealthBarLocation = new Identifier(ClassicAndSimpleStatusBars.MOD_ID, "textures/gui/healthbars/empty.png");
     private static final Identifier absorptionBarLocation = new Identifier(ClassicAndSimpleStatusBars.MOD_ID, "textures/gui/healthbars/absorption.png");
+    public static boolean isUseSeparateIcons = false;
     private static final Identifier guiIconsLocation = new Identifier("minecraft", "textures/gui/icons.png");
-
+    private static final Identifier armor_full = new Identifier("minecraft", "textures/gui/sprites/hud/armor_full.png");
+    private static final Identifier heart_full = new Identifier("minecraft", "textures/gui/sprites/hud/heart/full.png");
+    public static void isUseSeparateIconsIDEA(boolean is) {
+        isUseSeparateIcons = is;
+    }
     private float intermediateHealth = 0;
 
     public void render(DrawContext context, float tickDelta) {
@@ -53,11 +58,19 @@ public class HealthBar {
 
     private void renderHealthValue(TextRenderer font, DrawContext context, int x, int y, PlayerEntity player) {
         y += 1;
-        context.drawTexture(guiIconsLocation,
-                x, y - 10,
-                52, 0,
-                9, 9,
-                256, 256); // 红心图标
+        if (isUseSeparateIcons) {
+            context.drawTexture(heart_full,
+                    x, y - 10,
+                    0, 0,
+                    9, 9,
+                    9, 9); // 红心图标
+        } else {
+            context.drawTexture(guiIconsLocation,
+                    x, y - 10,
+                    52, 0,
+                    9, 9,
+                    256, 256); // 红心图标
+        }
         float MaxHealth = player.getMaxHealth(); // 最大血量
         float Health = Math.min(player.getHealth(), MaxHealth); // 当前血量
         float Absorption = player.getAbsorptionAmount(); // 吸收量
@@ -78,11 +91,19 @@ public class HealthBar {
             context.drawText(font, text, x + 10, y - 9, 0xEE0000, false);
         }
         if (ARMOR > 0) {
-            context.drawTexture(guiIconsLocation,
-                    x, y - 19,
-                    43, 9,
-                    9, 9,
-                    256, 256); // 护甲图标
+            if (isUseSeparateIcons) {
+                context.drawTexture(armor_full,
+                        x, y - 19,
+                        0, 0,
+                        9, 9,
+                        9, 9); // 护甲图标
+            } else {
+                context.drawTexture(guiIconsLocation,
+                        x, y - 19,
+                        43, 9,
+                        9, 9,
+                        256, 256); // 护甲图标
+            }
             context.drawText(font, helper.KeepOneDecimal(ARMOR), x + 10, y - 19, 0xEDEDED, false);
         }
     }
