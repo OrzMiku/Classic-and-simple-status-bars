@@ -13,6 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(value = StaminaHUDController.class, remap = false)
 public class ParCoolMixin {
     StaminaHUD staminaHUD = new StaminaHUD();
+
     @Inject(method = "render", at = @At("HEAD"), cancellable = true)
     private void registerThirstOverlay(ForgeGui gui, GuiGraphics guiGraphics, float partialTick, int screenWidth, int screenHeight, CallbackInfo ci) {
         if (ParCoolConfig.Client.Booleans.ParCoolIsActive.get() && !ParCoolConfig.Client.Booleans.UseHungerBarInstead.get()) {
