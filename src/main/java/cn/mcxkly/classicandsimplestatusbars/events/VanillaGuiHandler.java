@@ -73,7 +73,6 @@ public class VanillaGuiHandler {
         if (!(toughasnailsl == null)) { // 意志坚定
             if (!event.isCanceled() && event.getOverlay().id().equals(toughasnailsl) && !mc.options.hideGui && gui.shouldDrawSurvivalElements() && mc.cameraEntity instanceof Player) {
                 event.setCanceled(true);
-
             }
         }
     }

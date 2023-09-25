@@ -12,17 +12,12 @@ import net.minecraftforge.client.gui.overlay.ForgeGui;
 import net.minecraftforge.client.gui.overlay.IGuiOverlay;
 
 public class ThirstWasTakenUse implements IGuiOverlay {
-    private static final Minecraft mc = Minecraft.getInstance();
     public static boolean StopConflictRendering = true;
-
     public static void StopConflictRenderingIDEA(boolean is) {
         StopConflictRendering = is;
     }
-
-    ;
     public static IThirst PLAYER_THIRST = null;
     public static final ResourceLocation THIRST_ICONS = new ResourceLocation(Thirst.ID, "textures/gui/thirst_icons.png");
-
     @Override
     public void render(ForgeGui gui, GuiGraphics guiGraphics, float partialTick, int width, int height) {
         if (gui.shouldDrawSurvivalElements() && !StopConflictRendering) {

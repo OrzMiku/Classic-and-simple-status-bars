@@ -1,5 +1,8 @@
 package cn.mcxkly.classicandsimplestatusbars.overlays;
 
+import artifacts.component.SwimData;
+import artifacts.platform.PlatformServices;
+import artifacts.registry.ModGameRules;
 import cn.mcxkly.classicandsimplestatusbars.ClassicAndSimpleStatusBars;
 import cn.mcxkly.classicandsimplestatusbars.other.helper;
 import net.minecraft.client.Minecraft;
@@ -15,7 +18,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.client.gui.overlay.ForgeGui;
 import net.minecraftforge.client.gui.overlay.IGuiOverlay;
 
-
 public class FoodLevel implements IGuiOverlay {
     private static final ResourceLocation fullHealthBarLocation = new ResourceLocation(ClassicAndSimpleStatusBars.MOD_ID, "textures/gui/foodbars/foodeeg.png");
     private static final ResourceLocation emptyHealthBarLocation = new ResourceLocation(ClassicAndSimpleStatusBars.MOD_ID, "textures/gui/foodbars/empty.png");
@@ -29,6 +31,13 @@ public class FoodLevel implements IGuiOverlay {
 
     public static void StopConflictRenderingIDEA(boolean is) {
         StopConflictRendering = is;
+    }
+
+    public static boolean ArtifactsAir = false; // 奇异饰品-火烈鸟
+    private static final ResourceLocation HELIUM_FLAMINGO_ICON = new ResourceLocation("artifacts", "textures/gui/icons.png");
+
+    public static void ArtifactsIDEA(boolean b) {
+        ArtifactsAir = b;
     }
 
     @Override
@@ -82,16 +91,44 @@ public class FoodLevel implements IGuiOverlay {
             int siz = player.getAirSupply() / 3;
             siz = Math.max(siz, 0); //防止负数
             text = String.valueOf(siz);
-            int Y2 = y;
-            if (!StopConflictRendering) Y2 -= 10; // 如果口渴存在，在渲染时高度 + 10
-            guiGraphics.drawString(font, "%", x + 70 - font.width("%"), Y2 - 9, 0x1E90FF, false);
+            int y2 = y;
+            if (!StopConflictRendering) y2 -= 10; // 如果口渴存在，在渲染时高度 + 10
+            guiGraphics.drawString(font, "%", x + 70 - font.width("%"), y2 - 9, 0x1E90FF, false);
 
-            guiGraphics.drawString(font, text, x + 70 - font.width("99%"), Y2 - 9, 0x1E90FF, false);
+            guiGraphics.drawString(font, text, x + 70 - font.width(text) - font.width("%"), y2 - 9, 0x1E90FF, false);
             guiGraphics.blit(guiIconsLocation,
-                    x + 70, Y2 - 10,
+                    x + 70, y2 - 10,
                     16, 18,
                     9, 9,
                     256, 256); // 气泡图标
+        }
+        if (ArtifactsAir) {
+            SwimData swimData = PlatformServices.platformHelper.getSwimData(player);
+            if (swimData == null) {
+            } else {
+                int swimTime = swimData.getSwimTime();
+                int maxProgressTime;
+                if (swimTime != 0) {
+                    int AirY = y;
+                    if (player.getAirSupply() < 300) AirY -= 10; // 如果渲染了氧气值，在渲染时高度 + 10
+                    if (!StopConflictRendering) AirY -= 10; // 如果口渴存在，在渲染时高度 + 10
+                    if (swimTime > 0) {
+                        maxProgressTime = Math.max(1, ModGameRules.HELIUM_FLAMINGO_FLIGHT_DURATION.get() * 20);
+                    } else {
+                        maxProgressTime = Math.max(1, ModGameRules.HELIUM_FLAMINGO_RECHARGE_DURATION.get() * 20);
+                    }
+                    int swimTimes = swimTime * 100 / maxProgressTime;
+                    swimTimes = (swimTimes <= 0 ? -1 : 100 - swimTimes);
+                    String texts = Math.max(swimTimes, 0) + ""; //防止负数
+                    guiGraphics.drawString(font, "%", x + 70 - font.width("%"), AirY - 9, 0xFFC0CB, false);
+                    guiGraphics.drawString(font, texts, x + 70 - font.width(texts) - font.width("%"), AirY - 9, 0xFFC0CB, false);
+                    guiGraphics.blit(HELIUM_FLAMINGO_ICON,
+                            x + 70, AirY - 10,
+                            (swimTimes < 0 ? 9 : 0), 0,
+                            9, 9,
+                            32, 16); // 烈火鸟 泳圈
+                }
+            }
         }
         Entity tsssmp = player.getVehicle();
         if (tsssmp != null) {

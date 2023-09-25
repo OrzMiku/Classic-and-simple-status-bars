@@ -22,5 +22,9 @@ public class ClassicAndSimpleStatusBars {
             ThirstWasTakenUse.StopConflictRenderingIDEA(false);
             FoodLevel.StopConflictRenderingIDEA(false);
         }
+
+        if (ModList.get().isLoaded("artifacts")) {
+            FoodLevel.ArtifactsIDEA(true);
+        }
     }
 }

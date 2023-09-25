@@ -1,4 +1,5 @@
 plugins {
+    id 'java-library'
     id 'eclipse'
     id 'idea'
     id 'maven-publish'
@@ -166,6 +167,16 @@ dependencies {
     // Apply Mixin AP
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 
+    // 奇异饰品
+    implementation fg.deobf("curse.maven:expandability-465066:4630724") // expandability-9.0.0.jar
+    implementation fg.deobf("curse.maven:architectury-api-419699:4663010") // Architectury API 9.1.12-forge.jar
+    implementation fg.deobf("curse.maven:cloth-config-348521:4633444") // Cloth-Config-11.1.106-forge.jar
+    implementation fg.deobf("curse.maven:artifacts-312353:4747012") // artifacts-forge-9.1.0.jar
+
+    // 跑酷
+    implementation fg.deobf("curse.maven:parcool-482378:4732321") // ParCool-1.20.1-3.1.0.3-R.jar
+
+    // Feathers 羽毛耐力条-未更新
 }
 mixin {
     add sourceSets.main, "classicandsimplestatusbars.refmap.json"
