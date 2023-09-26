@@ -1,8 +1,10 @@
 package cn.mcxkly.classicandsimplestatusbars.overlays;
 
+import artifacts.component.SwimData;
+import artifacts.platform.PlatformServices;
+import artifacts.registry.ModGameRules;
 import cn.mcxkly.classicandsimplestatusbars.ClassicAndSimpleStatusBars;
 import cn.mcxkly.classicandsimplestatusbars.other.helper;
-import net.minecraft.SharedConstants;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
@@ -39,6 +41,13 @@ public class FoodBar {
         StopConflictRendering = is;
     }
     private float intermediateFood = 0;
+
+    public static boolean ArtifactsAir = false; // 奇异饰品-火烈鸟
+    private static final Identifier HELIUM_FLAMINGO_ICON = new Identifier("artifacts", "textures/gui/icons.png");
+    public static void ArtifactsIDEA(boolean b) {
+        ArtifactsAir = b;
+    }
+
     public void render(DrawContext guiGraphics, float partialTick) {
         if (mc.cameraEntity instanceof PlayerEntity player
                 && !mc.options.hudHidden
@@ -105,7 +114,7 @@ public class FoodBar {
             int Y2 = y;
             if (!StopConflictRendering) Y2 -= 10; // 如果口渴存在，在渲染时高度 + 10
             context.drawText(font, "%", x + 70 - font.getWidth("%"), Y2 - 9, 0x1E90FF, false);
-            context.drawText(font, text, x + 70 - font.getWidth("99%"), Y2 - 9, 0x1E90FF, false);
+            context.drawText(font, text, x + 70 - font.getWidth(text) - font.getWidth("%"), Y2 - 9, 0x1E90FF, false);
             if (isUseSeparateIcons) {
                 context.drawTexture(air,
                         x + 70, Y2 - 10,
@@ -118,6 +127,34 @@ public class FoodBar {
                         16, 18,
                         9, 9,
                         256, 256); // 气泡图标
+            }
+        }
+        if (ArtifactsAir) {
+            SwimData swimData = PlatformServices.platformHelper.getSwimData(player);
+            if (swimData == null) {
+            } else {
+                int swimTime = swimData.getSwimTime();
+                int maxProgressTime;
+                if (swimTime != 0) {
+                    int AirY = y;
+                    if (player.getAir() < 300) AirY -= 10; // 如果渲染了氧气值，在渲染时高度 + 10
+                    if (!StopConflictRendering) AirY -= 10; // 如果口渴存在，在渲染时高度 + 10
+                    if (swimTime > 0) {
+                        maxProgressTime = Math.max(1, ModGameRules.HELIUM_FLAMINGO_FLIGHT_DURATION.get() * 20);
+                    } else {
+                        maxProgressTime = Math.max(1, ModGameRules.HELIUM_FLAMINGO_RECHARGE_DURATION.get() * 20);
+                    }
+                    int swimTimes = swimTime * 100 / maxProgressTime;
+                    swimTimes = (swimTimes <= 0 ? -1 : 100 - swimTimes);
+                    String texts = Math.max(swimTimes, 0) + ""; //防止负数
+                    context.drawText(font, "%", x + 70 - font.getWidth("%"), AirY - 9, 0xFFC0CB, false);
+                    context.drawText(font, texts, x + 70 - font.getWidth(texts) - font.getWidth("%"), AirY - 9, 0xFFC0CB, false);
+                    context.drawTexture(HELIUM_FLAMINGO_ICON,
+                            x + 70, AirY - 10,
+                            (swimTimes < 0 ? 9 : 0), 0,
+                            9, 9,
+                            32, 16); // 烈火鸟 泳圈
+                }
             }
         }
         Entity tsssmp = player.getVehicle();

@@ -1,6 +1,5 @@
 package cn.mcxkly.classicandsimplestatusbars.overlays;
 
-
 import net.dehydration.access.ThirstManagerAccess;
 import net.dehydration.thirst.ThirstManager;
 import net.minecraft.client.MinecraftClient;
@@ -8,7 +7,6 @@ import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Identifier;
-import cn.mcxkly.classicandsimplestatusbars.overlays.FoodBar;
 
 public class DehydrationBar {
     private static final MinecraftClient mc = MinecraftClient.getInstance();

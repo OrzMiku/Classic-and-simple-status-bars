@@ -22,6 +22,9 @@
   "entrypoints": {
     "appleskin": [
       "cn.mcxkly.classicandsimplestatusbars.overlays.AppleSkinEventHandler"
+    ],
+    "artifacts": [
+      "cn.mcxkly.classicandsimplestatusbars.mixins.ArtifactsMixin"
     ]
   },
   "mixins": [

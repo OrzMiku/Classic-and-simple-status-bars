@@ -54,6 +54,9 @@ public class StatusBarsMixin {
             FoodBar.StopConflictRenderingIDEA(false);
             dehydrationBar.render(context);
         }
+        if (FabricLoader.getInstance().isModLoaded("artifacts")) {
+        FoodBar.ArtifactsIDEA(true);
+        }
     }
 //
 //    @Redirect(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/InGameHud;renderHealthBar(Lnet/minecraft/client/gui/DrawContext;Lnet/minecraft/entity/player/PlayerEntity;IIIIFIIIZ)V"), method = "renderStatusBars")
