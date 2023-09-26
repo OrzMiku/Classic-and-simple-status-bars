@@ -12,7 +12,7 @@
 #### ⏬下载方式
 - [Modrinth](https://modrinth.com/mod/cssb)
 - [MC百科-文件下载](https://www.mcmod.cn/class/12121.html)
-- [CurseForge](https://legacy.curseforge.com/minecraft/mc-mods/classic-and-simple-status-bars)
+- [CurseForge](https://curseforge.com/minecraft/mc-mods/classic-and-simple-status-bars)
 
 ### 🌈支持功能
 - 根据DeBUff 进行纹理变化，凋零、中毒、冻结、饥饿；
@@ -24,8 +24,10 @@
 - 在骑马或别的东东时，显示坐骑生命值信息；
 - 显示护甲值；
 - 显示护甲韧性；
-- 显示 口渴/意志坚定 模组的饥渴值；
-- 显示 脱水 模组的饥渴值（Fabric）。
+- 显示口渴/意志坚定模组的饥渴值；
+- 显示脱水模组的饥渴值；
+- 显示来自奇异饰品的火烈鸟饰品的飞行时间；
+- 兼容跑酷模组体力条（如果开启渲染）让其以默认模式渲染。
 
 ### 🖼️展示:
   ![0](/Textures/in/0.png)

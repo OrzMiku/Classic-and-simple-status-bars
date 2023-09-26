@@ -11,7 +11,7 @@
 
 #### ⏬Download
 - [Modrinth](https://modrinth.com/mod/cssb)
-- [CurseForge](https://legacy.curseforge.com/minecraft/mc-mods/classic-and-simple-status-bars)
+- [CurseForge](https://curseforge.com/minecraft/mc-mods/classic-and-simple-status-bars)
 
 ### 🌈Support Functions
 - Support Texture changes such as withering, poisoning, freezing, and starvation
@@ -23,8 +23,10 @@
 - Support The maximum operating condition of MountHealth
 - Support Armor value
 - Support Armor Toughness
-- Support Thirst levels provided Mod Thirst and Toughasnails
+- Support Thirst levels provided Mod Thirst and Tough As Nails
 - Support Dehydration (Fabric)
+- Support flamingo flight status, from Artifacts Mod.
+- Support for ParCool Mod, forcing parkour physical rendering in the lower right corner (if rendering is allowed).
 
 ### 🖼️Photo:
   ![0](/Textures/in/0.png)
