@@ -27,6 +27,7 @@
 - Support Dehydration (Fabric)
 - Support flamingo flight status, from Artifacts Mod.
 - Support for ParCool Mod, forcing parkour physical rendering in the lower right corner (if rendering is allowed).
+- Support for ScalingHealth Mod, Disable Its Heart Container Rendering.
 
 ### 🖼️Photo:
   ![0](/Textures/in/0.png)
