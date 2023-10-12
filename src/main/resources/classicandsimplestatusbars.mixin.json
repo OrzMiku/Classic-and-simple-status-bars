@@ -3,13 +3,13 @@
   "package": "cn.mcxkly.classicandsimplestatusbars.mixin",
   "compatibilityLevel": "JAVA_17",
   "refmap": "classicandsimplestatusbars.refmap.json",
-  "mixins": [
+  "mixins": [],
+  "client": [
     "ArtifactsMixin",
     "ParCoolMixin",
     "ThirstBarRendererMixin",
-    "ThirstHUDOverlayHandlerMixin"
-  ],
-  "client": [
+    "ThirstHUDOverlayHandlerMixin",
+    "ScalingHealthMixin"
   ],
   "minVersion": "0.8"
 }

@@ -177,6 +177,12 @@ dependencies {
     implementation fg.deobf("curse.maven:parcool-482378:4732321") // ParCool-1.20.1-3.1.0.3-R.jar
 
     // Feathers 羽毛耐力条-未更新
+
+
+    // ScalingHealth-1.20.1-8.0.1+8.jar
+    implementation fg.deobf("curse.maven:scaling-health-248027:4669277")
+    // 前置 silent-lib-1.20.1-8.0.0.jar
+    implementation fg.deobf("curse.maven:silent-lib-242998:4585754")
 }
 mixin {
     add sourceSets.main, "classicandsimplestatusbars.refmap.json"
