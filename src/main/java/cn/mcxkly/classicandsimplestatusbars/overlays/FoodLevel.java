@@ -21,7 +21,7 @@ import net.minecraftforge.client.gui.overlay.ForgeGui;
 import net.minecraftforge.client.gui.overlay.IGuiOverlay;
 
 public class FoodLevel implements IGuiOverlay {
-    private final ResourceLocation Vampires_Icons = new ResourceLocation("vampirism:textures/gui/icons.png");
+    private final ResourceLocation Vampires_Icons = new ResourceLocation("vampirism","textures/gui/icons.png");
     private static final ResourceLocation vampiresBarLocation= new ResourceLocation(ClassicAndSimpleStatusBars.MOD_ID, "textures/gui/foodbars/vampires.png");
     private static final ResourceLocation fullHealthBarLocation = new ResourceLocation(ClassicAndSimpleStatusBars.MOD_ID, "textures/gui/foodbars/foodeeg.png");
     private static final ResourceLocation emptyHealthBarLocation = new ResourceLocation(ClassicAndSimpleStatusBars.MOD_ID, "textures/gui/foodbars/empty.png");

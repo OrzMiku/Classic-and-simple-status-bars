@@ -10,6 +10,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class VampirismMixin {
     @Inject(method = "render", at = @At("HEAD"), cancellable = true)
     private void onRenderExhaustion(CallbackInfo ci) {
+        // 让我替你渲染吧。
         ci.cancel();
     }
 }
