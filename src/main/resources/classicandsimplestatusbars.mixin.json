@@ -7,9 +7,10 @@
   "client": [
     "ArtifactsMixin",
     "ParCoolMixin",
+    "ScalingHealthMixin",
     "ThirstBarRendererMixin",
     "ThirstHUDOverlayHandlerMixin",
-    "ScalingHealthMixin"
+    "VampirismMixin"
   ],
   "minVersion": "0.8"
 }

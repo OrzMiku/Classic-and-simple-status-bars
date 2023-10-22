@@ -134,6 +134,7 @@ repositories {
             includeGroup "curse.maven"
         }
     }
+    maven { url "https://maven.shedaniel.me/" } // Cloth-Config API
 // flatDir {
 //     dir 'libs'
 // }
@@ -146,7 +147,8 @@ dependencies {
 //    implementation 'org.slf4j:slf4j-log4j12:2.0.7'
 //    implementation 'org.apache.logging.log4j:log4j:2.20.0'
     minecraft "net.neoforged:forge:${minecraft_version}-${neo_version}"
-
+    // Cloth-Config API 配置文件
+    api fg.deobf("me.shedaniel.cloth:cloth-config-forge:11.1.106")
     // GeckoLib
     implementation fg.deobf("curse.maven:geckolib-388172:4711657") // geckolib-forge-1.20.1-4.2.2.jar
     // Curios API
@@ -183,6 +185,12 @@ dependencies {
     implementation fg.deobf("curse.maven:scaling-health-248027:4669277")
     // 前置 silent-lib-1.20.1-8.0.0.jar
     implementation fg.deobf("curse.maven:silent-lib-242998:4585754")
+
+    // 吸血鬼 1.20.1-1.9.3.jar
+    implementation fg.deobf("curse.maven:vampirism-become-a-vampire-233029:4799959")
+
+    // 起源 origins-forge-1.20.1-1.10.0.2-all.jar
+    implementation fg.deobf("curse.maven:origins-forge-474438:4771676")
 }
 mixin {
     add sourceSets.main, "classicandsimplestatusbars.refmap.json"

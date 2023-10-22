@@ -5,6 +5,8 @@ import artifacts.platform.PlatformServices;
 import artifacts.registry.ModGameRules;
 import cn.mcxkly.classicandsimplestatusbars.ClassicAndSimpleStatusBars;
 import cn.mcxkly.classicandsimplestatusbars.other.helper;
+import de.teamlapen.vampirism.entity.player.vampire.VampirePlayer;
+import de.teamlapen.vampirism.util.Helper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -19,6 +21,8 @@ import net.minecraftforge.client.gui.overlay.ForgeGui;
 import net.minecraftforge.client.gui.overlay.IGuiOverlay;
 
 public class FoodLevel implements IGuiOverlay {
+    private final ResourceLocation Vampires_Icons = new ResourceLocation("vampirism:textures/gui/icons.png");
+    private static final ResourceLocation vampiresBarLocation= new ResourceLocation(ClassicAndSimpleStatusBars.MOD_ID, "textures/gui/foodbars/vampires.png");
     private static final ResourceLocation fullHealthBarLocation = new ResourceLocation(ClassicAndSimpleStatusBars.MOD_ID, "textures/gui/foodbars/foodeeg.png");
     private static final ResourceLocation emptyHealthBarLocation = new ResourceLocation(ClassicAndSimpleStatusBars.MOD_ID, "textures/gui/foodbars/empty.png");
     private static final ResourceLocation saturationBarLocation = new ResourceLocation(ClassicAndSimpleStatusBars.MOD_ID, "textures/gui/foodbars/saturation.png");
@@ -42,32 +46,111 @@ public class FoodLevel implements IGuiOverlay {
 
     @Override
     public void render(ForgeGui gui, GuiGraphics guiGraphics, float partialTick, int width, int height) {
-        if (gui.shouldDrawSurvivalElements()) {
+        if ( gui.shouldDrawSurvivalElements() ) {
             Font font = gui.getFont();
 
             Player player = (Player) Minecraft.getInstance().cameraEntity;
-            if (player == null) return;
+            if ( player == null ) return;
             int x = width / 2 + 11;
             int y = height - 39;
             y += 4;
             //y -= 70; // test
             updateBarTextures(player);
-            renderFoodBar(guiGraphics, partialTick, x, y, player);
+            if ( Helper.isVampire(player) ) {
+                // 如果当前是吸血鬼.
+                renderInfectedVampires(font, guiGraphics, x, y, player);
+                renderVampiresBar(guiGraphics, partialTick, x, y, player);
+            } else {
+                // 文本
+                renderFood(font, guiGraphics, x, y, player);
+                // 状态栏图
+                renderFoodBar(guiGraphics, partialTick, x, y, player);
+            }
+            // 其他元素
             renderFoodValue(font, guiGraphics, x, y, player);
         }
     }
 
+    float intermediate = 0 ;
+    private void renderVampiresBar(GuiGraphics guiGraphics, float partialTick, int x, int y, Player player) {
+        VampirePlayer.getOpt(player).map(VampirePlayer :: getBloodStats).ifPresent((stats) -> {
+            float BloodValue = stats.getBloodLevel();
+            float maxBlood = stats.getMaxBlood();
+            float BloodProportion =  BloodValue / maxBlood;
+            float Proportion;
+            float intermediateProportion;
+
+            if ( BloodValue < intermediate ) {
+                intermediateProportion = (intermediate - BloodValue) / maxBlood;
+            } else {
+                intermediateProportion = 0;
+            }
+            Proportion = BloodValue / maxBlood;
+            int Width = (int) Math.ceil(80 * Proportion);
+            int saturationWidth = (int) Math.ceil(80 * BloodProportion);
+            int intermediateWidth = (int) Math.ceil(80 * intermediateProportion);
+
+            // Display empty part
+            guiGraphics.blit(emptyHealthBarLocation,
+                    x, y,
+                    0, 0,
+                    80 - Width - intermediateWidth, 5,
+                    80, 5);
+
+            // 血条
+            guiGraphics.blit(vampiresBarLocation,
+                    x + 80 - Width, y,
+                    80 - Width, 0,
+                    Width, 5,
+                    80, 5);
+
+            // Display intermediate part
+            guiGraphics.blit(intermediateHealthBarLocation,
+                    x + 80 - Width - intermediateWidth, y,
+                    80 - Width - intermediateWidth, 0,
+                    intermediateWidth, 5,
+                    80, 5);
+
+            // Update intermediate health
+            intermediate += (BloodValue - intermediate) * partialTick * 0.08;
+            //guiGraphics.drawString(font, intermediateFood+" - " + intermediateWidth, x, y - 69, 0x1E90FF, false);
+            if ( Math.abs(BloodValue - intermediate) <= 0.25 ) {
+                intermediate = BloodValue;
+            }
+        });
+    }
+
+    private void renderInfectedVampires(Font font, GuiGraphics guiGraphics, int x, int y, Player player) {
+        y += 1;
+        int finalY = y;
+        VampirePlayer.getOpt(player).map(VampirePlayer :: getBloodStats).ifPresent((stats) -> {
+            String text;
+            int blood = stats.getBloodLevel();
+            int maxBlood = stats.getMaxBlood();
+            guiGraphics.blit(Vampires_Icons,
+                    x, finalY - 10,
+                    9, 9,
+                    9, 9); // 血液
+            text = helper.KeepOneDecimal(blood);
+            int xx = x + 10;
+            guiGraphics.drawString(font, text, xx, finalY - 9, 0xEE0000, false);
+            xx = xx + font.width(text);
+            text = "/" + helper.KeepOneDecimal(maxBlood);
+            guiGraphics.drawString(font, text, xx, finalY - 9, 0xEE0000, false);
+        });
+    }
+
     public void updateBarTextures(Player player) {
-        if (player.hasEffect(MobEffects.HUNGER)) {
+        if ( player.hasEffect(MobEffects.HUNGER) ) {
             currentBarLocation = emmmmnBarLocation;
         } else {
             currentBarLocation = fullHealthBarLocation;
         }
     }
 
-    private void renderFoodValue(Font font, GuiGraphics guiGraphics, int x, int y, Player player) {
-        // getSaturationLevel饱食条 | getFoodLevel饥饿度 |  getLastFoodLevel饥饿最大值 | player.getFoodData().getExhaustionLevel(); 消耗度
+    private void renderFood(Font font, GuiGraphics guiGraphics, int x, int y, Player player) {
         y += 1;
+        String text;
         guiGraphics.blit(guiIconsLocation,
                 x, y - 10,
                 16, 27,
@@ -78,21 +161,27 @@ public class FoodLevel implements IGuiOverlay {
                 52, 27,
                 9, 9,
                 256, 256); // 鸡腿图标
-        String text = helper.KeepOneDecimal(player.getFoodData().getFoodLevel());
+        text = helper.KeepOneDecimal(player.getFoodData().getFoodLevel());
         int xx = x + 10;
         guiGraphics.drawString(font, text, xx, y - 9, 0xF4A460, false);
-        if (player.getFoodData().getSaturationLevel() > 0) {
+        if ( player.getFoodData().getSaturationLevel() > 0 ) {
             //第二部分
             xx = xx + font.width(text);
             text = "+" + helper.KeepOneDecimal(player.getFoodData().getSaturationLevel());
             guiGraphics.drawString(font, text, xx, y - 9, 0xEEEE00, false);
         }
-        if (player.getAirSupply() < 300) { // max=300
+    }
+
+    private void renderFoodValue(Font font, GuiGraphics guiGraphics, int x, int y, Player player) {
+        // getSaturationLevel饱食条 | getFoodLevel饥饿度 |  getLastFoodLevel饥饿最大值 | player.getFoodData().getExhaustionLevel(); 消耗度
+        y += 1;
+        String text;
+        if ( player.getAirSupply() < 300 ) { // max=300
             int siz = player.getAirSupply() / 3;
             siz = Math.max(siz, 0); //防止负数
             text = String.valueOf(siz);
             int y2 = y;
-            if (!StopConflictRendering) y2 -= 10; // 如果口渴存在，在渲染时高度 + 10
+            if ( !StopConflictRendering ) y2 -= 10; // 如果口渴存在，在渲染时高度 + 10
             guiGraphics.drawString(font, "%", x + 70 - font.width("%"), y2 - 9, 0x1E90FF, false);
 
             guiGraphics.drawString(font, text, x + 70 - font.width(text) - font.width("%"), y2 - 9, 0x1E90FF, false);
@@ -102,17 +191,17 @@ public class FoodLevel implements IGuiOverlay {
                     9, 9,
                     256, 256); // 气泡图标
         }
-        if (ArtifactsAir) {
+        if ( ArtifactsAir ) {
             SwimData swimData = PlatformServices.platformHelper.getSwimData(player);
-            if (swimData == null) {
+            if ( swimData == null ) {
             } else {
                 int swimTime = swimData.getSwimTime();
                 int maxProgressTime;
-                if (swimTime != 0) {
+                if ( swimTime != 0 ) {
                     int AirY = y;
-                    if (player.getAirSupply() < 300) AirY -= 10; // 如果渲染了氧气值，在渲染时高度 + 10
-                    if (!StopConflictRendering) AirY -= 10; // 如果口渴存在，在渲染时高度 + 10
-                    if (swimTime > 0) {
+                    if ( player.getAirSupply() < 300 ) AirY -= 10; // 如果渲染了氧气值，在渲染时高度 + 10
+                    if ( !StopConflictRendering ) AirY -= 10; // 如果口渴存在，在渲染时高度 + 10
+                    if ( swimTime > 0 ) {
                         maxProgressTime = Math.max(1, ModGameRules.HELIUM_FLAMINGO_FLIGHT_DURATION.get() * 20);
                     } else {
                         maxProgressTime = Math.max(1, ModGameRules.HELIUM_FLAMINGO_RECHARGE_DURATION.get() * 20);
@@ -131,8 +220,8 @@ public class FoodLevel implements IGuiOverlay {
             }
         }
         Entity tsssmp = player.getVehicle();
-        if (tsssmp != null) {
-            if (tsssmp.getType() == EntityType.SKELETON_HORSE ||
+        if ( tsssmp != null ) {
+            if ( tsssmp.getType() == EntityType.SKELETON_HORSE ||
                     tsssmp.getType() == EntityType.PIG ||
                     tsssmp.getType() == EntityType.HORSE ||
                     tsssmp.getType() == EntityType.CAMEL ||
@@ -144,7 +233,7 @@ public class FoodLevel implements IGuiOverlay {
 
                 float MountHealthsMax = FsMount.getMaxHealth();
                 float MountHealths = Math.min(FsMount.getHealth(), MountHealthsMax);
-                if (MountHealths > 0) {
+                if ( MountHealths > 0 ) {
                     guiGraphics.blit(guiIconsLocation,
                             x, y - 19,
                             88, 9,
@@ -155,7 +244,7 @@ public class FoodLevel implements IGuiOverlay {
             }
         } else {
             float ARMORTOUGHNESS = (float) player.getAttribute(Attributes.ARMOR_TOUGHNESS).getValue();
-            if (ARMORTOUGHNESS > 0) {
+            if ( ARMORTOUGHNESS > 0 ) {
                 guiGraphics.blit(guiIconsLocation,
                         x, y - 19,
                         43, 9,
@@ -181,7 +270,7 @@ public class FoodLevel implements IGuiOverlay {
         // Calculate bar proportions
         float FoodProportion;
         float intermediateProportion;
-        if (Food < intermediateFood) {
+        if ( Food < intermediateFood ) {
             //FoodProportion = Food / maxFood;
             intermediateProportion = (intermediateFood - Food) / maxFood;
         } else {
@@ -223,31 +312,16 @@ public class FoodLevel implements IGuiOverlay {
                 intermediateWidth, 5,
                 80, 5);
 
-//        // Display intermediate part
-//        guiGraphics.blit(intermediateHealthBarLocation,
-//                x + FoodWidth, y,
-//                FoodWidth, 0,
-//                intermediateWidth, 5,
-//                80, 5);
-//        // Display empty part
-//        guiGraphics.blit(emptyHealthBarLocation,
-//                x + FoodWidth + intermediateWidth, y,
-//                FoodWidth + intermediateWidth, 0,
-//                80 - FoodWidth - intermediateWidth, 5,
-//                80, 5);
-        int InsWidth = 0;
         float InsFood = 0;
-        if (player.getFoodData().getSaturationLevel() > 0) {
-            InsWidth = (int) saturationProportion;
+        if ( player.getFoodData().getSaturationLevel() > 0 ) {
             InsFood = player.getFoodData().getSaturationLevel();
         } else {
-            InsWidth = FoodWidth;
             InsFood = Food;
         }
         // Update intermediate health
         this.intermediateFood += (InsFood - intermediateFood) * partialTick * 0.08;
         //guiGraphics.drawString(font, intermediateFood+" - " + intermediateWidth, x, y - 69, 0x1E90FF, false);
-        if (Math.abs(InsFood - intermediateFood) <= 0.25) {
+        if ( Math.abs(InsFood - intermediateFood) <= 0.25 ) {
             this.intermediateFood = InsFood;
         }
     }

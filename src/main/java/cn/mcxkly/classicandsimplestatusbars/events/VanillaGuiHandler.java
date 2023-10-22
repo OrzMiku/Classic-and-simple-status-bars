@@ -70,10 +70,9 @@ public class VanillaGuiHandler {
     @SubscribeEvent
     public static void StopRenderingtoughasnailsl(RenderGuiOverlayEvent.Pre event) {
         final ForgeGui gui = ((ForgeGui) mc.gui);
-        if (!(toughasnailsl == null)) { // 意志坚定
-            if (!event.isCanceled() && event.getOverlay().id().equals(toughasnailsl) && !mc.options.hideGui && gui.shouldDrawSurvivalElements() && mc.cameraEntity instanceof Player) {
-                event.setCanceled(true);
-            }
+        // 意志坚定
+        if (!event.isCanceled() && event.getOverlay().id().equals(toughasnailsl) && !mc.options.hideGui && gui.shouldDrawSurvivalElements() && mc.cameraEntity instanceof Player) {
+            event.setCanceled(true);
         }
     }
 
