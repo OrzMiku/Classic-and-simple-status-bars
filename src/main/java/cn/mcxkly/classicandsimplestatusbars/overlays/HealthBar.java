@@ -1,6 +1,7 @@
 package cn.mcxkly.classicandsimplestatusbars.overlays;
 
 import cn.mcxkly.classicandsimplestatusbars.ClassicAndSimpleStatusBars;
+import cn.mcxkly.classicandsimplestatusbars.Config;
 import cn.mcxkly.classicandsimplestatusbars.other.helper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -68,16 +69,16 @@ public class HealthBar implements IGuiOverlay {
         String text;
         if (Absorption > 0) {
             text = helper.KeepOneDecimal(Health);
-            guiGraphics.drawString(font, text, xx, y - 9, 0xEE0000, false);
+            guiGraphics.drawString(font, text, xx, y - 9, Config.Color_Healthy, false);
             xx = xx + font.width(text);
             text = "+" + helper.KeepOneDecimal(Absorption);
-            guiGraphics.drawString(font, text, xx, y - 9, 0xEEEE00, false);
+            guiGraphics.drawString(font, text, xx, y - 9, Config.Color_Healthy_Absorb, false);
             xx = xx + font.width(text);
             text = "/" + helper.KeepOneDecimal(MaxHealth);
-            guiGraphics.drawString(font, text, xx, y - 9, 0xEE0000, false);
+            guiGraphics.drawString(font, text, xx, y - 9, Config.Color_Healthy_Tail, false);
         } else {
             text = helper.KeepOneDecimal(Health) + "/" + helper.KeepOneDecimal(MaxHealth);
-            guiGraphics.drawString(font, text, xx, y - 9, 0xEE0000, false);
+            guiGraphics.drawString(font, text, xx, y - 9, Config.Color_Healthy_Tail, false);
         }
         if (ARMOR > 0) {
             guiGraphics.blit(guiIconsLocation,
