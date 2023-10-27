@@ -1,5 +1,6 @@
 package cn.mcxkly.classicandsimplestatusbars.mixin;
 
+import cn.mcxkly.classicandsimplestatusbars.Config;
 import dev.ghen.thirst.foundation.gui.appleskin.HUDOverlayHandler;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -10,12 +11,16 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class ThirstHUDOverlayHandlerMixin {
     @Inject(method = "onRenderGuiOverlayPre", at = @At("HEAD"), cancellable = true)
     private void onRenderExhaustion(CallbackInfo ci) {
-        ci.cancel();
+        if ( Config.All_On ) {
+            ci.cancel();
+        }
     }
 
     @Inject(method = "renderThirstOverlay", at = @At("HEAD"), cancellable = true)
     private static void onRenderGuiOverlay(CallbackInfo ci) {
-        ci.cancel();
+        if ( Config.All_On ) {
+            ci.cancel();
+        }
     }
 }
 

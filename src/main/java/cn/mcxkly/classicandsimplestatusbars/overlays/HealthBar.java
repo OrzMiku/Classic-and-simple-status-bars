@@ -29,25 +29,64 @@ public class HealthBar implements IGuiOverlay {
 
     @Override
     public void render(ForgeGui gui, GuiGraphics guiGraphics, float partialTick, int width, int height) {
-        if (Config.All_On && gui.shouldDrawSurvivalElements()) {
+        if ( gui.shouldDrawSurvivalElements() ) {
             Font font = gui.getFont();
             Player player = (Player) Minecraft.getInstance().cameraEntity;
-            if (player == null) return;
+            if ( player == null ) return;
             int x = width / 2 - 91;
             int y = height - 39;
             y += 4;
-            updateBarTextures(player);
-            renderHealthBar(guiGraphics, partialTick, x, y, player);
-            renderHealthValue(font, guiGraphics, x, y, player);
+            if ( Config.All_On ) {
+                if ( Config.Health_On ) {
+                    updateBarTextures(player);
+                    renderHealthBar(guiGraphics, partialTick, x, y, player);
+                    renderHealthValue(font, guiGraphics, x, y, player);
+                } else if ( Config.EasyMode_Text_On ) {
+                    renderHealthValue_Easy(font, guiGraphics, x, y, player);
+                }
+            } else if ( Config.EasyMode_Text_On ) {
+                renderHealthValue_Easy(font, guiGraphics, x, y, player);
+            }
+        }
+    }
+
+    private void renderHealthValue_Easy(Font font, GuiGraphics guiGraphics, int x, int y, Player player) {
+        y += 1;
+//        guiGraphics.blit(guiIconsLocation,
+//                x, y - 10,
+//                52, 0,
+//                9, 9,
+//                256, 256); // 红心图标
+        float MaxHealth = player.getMaxHealth(); // 最大血量
+        float Health = Math.min(player.getHealth(), MaxHealth); // 当前血量
+        float Absorption = player.getAbsorptionAmount(); // 吸收量
+        int xx = x - 1;
+        if ( Absorption > 0 ) {
+
+            String text1 = "/" + helper.KeepOneDecimal(MaxHealth);
+            String text2 = "+" + helper.KeepOneDecimal(Absorption);
+            String text3 = helper.KeepOneDecimal(Health);
+
+            int x3 = font.width(text3);
+            int x2 = font.width(text2);
+            int x1 = font.width(text1);
+
+            guiGraphics.drawString(font, text1, xx - x1, y - 1, Config.Color_Health_Tail, false);
+            guiGraphics.drawString(font, text2, xx - x2 - x1, y - 1, Config.Color_Health_Absorb, false);
+            guiGraphics.drawString(font, text3, xx - x3 - x2 - x1, y - 1, Config.Color_Health, false);
+        } else {
+            String text = helper.KeepOneDecimal(Health) + "/" + helper.KeepOneDecimal(MaxHealth);
+            xx = xx - font.width(text);
+            guiGraphics.drawString(font, text, xx, y - 1, Config.Color_Health_Tail, false);
         }
     }
 
     public void updateBarTextures(Player player) {
-        if (player.hasEffect(MobEffects.WITHER)) {
+        if ( player.hasEffect(MobEffects.WITHER) ) {
             currentBarLocation = witherBarLocation;
-        } else if (player.hasEffect(MobEffects.POISON)) {
+        } else if ( player.hasEffect(MobEffects.POISON) ) {
             currentBarLocation = poisonBarLocation;
-        } else if (player.isFullyFrozen()) {
+        } else if ( player.isFullyFrozen() ) {
             currentBarLocation = frozenBarLocation;
         } else {
             currentBarLocation = fullHealthBarLocation;
@@ -67,7 +106,7 @@ public class HealthBar implements IGuiOverlay {
         float ARMOR = player.getArmorValue(); // 护甲值
         int xx = x + 10;
         String text;
-        if (Absorption > 0) {
+        if ( Absorption > 0 ) {
             text = helper.KeepOneDecimal(Health);
             guiGraphics.drawString(font, text, xx, y - 9, Config.Color_Health, false);
             xx = xx + font.width(text);
@@ -80,7 +119,7 @@ public class HealthBar implements IGuiOverlay {
             text = helper.KeepOneDecimal(Health) + "/" + helper.KeepOneDecimal(MaxHealth);
             guiGraphics.drawString(font, text, xx, y - 9, Config.Color_Health_Tail, false);
         }
-        if (ARMOR > 0) {
+        if ( ARMOR > 0 ) {
             guiGraphics.blit(guiIconsLocation,
                     x, y - 19,
                     43, 9,
@@ -96,8 +135,8 @@ public class HealthBar implements IGuiOverlay {
         // Calculate bar proportions
         float healthProportion;
         float intermediateProportion;
-        if (intermediateHealth > maxHealth) intermediateHealth = maxHealth;
-        if (health < intermediateHealth) {
+        if ( intermediateHealth > maxHealth ) intermediateHealth = maxHealth;
+        if ( health < intermediateHealth ) {
             //healthProportion = health / maxHealth;
             intermediateProportion = (intermediateHealth - health) / maxHealth;
         } else {
@@ -126,9 +165,9 @@ public class HealthBar implements IGuiOverlay {
 
         float absorption = Math.min(player.getAbsorptionAmount(), maxHealth);
         float absorptionProportion = absorption / maxHealth;
-        if (absorptionProportion > 1) absorptionProportion = 1F;
+        if ( absorptionProportion > 1 ) absorptionProportion = 1F;
         int absorptionWidth = (int) Math.ceil(80 * absorptionProportion);
-        if (absorption > 0) {
+        if ( absorption > 0 ) {
             guiGraphics.blit(absorptionBarLocation,
                     x, y,
                     0, 0,
@@ -137,7 +176,7 @@ public class HealthBar implements IGuiOverlay {
         }
         int InsWidth = 0;
         float Inshealth = 0;
-        if (absorption > 0) {
+        if ( absorption > 0 ) {
             InsWidth = absorptionWidth;
             Inshealth = absorption;
         } else {
@@ -152,7 +191,7 @@ public class HealthBar implements IGuiOverlay {
                 80, 5);
         // Update intermediate health
         this.intermediateHealth += (Inshealth - intermediateHealth) * partialTick * 0.08;
-        if (Math.abs(Inshealth - intermediateHealth) <= 0.25) {
+        if ( Math.abs(Inshealth - intermediateHealth) <= 0.25 ) {
             this.intermediateHealth = Inshealth;
         }
     }

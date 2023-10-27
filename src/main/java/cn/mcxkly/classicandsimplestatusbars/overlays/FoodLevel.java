@@ -4,6 +4,7 @@ import artifacts.component.SwimData;
 import artifacts.platform.PlatformServices;
 import artifacts.registry.ModGameRules;
 import cn.mcxkly.classicandsimplestatusbars.ClassicAndSimpleStatusBars;
+import cn.mcxkly.classicandsimplestatusbars.Config;
 import cn.mcxkly.classicandsimplestatusbars.other.helper;
 import de.teamlapen.vampirism.entity.player.vampire.VampirePlayer;
 import de.teamlapen.vampirism.util.Helper;
@@ -21,8 +22,8 @@ import net.minecraftforge.client.gui.overlay.ForgeGui;
 import net.minecraftforge.client.gui.overlay.IGuiOverlay;
 
 public class FoodLevel implements IGuiOverlay {
-    private final ResourceLocation Vampires_Icons = new ResourceLocation("vampirism","textures/gui/icons.png");
-    private static final ResourceLocation vampiresBarLocation= new ResourceLocation(ClassicAndSimpleStatusBars.MOD_ID, "textures/gui/foodbars/vampires.png");
+    private final ResourceLocation Vampires_Icons = new ResourceLocation("vampirism", "textures/gui/icons.png");
+    private static final ResourceLocation vampiresBarLocation = new ResourceLocation(ClassicAndSimpleStatusBars.MOD_ID, "textures/gui/foodbars/vampires.png");
     private static final ResourceLocation fullHealthBarLocation = new ResourceLocation(ClassicAndSimpleStatusBars.MOD_ID, "textures/gui/foodbars/foodeeg.png");
     private static final ResourceLocation emptyHealthBarLocation = new ResourceLocation(ClassicAndSimpleStatusBars.MOD_ID, "textures/gui/foodbars/empty.png");
     private static final ResourceLocation saturationBarLocation = new ResourceLocation(ClassicAndSimpleStatusBars.MOD_ID, "textures/gui/foodbars/saturation.png");
@@ -55,28 +56,61 @@ public class FoodLevel implements IGuiOverlay {
             int y = height - 39;
             y += 4;
             //y -= 70; // test
-            updateBarTextures(player);
-            if ( Helper.isVampire(player) ) {
-                // 如果当前是吸血鬼.
-                renderInfectedVampires(font, guiGraphics, x, y, player);
-                renderVampiresBar(guiGraphics, partialTick, x, y, player);
-            } else {
-                // 文本
-                renderFood(font, guiGraphics, x, y, player);
-                // 状态栏图
-                renderFoodBar(guiGraphics, partialTick, x, y, player);
+            if ( Config.All_On ) {
+                if ( Config.Food_On ) {
+                    updateBarTextures(player);
+                    // 其他元素
+                    renderFoodValue(font, guiGraphics, x, y, player);
+                    if ( Helper.isVampire(player) ) {
+                        // 如果当前是吸血鬼.
+                        renderInfectedVampires(font, guiGraphics, x, y, player);
+                        renderVampiresBar(guiGraphics, partialTick, x, y, player);
+                    } else {
+                        // 文本
+                        renderFood(font, guiGraphics, x, y, player);
+                        // 状态栏图
+                        renderFoodBar(guiGraphics, partialTick, x, y, player);
+                    }
+                } else if ( Config.EasyMode_Text_On ) {
+                    renderFoodValue_Easy(font, guiGraphics, x, y, player);
+                }
+            } else if ( Config.EasyMode_Text_On ) {
+                renderFoodValue_Easy(font, guiGraphics, x, y, player);
             }
-            // 其他元素
-            renderFoodValue(font, guiGraphics, x, y, player);
         }
     }
 
-    float intermediate = 0 ;
+    private void renderFoodValue_Easy(Font font, GuiGraphics guiGraphics, int x, int y, Player player) {
+        y += 1;
+        String text;
+//        guiGraphics.blit(guiIconsLocation,
+//                x, y - 10,
+//                16, 27,
+//                9, 9,
+//                256, 256); // 鸡腿图标-背景
+//        guiGraphics.blit(guiIconsLocation,
+//                x, y - 10,
+//                52, 27,
+//                9, 9,
+//                256, 256); // 鸡腿图标
+        text = helper.KeepOneDecimal(player.getFoodData().getFoodLevel());
+        int xx = x + 81; // 右侧
+        guiGraphics.drawString(font, text, xx, y - 1, 0xF4A460, false);
+        if ( player.getFoodData().getSaturationLevel() > 0 ) {
+            //第二部分
+            xx = xx + font.width(text);
+            text = "+" + helper.KeepOneDecimal(player.getFoodData().getSaturationLevel());
+            guiGraphics.drawString(font, text, xx, y - 1, 0xEEEE00, false);
+        }
+    }
+
+    float intermediate = 0;
+
     private void renderVampiresBar(GuiGraphics guiGraphics, float partialTick, int x, int y, Player player) {
         VampirePlayer.getOpt(player).map(VampirePlayer :: getBloodStats).ifPresent((stats) -> {
             float BloodValue = stats.getBloodLevel();
             float maxBlood = stats.getMaxBlood();
-            float BloodProportion =  BloodValue / maxBlood;
+            float BloodProportion = BloodValue / maxBlood;
             float Proportion;
             float intermediateProportion;
 

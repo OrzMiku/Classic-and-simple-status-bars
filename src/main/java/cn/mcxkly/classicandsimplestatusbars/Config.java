@@ -63,8 +63,8 @@ public class Config {
             .define("Health-functional-status", true);
 
     private static final ForgeConfigSpec.BooleanValue EasyMode = BUILDER
-            .comment("\n" + "如果设置true,在你关闭左测或右测功能时生效，会在健康值左侧和饱食度右侧显示文本.如果设置为false则什么都不做。" +
-                    "\nIf set to true, it will take effect when you turn off the left or right test function, and text will be displayed to the left of the health value and to the right of satiety. If set to false, nothing is done." +
+            .comment("\n" + "如果设置true,在你关闭全部功能或单独关闭左测/右测功能时生效，会在健康值左侧/饱食度右侧显示文本.如果设置为false则什么都不做。" +
+                    "\nIf set to true, it will take effect when you turn off all functions or turn off the left/right test function separately, and the text will be displayed to the left of the health value/to the right of satiety. If set to false, nothing is done." +
                     "\n默认值(Default)：true")
             .define("EasyMode-status", true);
 

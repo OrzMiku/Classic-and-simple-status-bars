@@ -1,5 +1,6 @@
 package cn.mcxkly.classicandsimplestatusbars.mixin;
 
+import cn.mcxkly.classicandsimplestatusbars.Config;
 import com.alrex.parcool.client.hud.impl.StaminaHUD;
 import com.alrex.parcool.client.hud.impl.StaminaHUDController;
 import com.alrex.parcool.config.ParCoolConfig;
@@ -16,11 +17,14 @@ public class ParCoolMixin {
 
     @Inject(method = "render", at = @At("HEAD"), cancellable = true)
     private void registerThirstOverlay(ForgeGui gui, GuiGraphics guiGraphics, float partialTick, int screenWidth, int screenHeight, CallbackInfo ci) {
-        if (ParCoolConfig.Client.Booleans.ParCoolIsActive.get() && !ParCoolConfig.Client.Booleans.UseHungerBarInstead.get()) {
-            switch (ParCoolConfig.Client.StaminaHUDType.get()) {
-                case Light, Normal -> this.staminaHUD.render(gui, guiGraphics, partialTick, screenWidth, screenHeight);
-            } // 在不隐藏的情况下，始终以Normal方式渲染HUD。
+        if ( Config.All_On ) {
+            if ( ParCoolConfig.Client.Booleans.ParCoolIsActive.get() && !ParCoolConfig.Client.Booleans.UseHungerBarInstead.get() ) {
+                switch (ParCoolConfig.Client.StaminaHUDType.get()) {
+                    case Light, Normal ->
+                            this.staminaHUD.render(gui, guiGraphics, partialTick, screenWidth, screenHeight);
+                } // 在不隐藏的情况下，始终以Normal方式渲染HUD。
+            }
+            ci.cancel();
         }
-        ci.cancel();
     }
 }

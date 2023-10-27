@@ -1,5 +1,6 @@
 package cn.mcxkly.classicandsimplestatusbars.overlays;
 
+import cn.mcxkly.classicandsimplestatusbars.Config;
 import dev.ghen.thirst.Thirst;
 import dev.ghen.thirst.foundation.common.capability.IThirst;
 import dev.ghen.thirst.foundation.common.capability.ModCapabilities;
@@ -20,7 +21,7 @@ public class ThirstWasTakenUse implements IGuiOverlay {
     public static final ResourceLocation THIRST_ICONS = new ResourceLocation(Thirst.ID, "textures/gui/thirst_icons.png");
     @Override
     public void render(ForgeGui gui, GuiGraphics guiGraphics, float partialTick, int width, int height) {
-        if (gui.shouldDrawSurvivalElements() && !StopConflictRendering) {
+        if ( Config.All_On && gui.shouldDrawSurvivalElements() && !StopConflictRendering) {
             Font font = gui.getFont();
 
             Player player = (Player) Minecraft.getInstance().cameraEntity;

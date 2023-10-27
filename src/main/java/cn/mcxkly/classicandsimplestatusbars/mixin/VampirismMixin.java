@@ -1,5 +1,6 @@
 package cn.mcxkly.classicandsimplestatusbars.mixin;
 
+import cn.mcxkly.classicandsimplestatusbars.Config;
 import de.teamlapen.vampirism.client.gui.overlay.BloodBarOverlay;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -11,6 +12,8 @@ public class VampirismMixin {
     @Inject(method = "render", at = @At("HEAD"), cancellable = true)
     private void onRenderExhaustion(CallbackInfo ci) {
         // 让我替你渲染吧。
-        ci.cancel();
+        if ( Config.All_On ) {
+            ci.cancel();
+        }
     }
 }
