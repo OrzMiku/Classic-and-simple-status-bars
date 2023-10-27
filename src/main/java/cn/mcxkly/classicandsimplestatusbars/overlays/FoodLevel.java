@@ -81,7 +81,7 @@ public class FoodLevel implements IGuiOverlay {
     }
 
     private void renderFoodValue_Easy(Font font, GuiGraphics guiGraphics, int x, int y, Player player) {
-        y += 1;
+        y += 4;
         String text;
 //        guiGraphics.blit(guiIconsLocation,
 //                x, y - 10,
@@ -94,7 +94,7 @@ public class FoodLevel implements IGuiOverlay {
 //                9, 9,
 //                256, 256); // 鸡腿图标
         text = helper.KeepOneDecimal(player.getFoodData().getFoodLevel());
-        int xx = x + 81; // 右侧
+        int xx = x + 82; // 右侧
         guiGraphics.drawString(font, text, xx, y - 1, 0xF4A460, false);
         if ( player.getFoodData().getSaturationLevel() > 0 ) {
             //第二部分

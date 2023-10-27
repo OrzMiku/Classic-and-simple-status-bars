@@ -51,7 +51,7 @@ public class HealthBar implements IGuiOverlay {
     }
 
     private void renderHealthValue_Easy(Font font, GuiGraphics guiGraphics, int x, int y, Player player) {
-        y += 1;
+        y += 4;
 //        guiGraphics.blit(guiIconsLocation,
 //                x, y - 10,
 //                52, 0,
@@ -60,7 +60,7 @@ public class HealthBar implements IGuiOverlay {
         float MaxHealth = player.getMaxHealth(); // 最大血量
         float Health = Math.min(player.getHealth(), MaxHealth); // 当前血量
         float Absorption = player.getAbsorptionAmount(); // 吸收量
-        int xx = x - 1;
+        int xx = x - 2;
         if ( Absorption > 0 ) {
 
             String text1 = "/" + helper.KeepOneDecimal(MaxHealth);
