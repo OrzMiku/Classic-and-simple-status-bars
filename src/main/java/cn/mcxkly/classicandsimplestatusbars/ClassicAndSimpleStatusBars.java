@@ -20,7 +20,7 @@ import com.mojang.logging.LogUtils;
 public class ClassicAndSimpleStatusBars {
 
     public static final String MOD_ID = "classicandsimplestatusbars";
-    private static final Logger LOGGER = LogUtils.getLogger();
+    public static final Logger LOGGER = LogUtils.getLogger();
     public ClassicAndSimpleStatusBars() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         modEventBus.addListener(this::commonSetup);

@@ -29,7 +29,7 @@ public class HealthBar implements IGuiOverlay {
 
     @Override
     public void render(ForgeGui gui, GuiGraphics guiGraphics, float partialTick, int width, int height) {
-        if (gui.shouldDrawSurvivalElements()) {
+        if (Config.All_On && gui.shouldDrawSurvivalElements()) {
             Font font = gui.getFont();
             Player player = (Player) Minecraft.getInstance().cameraEntity;
             if (player == null) return;
@@ -69,16 +69,16 @@ public class HealthBar implements IGuiOverlay {
         String text;
         if (Absorption > 0) {
             text = helper.KeepOneDecimal(Health);
-            guiGraphics.drawString(font, text, xx, y - 9, Config.Color_Healthy, false);
+            guiGraphics.drawString(font, text, xx, y - 9, Config.Color_Health, false);
             xx = xx + font.width(text);
             text = "+" + helper.KeepOneDecimal(Absorption);
-            guiGraphics.drawString(font, text, xx, y - 9, Config.Color_Healthy_Absorb, false);
+            guiGraphics.drawString(font, text, xx, y - 9, Config.Color_Health_Absorb, false);
             xx = xx + font.width(text);
             text = "/" + helper.KeepOneDecimal(MaxHealth);
-            guiGraphics.drawString(font, text, xx, y - 9, Config.Color_Healthy_Tail, false);
+            guiGraphics.drawString(font, text, xx, y - 9, Config.Color_Health_Tail, false);
         } else {
             text = helper.KeepOneDecimal(Health) + "/" + helper.KeepOneDecimal(MaxHealth);
-            guiGraphics.drawString(font, text, xx, y - 9, Config.Color_Healthy_Tail, false);
+            guiGraphics.drawString(font, text, xx, y - 9, Config.Color_Health_Tail, false);
         }
         if (ARMOR > 0) {
             guiGraphics.blit(guiIconsLocation,
@@ -88,7 +88,6 @@ public class HealthBar implements IGuiOverlay {
                     256, 256); // 护甲图标
             guiGraphics.drawString(font, helper.KeepOneDecimal(ARMOR), x + 10, y - 19, 0xEDEDED, false);
         }
-
     }
 
     private void renderHealthBar(GuiGraphics guiGraphics, float partialTick, int x, int y, Player player) {

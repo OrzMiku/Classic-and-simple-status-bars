@@ -10,7 +10,8 @@
     "ScalingHealthMixin",
     "ThirstBarRendererMixin",
     "ThirstHUDOverlayHandlerMixin",
-    "VampirismMixin"
+    "VampirismMixin",
+    "ApoliMixin"
   ],
   "minVersion": "0.8"
 }

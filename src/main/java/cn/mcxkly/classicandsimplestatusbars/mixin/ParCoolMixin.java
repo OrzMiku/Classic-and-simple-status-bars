@@ -18,8 +18,7 @@ public class ParCoolMixin {
     private void registerThirstOverlay(ForgeGui gui, GuiGraphics guiGraphics, float partialTick, int screenWidth, int screenHeight, CallbackInfo ci) {
         if (ParCoolConfig.Client.Booleans.ParCoolIsActive.get() && !ParCoolConfig.Client.Booleans.UseHungerBarInstead.get()) {
             switch (ParCoolConfig.Client.StaminaHUDType.get()) {
-                case Light, Normal:
-                    this.staminaHUD.render(gui, guiGraphics, partialTick, screenWidth, screenHeight);
+                case Light, Normal -> this.staminaHUD.render(gui, guiGraphics, partialTick, screenWidth, screenHeight);
             } // 在不隐藏的情况下，始终以Normal方式渲染HUD。
         }
         ci.cancel();

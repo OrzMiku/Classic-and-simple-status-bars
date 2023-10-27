@@ -24,13 +24,25 @@ public class Config {
     private static final ForgeConfigSpec.ConfigValue<String> Interval_Textis = BUILDER
             .comment("\n" + "定义'当前值和最大值'间隔所使用的符号。" +
                     "\nDefines the symbol used for the 'Current' and 'Maximum' intervals." +
-                    "\n默认值(Default)：Interval_String=\"/\"")
+                    "\n默认值(Default)：Interval_String_1=\"/\"")
             .define("Interval_String_1", "/");
     private static final ForgeConfigSpec.ConfigValue<String> Interval__Text1 = BUILDER
             .comment("\n" + "定义'当前值'附加内容所使用的符号，如：+16伤害吸收。" +
                     "\n\"Defines the symbol used for 'Current Value Add-on'." +
-                    "\n默认值(Default)：Interval_String=\"+\"")
+                    "\n默认值(Default)：Interval_String_2=\"+\"")
             .define("Interval_String_2", "+");
+
+    private static final ForgeConfigSpec.ConfigValue<String> Prefix_Health = BUILDER
+            .comment("\n" + "定义血量的前缀，如：‘血量:’20+5/40" +
+                    "\n\"A prefix that defines the amount of health, e.g. 'HP:'20+5/40" +
+                    "\n默认值(Default)：Prefix_String=\"\"")
+            .define("Prefix_String", "");
+
+    private static final ForgeConfigSpec.ConfigValue<String> Prefix_Food = BUILDER
+            .comment("\n" + "定义血量的前缀，如：‘血量:’20+5/40" +
+                    "\n\"A prefix that defines the amount of health, e.g. 'HP:'20+5/40" +
+                    "\n默认值(Default)：Prefix_String=\"\"")
+            .define("Prefix_String", "");
 
     private static final ForgeConfigSpec.BooleanValue Bloodsucker_On1 = BUILDER
             .comment("\n" + "如果设置false,当玩家被感染成吸血鬼时，关闭本模组的饱食度显示。如果为ture，将代替吸血鬼模组的血条进行显示。" +
@@ -44,11 +56,11 @@ public class Config {
                     "\n默认值(Default)：true")
             .define("Food-functional-status", true);
 
-    private static final ForgeConfigSpec.BooleanValue Healthy_On1 = BUILDER
+    private static final ForgeConfigSpec.BooleanValue Health_On1 = BUILDER
             .comment("\n" + "如果设置false,将关闭以经验等级左侧的所有功能修改。" +
                     "\nIf set to false, all feature modifications to the left of the experience level will be turned off." +
                     "\n默认值(Default)：true")
-            .define("Healthy-functional-status", true);
+            .define("Health-functional-status", true);
 
     private static final ForgeConfigSpec.BooleanValue EasyMode = BUILDER
             .comment("\n" + "如果设置true,在你关闭左测或右测功能时生效，会在健康值左侧和饱食度右侧显示文本.如果设置为false则什么都不做。" +
@@ -81,23 +93,23 @@ public class Config {
                     "\n默认值(Default)：true")
             .define("Mounts-functional-status", true);
 
-    private static final ForgeConfigSpec.ConfigValue<String> Color_Healthy1 = BUILDER
+    private static final ForgeConfigSpec.ConfigValue<String> Color_Health1 = BUILDER
             .comment("\n" + "血量值文本颜色。" +
                     "\nHealth value text color." +
                     "\n默认值(Default)：\"#EE0000\"")
-            .define("Color_Healthy", "#EE0000");
+            .define("Color_Health", "#EE0000");
 
-    private static final ForgeConfigSpec.ConfigValue<String> Color_Healthy_Absorb1 = BUILDER
+    private static final ForgeConfigSpec.ConfigValue<String> Color_Health_Absorb1 = BUILDER
             .comment("\n" + "伤害吸收文本颜色。" +
                     "\nHealth Absorb value text color." +
                     "\n默认值(Default)：\"#EE0000\"")
-            .define("Color_Healthy_Absorb", "#EE0000");
+            .define("Color_Health_Absorb", "#EE0000");
 
-    private static final ForgeConfigSpec.ConfigValue<String> Color_Healthy_Tail1 = BUILDER
+    private static final ForgeConfigSpec.ConfigValue<String> Color_Health_Tail1 = BUILDER
             .comment("\n" + "最大血量文本颜色。" +
                     "\nMax Health value text color." +
                     "\n默认值(Default)：\"#EE0000\"")
-            .define("Color_Healthy_Tail", "#EE0000");
+            .define("Color_Health_Tail", "#EE0000");
 
     private static final ForgeConfigSpec.ConfigValue<String> Color_Food1 = BUILDER
             .comment("\n" + "饱食度文本颜色。" +
@@ -143,15 +155,15 @@ public class Config {
     public static String Interval_Text;
     public static boolean Bloodsucker_On;
     public static boolean Food_On;
-    public static boolean Healthy_On;
+    public static boolean Health_On;
     public static boolean EasyMode_Text_On;
     public static boolean Armour_On;
     public static boolean Armor_Toughness_On;
     public static boolean Air_On;
     public static boolean Mounts_On;
-    public static int Color_Healthy;
-    public static int Color_Healthy_Absorb;
-    public static int Color_Healthy_Tail;
+    public static int Color_Health;
+    public static int Color_Health_Absorb;
+    public static int Color_Health_Tail;
     public static int Color_Food;
     public static int Color_Food_Saturation;
     public static int Color_Food_Tail;
@@ -167,16 +179,16 @@ public class Config {
             Interval_Text = Interval_Textis.get();
             Bloodsucker_On = Bloodsucker_On1.get();
             Food_On = Food_On1.get();
-            Healthy_On = Healthy_On1.get();
+            Health_On = Health_On1.get();
             EasyMode_Text_On = EasyMode.get();
             Armour_On = Armour_On1.get();
             Armor_Toughness_On = Armor_Toughness_On1.get();
             Air_On = Air_On1.get();
             Mounts_On = Mounts_On1.get();
 
-            Color_Healthy = Integer.parseInt(Color_Healthy1.get().substring(1), 16);
-            Color_Healthy_Absorb = Integer.parseInt(Color_Healthy_Absorb1.get().substring(1), 16);
-            Color_Healthy_Tail = Integer.parseInt(Color_Healthy_Tail1.get().substring(1), 16);
+            Color_Health = Integer.parseInt(Color_Health1.get().substring(1), 16);
+            Color_Health_Absorb = Integer.parseInt(Color_Health_Absorb1.get().substring(1), 16);
+            Color_Health_Tail = Integer.parseInt(Color_Health_Tail1.get().substring(1), 16);
             Color_Food = Integer.parseInt(Color_Food1.get().substring(1), 16);
             Color_Food_Saturation = Integer.parseInt(Color_Food_Saturation1.get().substring(1), 16);
             Color_Food_Tail = Integer.parseInt(Color_Food_Tail1.get().substring(1), 16);
