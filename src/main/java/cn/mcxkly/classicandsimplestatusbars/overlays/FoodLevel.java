@@ -81,7 +81,7 @@ public class FoodLevel implements IGuiOverlay {
     }
 
     private void renderFoodValue_Easy(Font font, GuiGraphics guiGraphics, int x, int y, Player player) {
-        y += 4;
+        y -= 2;
         String text;
 //        guiGraphics.blit(guiIconsLocation,
 //                x, y - 10,

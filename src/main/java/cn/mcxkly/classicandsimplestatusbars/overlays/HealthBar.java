@@ -51,7 +51,7 @@ public class HealthBar implements IGuiOverlay {
     }
 
     private void renderHealthValue_Easy(Font font, GuiGraphics guiGraphics, int x, int y, Player player) {
-        y += 4;
+        y -= 2;
 //        guiGraphics.blit(guiIconsLocation,
 //                x, y - 10,
 //                52, 0,
