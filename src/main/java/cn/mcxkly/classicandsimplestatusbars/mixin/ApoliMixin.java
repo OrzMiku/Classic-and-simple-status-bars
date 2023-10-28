@@ -23,7 +23,7 @@ public abstract class ApoliMixin {
     @OnlyIn(Dist.CLIENT)
     @Inject(method = "render", at = @At("HEAD"), cancellable = true)
     private void render99(GuiGraphics context, float delta, CallbackInfo ci) {
-        if ( Config.All_On ) {
+        //if ( Config.All_On ) { // 这里就不受控制吧. 感觉是帮它解决冲突，没改变原本功能.
 //        我们假设 apoli-client.toml 配置文件没有被修改，那我们就进行修改.
 //        [resources_and_cooldowns]
 //            hud_offset_x = 0
@@ -41,25 +41,25 @@ public abstract class ApoliMixin {
             // 极其残忍
 //          Minecraft client = Minecraft.getInstance();
 //          lient.getWindow().setHeight(client.getWindow().getGuiScaledHeight() + 1);
-            if ( Config.Origins_On ) {
+            if ( Config.All_On && Config.Origins_On ) {
                 ci.cancel(); // 我滴 注入 任务完成啦.
             } else {
                 Minecraft client = Minecraft.getInstance();
                 LocalPlayer player = client.player;
-                // 提前修改，防止动来动去的. 无效，可能太晚了.
-                if ( player != null ) {
-                    int y = ApoliConfigs.CLIENT.resourcesAndCooldowns.hudOffsetY.get();
-                    // 啥？我不想骑马.
-                    Entity patt1361$temp = player.getVehicle();
-                    if ( patt1361$temp instanceof LivingEntity vehicle ) {
-                        ApoliConfigs.CLIENT.resourcesAndCooldowns.hudOffsetY.set( y + (8 * (int) (vehicle.getMaxHealth() / 20.0F)));
-                    }
-                    // 不会在喝水的时候抬高了.
-                    if ( player.isEyeInFluidType(ForgeMod.WATER_TYPE.get()) || player.getAirSupply() < player.getMaxAirSupply() ) {
-                        ApoliConfigs.CLIENT.resourcesAndCooldowns.hudOffsetY.set(y + 18);
-                    }
-                }
+                int y = ApoliConfigs.CLIENT.resourcesAndCooldowns.hudOffsetY.get();
+                // 提前修改，防止动来动去的.  暂时有点问题. 因为每次渲染，条件都会改变这个数值..
+//                if ( player != null ) {
+//                    // 啥？我不想骑马.
+//                    Entity patt1361$temp = player.getVehicle();
+//                    if ( patt1361$temp instanceof LivingEntity vehicle ) {
+//                        ApoliConfigs.CLIENT.resourcesAndCooldowns.hudOffsetY.set( y + (8 * (int) (vehicle.getMaxHealth() / 20.0F)));
+//                    }
+//                    // 不会在喝水的时候抬高了.
+//                    if ( player.isEyeInFluidType(ForgeMod.WATER_TYPE.get()) || player.getAirSupply() < player.getMaxAirSupply() ) {
+//                        ApoliConfigs.CLIENT.resourcesAndCooldowns.hudOffsetY.set(y + 18);
+//                    }
+//                }
             }
-        }
+        //}
     }
 }
