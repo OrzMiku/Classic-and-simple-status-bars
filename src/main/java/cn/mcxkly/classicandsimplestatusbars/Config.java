@@ -5,8 +5,6 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.config.ModConfigEvent;
 
-import java.awt.*;
-
 @Mod.EventBusSubscriber(modid = ClassicAndSimpleStatusBars.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class Config {
     private static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
@@ -26,24 +24,25 @@ public class Config {
                     "\nDefines the symbol used for the 'Current' and 'Maximum' intervals." +
                     "\n默认值(Default)：Interval_String_1=\"/\"")
             .define("Interval_String_1", "/");
+
     private static final ForgeConfigSpec.ConfigValue<String> Interval__Text1 = BUILDER
             .comment("\n" + "定义'当前值'附加内容所使用的符号，如：+16伤害吸收。" +
                     "\n\"Defines the symbol used for 'Current Value Add-on'." +
                     "\n默认值(Default)：Interval_String_2=\"+\"")
             .define("Interval_String_2", "+");
-
-    private static final ForgeConfigSpec.ConfigValue<String> Prefix_Health = BUILDER
+            /* 感觉完全没必要...
+    private static final ForgeConfigSpec.ConfigValue<String> Prefix_Health1 = BUILDER
             .comment("\n" + "定义血量的前缀，如：‘血量:’20+5/40" +
                     "\n\"A prefix that defines the amount of health, e.g. 'HP:'20+5/40" +
                     "\n默认值(Default)：Prefix_String=\"\"")
             .define("Prefix_String", "");
 
-    private static final ForgeConfigSpec.ConfigValue<String> Prefix_Food = BUILDER
-            .comment("\n" + "定义血量的前缀，如：‘血量:’20+5/40" +
-                    "\n\"A prefix that defines the amount of health, e.g. 'HP:'20+5/40" +
+    private static final ForgeConfigSpec.ConfigValue<String> Prefix_Food1 = BUILDER
+            .comment("\n" + "定义饱食度的前缀，如：‘蛋糕:’16+5" +
+                    "\n\"A prefix that defines the amount of Food, e.g. 'Food:'16+5" +
                     "\n默认值(Default)：Prefix_String=\"\"")
             .define("Prefix_String", "");
-
+*/
     private static final ForgeConfigSpec.BooleanValue Bloodsucker_On1 = BUILDER
             .comment("\n" + "如果设置false,当玩家被感染成吸血鬼时，关闭本模组的饱食度显示。如果为ture，将代替吸血鬼模组的血条进行显示。" +
                     "\nIf set to false, when the player is infected as a vampire, the saturation display of this mod will be turned off. If it is TURE, it will be displayed in place of the vampire mod's health bar." +
@@ -74,6 +73,11 @@ public class Config {
                     "\nIf set to false, the display of armor values is turned off" +
                     "\n默认值(Default)：true")
             .define("Armour-functional-status", true);
+    private static final ForgeConfigSpec.BooleanValue MaxFood_On1 = BUILDER
+            .comment("\n" + "如果设置为true,将增加最大饱食度的显示。" +
+                    "\nIf set to true, the display of maximum satiety will be increased." +
+                    "\n默认值(Default)：false")
+            .define("MaxFood-functional-status", false);
 
     private static final ForgeConfigSpec.BooleanValue Armor_Toughness_On1 = BUILDER
             .comment("\n" + "如果设置为false,将关闭盔甲韧性的显示。" +
@@ -92,7 +96,16 @@ public class Config {
                     "\nIf set to false, the display of mount health values will be turned off." +
                     "\n默认值(Default)：true")
             .define("Mounts-functional-status", true);
-
+    private static final ForgeConfigSpec.BooleanValue Origins_On1 = BUILDER
+            .comment("\n" + "如果设置为false,将关闭起源能力槽的显示。" +
+                    "\nIf set to false, the display of Origins Power values will be turned off." +
+                    "\n默认值(Default)：true")
+            .define("Origins-functional-status", true);
+    private static final ForgeConfigSpec.ConfigValue<String> Color_Origins1 = BUILDER
+            .comment("\n" + "起源能力文本颜色。" +
+                    "\nOrigins Power value text color." +
+                    "\n默认值(Default)：\"#FFD700\"")
+            .define("Color_Origins", "#FFD700");
     private static final ForgeConfigSpec.ConfigValue<String> Color_Health1 = BUILDER
             .comment("\n" + "血量值文本颜色。" +
                     "\nHealth value text color." +
@@ -139,44 +152,33 @@ public class Config {
                     "\n默认值(Default)：\"#EE0000\"")
             .define("Color_Armor_Toughness", "#EE0000");
 
-    private static final ForgeConfigSpec.ConfigValue<String> Interval_String_1_ = BUILDER
+    private static final ForgeConfigSpec.ConfigValue<String> Color_Interval_String_1_ = BUILDER
             .comment("\n" + "符号'/'的颜色。" +
                     "\nThe color of the symbol '/'." +
                     "\n默认值(Default)：\"#E0EEEE\"")
             .define("Color_Interval_String_1", "#E0EEEE");
-    private static final ForgeConfigSpec.ConfigValue<String> Interval_String_2_ = BUILDER
+    private static final ForgeConfigSpec.ConfigValue<String> Color_Interval_String_2_ = BUILDER
             .comment("\n" + "符号'+'的颜色。" +
                     "\nThe color of the symbol '+'." +
                     "\n默认值(Default)：\"#BFEFFF\"")
             .define("Color_Interval_String_2", "#BFEFFF");
     static final ForgeConfigSpec SPEC = BUILDER.build();
-
-    public static boolean All_On;
-    public static String Interval_Text;
-    public static boolean Bloodsucker_On;
-    public static boolean Food_On;
-    public static boolean Health_On;
-    public static boolean EasyMode_Text_On;
-    public static boolean Armour_On;
-    public static boolean Armor_Toughness_On;
-    public static boolean Air_On;
-    public static boolean Mounts_On;
-    public static int Color_Health;
-    public static int Color_Health_Absorb;
-    public static int Color_Health_Tail;
-    public static int Color_Food;
-    public static int Color_Food_Saturation;
-    public static int Color_Food_Tail;
-    public static int Color_Armor;
-    public static int Color_Armor_Toughness;
-    public static int Interval_String_1;
-    public static int Interval_String_2;
+    public static String Interval_lll, Interval_TTT, Prefix_Health, Prefix_Food;
+    public static boolean MaxFood_On,Origins_On,All_On, Bloodsucker_On, Food_On, Health_On, EasyMode_Text_On, Armour_On, Armor_Toughness_On, Air_On, Mounts_On;
+    public static int Color_Origins,Color_Health, Color_Health_Absorb, Color_Health_Tail, Color_Food, Color_Food_Saturation, Color_Food_Tail, Color_Armor, Color_Armor_Toughness, Color_Interval_lll, Color_Interval_TTT;
 
     @SubscribeEvent
     static void onLoad(final ModConfigEvent event) {
         try {
             All_On = AllOn.get();
-            Interval_Text = Interval_Textis.get();
+            Interval_lll = Interval_Textis.get();
+            Interval_TTT = Interval__Text1.get();
+            /* 感觉完全没必要...
+            Prefix_Health = Prefix_Health1.get();
+            Prefix_Food = Prefix_Food1.get();
+             */
+            // 待完成：颜色修改的应用、颜色默认值.
+            MaxFood_On = MaxFood_On1.get();
             Bloodsucker_On = Bloodsucker_On1.get();
             Food_On = Food_On1.get();
             Health_On = Health_On1.get();
@@ -185,6 +187,7 @@ public class Config {
             Armor_Toughness_On = Armor_Toughness_On1.get();
             Air_On = Air_On1.get();
             Mounts_On = Mounts_On1.get();
+            Origins_On = Origins_On1.get();
 
             Color_Health = Integer.parseInt(Color_Health1.get().substring(1), 16);
             Color_Health_Absorb = Integer.parseInt(Color_Health_Absorb1.get().substring(1), 16);
@@ -194,8 +197,9 @@ public class Config {
             Color_Food_Tail = Integer.parseInt(Color_Food_Tail1.get().substring(1), 16);
             Color_Armor = Integer.parseInt(Color_Armor1.get().substring(1), 16);
             Color_Armor_Toughness = Integer.parseInt(Color_Armor_Toughness1.get().substring(1), 16);
-            Interval_String_1 = Integer.parseInt(Interval_String_1_.get().substring(1), 16);
-            Interval_String_2 = Integer.parseInt(Interval_String_2_.get().substring(1), 16);
+            Color_Interval_lll = Integer.parseInt(Color_Interval_String_1_.get().substring(1), 16);
+            Color_Interval_TTT = Integer.parseInt(Color_Interval_String_2_.get().substring(1), 16);
+            Color_Origins = Integer.parseInt(Color_Origins1.get().substring(1), 16);
         } catch (NumberFormatException e) {
             throw new RuntimeException(e);
         }

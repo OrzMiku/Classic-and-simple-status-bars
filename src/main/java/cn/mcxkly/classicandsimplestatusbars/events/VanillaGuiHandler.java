@@ -22,9 +22,8 @@ public class VanillaGuiHandler {
     private static final ResourceLocation vanillaAir = new ResourceLocation("minecraft", "air_level");
     private static final ResourceLocation vanillaMount_health = new ResourceLocation("minecraft", "mount_health");
     private static final ResourceLocation vanillAarmor_level = new ResourceLocation("minecraft", "armor_level");
-    //private static final ResourceLocation ThirstLevel = new ResourceLocation("thirst", "thirst_level");
+    private static final ResourceLocation ThirstWasTaken = new ResourceLocation("thirst", "thirst_level");
     private static final ResourceLocation toughasnailsl = new ResourceLocation("toughasnails", "thirst_level");
-
     @SubscribeEvent
     public static void disableVanillaAarmor(RenderGuiOverlayEvent.Pre event) {
         if(Config.All_On){
@@ -53,6 +52,10 @@ public class VanillaGuiHandler {
                 };
                 // 意志坚定
                 if(event.getOverlay().id().equals(toughasnailsl)){
+                    event.setCanceled(true);
+                };
+                // 口渴
+                if(event.getOverlay().id().equals(ThirstWasTaken)){
                     event.setCanceled(true);
                 };
             }

@@ -37,7 +37,10 @@ public class FoodLevel implements IGuiOverlay {
     public static void StopConflictRenderingIDEA(boolean is) {
         StopConflictRendering = is;
     }
-
+    public static boolean toughasnailsIS = true; // 支持意志坚定
+    public static void toughasnailsIDEA(boolean is) {
+        toughasnailsIS = is;
+    }
     public static boolean ArtifactsAir = false; // 奇异饰品-火烈鸟
     private static final ResourceLocation HELIUM_FLAMINGO_ICON = new ResourceLocation("artifacts", "textures/gui/icons.png");
 
@@ -61,7 +64,7 @@ public class FoodLevel implements IGuiOverlay {
                     updateBarTextures(player);
                     // 其他元素
                     renderFoodValue(font, guiGraphics, x, y, player);
-                    if ( Helper.isVampire(player) ) {
+                    if ( Helper.isVampire(player) && Config.Bloodsucker_On) {
                         // 如果当前是吸血鬼.
                         renderInfectedVampires(font, guiGraphics, x, y, player);
                         renderVampiresBar(guiGraphics, partialTick, x, y, player);
@@ -83,24 +86,28 @@ public class FoodLevel implements IGuiOverlay {
     private void renderFoodValue_Easy(Font font, GuiGraphics guiGraphics, int x, int y, Player player) {
         y -= 2;
         String text;
-//        guiGraphics.blit(guiIconsLocation,
-//                x, y - 10,
-//                16, 27,
-//                9, 9,
-//                256, 256); // 鸡腿图标-背景
-//        guiGraphics.blit(guiIconsLocation,
-//                x, y - 10,
-//                52, 27,
-//                9, 9,
-//                256, 256); // 鸡腿图标
         text = helper.KeepOneDecimal(player.getFoodData().getFoodLevel());
         int xx = x + 82; // 右侧
-        guiGraphics.drawString(font, text, xx, y - 1, 0xF4A460, false);
+        guiGraphics.drawString(font, text, xx, y - 1, Config.Color_Food, false);
         if ( player.getFoodData().getSaturationLevel() > 0 ) {
             //第二部分
+            xx = xx + font.width(text); // '+'
+            text =  Config.Interval_TTT;
+            guiGraphics.drawString(font, text, xx, y - 1, Config.Color_Interval_TTT, false);
+
             xx = xx + font.width(text);
-            text = "+" + helper.KeepOneDecimal(player.getFoodData().getSaturationLevel());
-            guiGraphics.drawString(font, text, xx, y - 1, 0xEEEE00, false);
+            text =  helper.KeepOneDecimal(player.getFoodData().getSaturationLevel());
+            guiGraphics.drawString(font, text, xx, y - 1, Config.Color_Food_Saturation, false);
+        }
+        if ( Config.MaxFood_On ){
+            //第三部分  Max
+            xx = xx + font.width(text); // '/'
+            text =  Config.Interval_lll;
+            guiGraphics.drawString(font, text, xx, y - 1, Config.Color_Interval_lll, false);
+
+            xx = xx + font.width(text);
+            text = helper.KeepOneDecimal(player.getFoodData().getLastFoodLevel());
+            guiGraphics.drawString(font, text, xx, y - 1, Config.Color_Food_Tail, false);
         }
     }
 
@@ -169,7 +176,7 @@ public class FoodLevel implements IGuiOverlay {
             int xx = x + 10;
             guiGraphics.drawString(font, text, xx, finalY - 9, 0xEE0000, false);
             xx = xx + font.width(text);
-            text = "/" + helper.KeepOneDecimal(maxBlood);
+            text = Config.Interval_lll + helper.KeepOneDecimal(maxBlood);
             guiGraphics.drawString(font, text, xx, finalY - 9, 0xEE0000, false);
         });
     }
@@ -200,9 +207,23 @@ public class FoodLevel implements IGuiOverlay {
         guiGraphics.drawString(font, text, xx, y - 9, 0xF4A460, false);
         if ( player.getFoodData().getSaturationLevel() > 0 ) {
             //第二部分
+            xx = xx + font.width(text); // '+'
+            text = Config.Interval_TTT;
+            guiGraphics.drawString(font, text, xx, y - 9, Config.Color_Interval_TTT, false);
+
             xx = xx + font.width(text);
-            text = "+" + helper.KeepOneDecimal(player.getFoodData().getSaturationLevel());
+            text = helper.KeepOneDecimal(player.getFoodData().getSaturationLevel());
             guiGraphics.drawString(font, text, xx, y - 9, 0xEEEE00, false);
+        }
+        if ( Config.MaxFood_On ){
+            //第三部分  Max
+            xx = xx + font.width(text); // '/'
+            text = Config.Interval_lll;
+            guiGraphics.drawString(font, text, xx, y - 9, Config.Color_Interval_lll, false);
+
+            xx = xx + font.width(text);
+            text = helper.KeepOneDecimal(player.getFoodData().getLastFoodLevel());
+            guiGraphics.drawString(font, text, xx, y - 9, Config.Color_Food_Tail, false);
         }
     }
 
@@ -210,12 +231,12 @@ public class FoodLevel implements IGuiOverlay {
         // getSaturationLevel饱食条 | getFoodLevel饥饿度 |  getLastFoodLevel饥饿最大值 | player.getFoodData().getExhaustionLevel(); 消耗度
         y += 1;
         String text;
-        if ( player.getAirSupply() < 300 ) { // max=300
+        if ( Config.Air_On && player.getAirSupply() < 300 ) { // max=300
             int siz = player.getAirSupply() / 3;
             siz = Math.max(siz, 0); //防止负数
             text = String.valueOf(siz);
             int y2 = y;
-            if ( !StopConflictRendering ) y2 -= 10; // 如果口渴存在，在渲染时高度 + 10
+            if ( !StopConflictRendering || toughasnailsIS) y2 -= 10; // 如果口渴/意志坚定存在，在渲染时高度 + 10
             guiGraphics.drawString(font, "%", x + 70 - font.width("%"), y2 - 9, 0x1E90FF, false);
 
             guiGraphics.drawString(font, text, x + 70 - font.width(text) - font.width("%"), y2 - 9, 0x1E90FF, false);
@@ -233,8 +254,8 @@ public class FoodLevel implements IGuiOverlay {
                 int maxProgressTime;
                 if ( swimTime != 0 ) {
                     int AirY = y;
-                    if ( player.getAirSupply() < 300 ) AirY -= 10; // 如果渲染了氧气值，在渲染时高度 + 10
-                    if ( !StopConflictRendering ) AirY -= 10; // 如果口渴存在，在渲染时高度 + 10
+                    if ( Config.Air_On && player.getAirSupply() < 300 ) AirY -= 10; // 如果渲染了氧气值，在渲染时高度 + 10
+                    if ( !StopConflictRendering|| toughasnailsIS ) AirY -= 10; // 如果口渴/意志坚定存在，在渲染时高度 + 10
                     if ( swimTime > 0 ) {
                         maxProgressTime = Math.max(1, ModGameRules.HELIUM_FLAMINGO_FLIGHT_DURATION.get() * 20);
                     } else {
@@ -254,6 +275,7 @@ public class FoodLevel implements IGuiOverlay {
             }
         }
         Entity tsssmp = player.getVehicle();
+        Boolean NotAValidMount = false; // 防止玩家正在乘坐，但并不是有效的坐骑（比如船）.
         if ( tsssmp != null ) {
             if ( tsssmp.getType() == EntityType.SKELETON_HORSE ||
                     tsssmp.getType() == EntityType.PIG ||
@@ -261,10 +283,9 @@ public class FoodLevel implements IGuiOverlay {
                     tsssmp.getType() == EntityType.CAMEL ||
                     tsssmp.getType() == EntityType.MULE ||
                     tsssmp.getType() == EntityType.STRIDER ||
-                    tsssmp.getType() == EntityType.TRADER_LLAMA
-            ) {
+                    tsssmp.getType() == EntityType.TRADER_LLAMA )
+            {
                 LivingEntity FsMount = (LivingEntity) tsssmp;
-
                 float MountHealthsMax = FsMount.getMaxHealth();
                 float MountHealths = Math.min(FsMount.getHealth(), MountHealthsMax);
                 if ( MountHealths > 0 ) {
@@ -273,23 +294,27 @@ public class FoodLevel implements IGuiOverlay {
                             88, 9,
                             9, 9,
                             256, 256); // 骑乘血量
-                    guiGraphics.drawString(font, helper.KeepOneDecimal(MountHealths) + "/" + helper.KeepOneDecimal(MountHealthsMax), x + 10, y - 19, 0xEE0000, false);
+                    guiGraphics.drawString(font, helper.KeepOneDecimal(MountHealths) + Config.Interval_lll + helper.KeepOneDecimal(MountHealthsMax), x + 10, y - 19, 0xEE0000, false);
                 }
+                NotAValidMount = true;
             }
-        } else {
-            float ARMORTOUGHNESS = (float) player.getAttribute(Attributes.ARMOR_TOUGHNESS).getValue();
-            if ( ARMORTOUGHNESS > 0 ) {
-                guiGraphics.blit(guiIconsLocation,
-                        x, y - 19,
-                        43, 9,
-                        9, 9,
-                        256, 256); // 护甲图标
-                guiGraphics.blit(guiIconsLocation,
-                        x, y - 19,
-                        43, 18,
-                        9, 9,
-                        256, 256); // 韧性图标
-                guiGraphics.drawString(font, helper.KeepOneDecimal(ARMORTOUGHNESS), x + 10, y - 19, 0x87CEEB, false);
+        }
+        if ( !NotAValidMount) {
+            if ( Config.Armor_Toughness_On ) {
+                float ARMORTOUGHNESS = (float) player.getAttribute(Attributes.ARMOR_TOUGHNESS).getValue();
+                if ( ARMORTOUGHNESS > 0 ) {
+                    guiGraphics.blit(guiIconsLocation,
+                            x, y - 19,
+                            43, 9,
+                            9, 9,
+                            256, 256); // 护甲图标
+                    guiGraphics.blit(guiIconsLocation,
+                            x, y - 19,
+                            43, 18,
+                            9, 9,
+                            256, 256); // 韧性图标
+                    guiGraphics.drawString(font, helper.KeepOneDecimal(ARMORTOUGHNESS), x + 10, y - 19, 0x87CEEB, false);
+                }
             }
         }
     }
