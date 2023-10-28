@@ -43,23 +43,25 @@ public abstract class ApoliMixin {
 //          lient.getWindow().setHeight(client.getWindow().getGuiScaledHeight() + 1);
             if ( Config.All_On && Config.Origins_On ) {
                 ci.cancel(); // 我滴 注入 任务完成啦.
-            } else {
-                Minecraft client = Minecraft.getInstance();
-                LocalPlayer player = client.player;
-                int y = ApoliConfigs.CLIENT.resourcesAndCooldowns.hudOffsetY.get();
-                // 提前修改，防止动来动去的.  暂时有点问题. 因为每次渲染，条件都会改变这个数值..
-//                if ( player != null ) {
+            }// else {
+//                // 提前修改，防止动来动去的.
+//                暂时有点问题. 因为每次渲染，条件都会改变这个数值..
+//
+//                Minecraft pclient = Minecraft.getInstance();
+//                LocalPlayer pplayer = pclient.player;
+//                int y = ApoliConfigs.CLIENT.resourcesAndCooldowns.hudOffsetY.get();
+//                if ( pplayer != null ) {
 //                    // 啥？我不想骑马.
-//                    Entity patt1361$temp = player.getVehicle();
+//                    Entity patt1361$temp = pplayer.getVehicle();
 //                    if ( patt1361$temp instanceof LivingEntity vehicle ) {
 //                        ApoliConfigs.CLIENT.resourcesAndCooldowns.hudOffsetY.set( y + (8 * (int) (vehicle.getMaxHealth() / 20.0F)));
 //                    }
 //                    // 不会在喝水的时候抬高了.
-//                    if ( player.isEyeInFluidType(ForgeMod.WATER_TYPE.get()) || player.getAirSupply() < player.getMaxAirSupply() ) {
+//                    if ( pplayer.isEyeInFluidType(ForgeMod.WATER_TYPE.get()) || pplayer.getAirSupply() < pplayer.getMaxAirSupply() ) {
 //                        ApoliConfigs.CLIENT.resourcesAndCooldowns.hudOffsetY.set(y + 18);
 //                    }
 //                }
-            }
+//            }
         //}
     }
 }
