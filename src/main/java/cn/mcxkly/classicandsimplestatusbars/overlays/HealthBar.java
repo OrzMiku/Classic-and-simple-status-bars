@@ -63,37 +63,24 @@ public class HealthBar implements IGuiOverlay {
         float Health = Math.min(player.getHealth(), MaxHealth); // 当前血量
         float Absorption = player.getAbsorptionAmount(); // 吸收量
         int xx = x - 2;
+        String text = helper.KeepOneDecimal(MaxHealth);
+        xx = xx - font.width(text); // 要向左
+        guiGraphics.drawString(font, text, xx, y - 1, Config.Color_Health, false);
+        text =  Config.Interval_lll;
+        xx = xx - font.width(text); // '/'
+        guiGraphics.drawString(font, text, xx, y - 1, Config.Color_Interval_lll, false);
         if ( Absorption > 0 ) {
-            String text = helper.KeepOneDecimal(Health);
-            guiGraphics.drawString(font, text, xx, y - 9, Config.Color_Health, false);
-
-            xx = xx + font.width(text); // '+'
-            text =  Config.Interval_TTT;
-            guiGraphics.drawString(font, text, xx, y - 9, Config.Color_Interval_TTT, false);
-
-            xx = xx + font.width(text);
             text = helper.KeepOneDecimal(Absorption);
-            guiGraphics.drawString(font, text, xx, y - 9, Config.Color_Health_Absorb, false);
+            xx = xx - font.width(text);
+            guiGraphics.drawString(font, text, xx, y - 1, Config.Color_Health_Absorb, false);
 
-            xx = xx + font.width(text); // '/'
-            text =  Config.Interval_lll;
-            guiGraphics.drawString(font, text, xx, y - 9, Config.Color_Interval_lll, false);
-
-            xx = xx + font.width(text);
-            text = helper.KeepOneDecimal(MaxHealth);
-            guiGraphics.drawString(font, text, xx, y - 9, Config.Color_Health_Tail, false);
-        } else {
-            String text = helper.KeepOneDecimal(Health);
-            guiGraphics.drawString(font, text, xx, y - 1, Config.Color_Health, false);
-
-            xx = xx + font.width(text); // '/'
-            text =  Config.Interval_lll;
-            guiGraphics.drawString(font, text, xx, y - 1, Config.Color_Interval_lll, false);
-
-            xx = xx + font.width(text);
-            text = helper.KeepOneDecimal(MaxHealth);
-            guiGraphics.drawString(font, text, xx, y - 1, Config.Color_Health_Tail, false);
+            text =  Config.Interval_TTT;
+            xx = xx - font.width(text); // '+'
+            guiGraphics.drawString(font, text, xx, y - 1, Config.Color_Interval_TTT, false);
         }
+        text = helper.KeepOneDecimal(Health);
+        xx = xx - font.width(text);
+        guiGraphics.drawString(font, text, xx, y - 1, Config.Color_Health_Tail, false);
     }
 
     public void updateBarTextures(Player player) {

@@ -33,8 +33,9 @@ public abstract class ApoliMixin {
                 int sy = ApoliConfigs.CLIENT.resourcesAndCooldowns.hudOffsetY.get();
                 int sx = ApoliConfigs.CLIENT.resourcesAndCooldowns.hudOffsetX.get();
                 if ( sy == 0 || sx == 0 ) {
-                    ApoliConfigs.CLIENT.resourcesAndCooldowns.hudOffsetY.set(10);
-                    ApoliConfigs.CLIENT.resourcesAndCooldowns.hudOffsetX.set(90);
+                    // 似乎不需要修改 Y
+                    //ApoliConfigs.CLIENT.resourcesAndCooldowns.hudOffsetY.set(0);
+                    ApoliConfigs.CLIENT.resourcesAndCooldowns.hudOffsetX.set(85);
                 }
             }
             // 极其残忍
@@ -45,16 +46,17 @@ public abstract class ApoliMixin {
             } else {
                 Minecraft client = Minecraft.getInstance();
                 LocalPlayer player = client.player;
-                // 提前修改，防止动来动去的.
+                // 提前修改，防止动来动去的. 无效，可能太晚了.
                 if ( player != null ) {
+                    int y = ApoliConfigs.CLIENT.resourcesAndCooldowns.hudOffsetY.get();
                     // 啥？我不想骑马.
                     Entity patt1361$temp = player.getVehicle();
                     if ( patt1361$temp instanceof LivingEntity vehicle ) {
-                        ApoliConfigs.CLIENT.resourcesAndCooldowns.hudOffsetY.set(+(8 * (int) (vehicle.getMaxHealth() / 20.0F)));
+                        ApoliConfigs.CLIENT.resourcesAndCooldowns.hudOffsetY.set( y + (8 * (int) (vehicle.getMaxHealth() / 20.0F)));
                     }
                     // 不会在喝水的时候抬高了.
                     if ( player.isEyeInFluidType(ForgeMod.WATER_TYPE.get()) || player.getAirSupply() < player.getMaxAirSupply() ) {
-                        ApoliConfigs.CLIENT.resourcesAndCooldowns.hudOffsetY.set(+18);
+                        ApoliConfigs.CLIENT.resourcesAndCooldowns.hudOffsetY.set(y + 18);
                     }
                 }
             }
