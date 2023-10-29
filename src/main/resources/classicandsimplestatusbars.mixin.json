@@ -5,13 +5,14 @@
   "refmap": "classicandsimplestatusbars.refmap.json",
   "mixins": [],
   "client": [
+    "HomeostaticMixin",
+    "ApoliMixin",
     "ArtifactsMixin",
     "ParCoolMixin",
     "ScalingHealthMixin",
     "ThirstBarRendererMixin",
     "ThirstHUDOverlayHandlerMixin",
-    "VampirismMixin",
-    "ApoliMixin"
+    "VampirismMixin"
   ],
   "minVersion": "0.8"
 }

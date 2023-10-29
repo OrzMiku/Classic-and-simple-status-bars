@@ -32,14 +32,9 @@ public class FoodLevel implements IGuiOverlay {
     private static final ResourceLocation intermediateHealthBarLocation = new ResourceLocation(ClassicAndSimpleStatusBars.MOD_ID, "textures/gui/foodbars/intermediate.png");
     private static final ResourceLocation guiIconsLocation = new ResourceLocation("minecraft", "textures/gui/icons.png");
     private float intermediateFood = 0;
-    public static boolean StopConflictRendering = true; // 支持口渴
-
+    public static boolean StopConflictRendering = true; // 如果 false ，抬高渲染，为需要水分的模组兼容.
     public static void StopConflictRenderingIDEA(boolean is) {
         StopConflictRendering = is;
-    }
-    public static boolean toughasnailsIS = true; // 支持意志坚定
-    public static void toughasnailsIDEA(boolean is) {
-        toughasnailsIS = is;
     }
     public static boolean ArtifactsAir = false; // 奇异饰品-火烈鸟
     private static final ResourceLocation HELIUM_FLAMINGO_ICON = new ResourceLocation("artifacts", "textures/gui/icons.png");
@@ -236,7 +231,7 @@ public class FoodLevel implements IGuiOverlay {
             siz = Math.max(siz, 0); //防止负数
             text = String.valueOf(siz);
             int y2 = y;
-            if ( !StopConflictRendering || toughasnailsIS) y2 -= 10; // 如果口渴/意志坚定存在，在渲染时高度 + 10
+            if ( !StopConflictRendering ) y2 -= 10; // 如果口渴/意志坚定存在，在渲染时高度 + 10
             guiGraphics.drawString(font, "%", x + 70 - font.width("%"), y2 - 9, 0x1E90FF, false);
 
             guiGraphics.drawString(font, text, x + 70 - font.width(text) - font.width("%"), y2 - 9, 0x1E90FF, false);
@@ -255,7 +250,7 @@ public class FoodLevel implements IGuiOverlay {
                 if ( swimTime != 0 ) {
                     int AirY = y;
                     if ( Config.Air_On && player.getAirSupply() < 300 ) AirY -= 10; // 如果渲染了氧气值，在渲染时高度 + 10
-                    if ( !StopConflictRendering|| toughasnailsIS ) AirY -= 10; // 如果口渴/意志坚定存在，在渲染时高度 + 10
+                    if ( !StopConflictRendering ) AirY -= 10; // 如果口渴/意志坚定存在，在渲染时高度 + 10
                     if ( swimTime > 0 ) {
                         maxProgressTime = Math.max(1, ModGameRules.HELIUM_FLAMINGO_FLIGHT_DURATION.get() * 20);
                     } else {

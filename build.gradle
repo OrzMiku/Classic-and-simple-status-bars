@@ -137,8 +137,13 @@ dependencies {
     implementation fg.deobf("curse.maven:caelus-308989:4581481") // caelus-forge-3.1.0+1.20.jar
 
     // 口渴 、 意志坚定
-    implementation fg.deobf("curse.maven:thirst-was-taken-679270:4721665") // ThirstWasTaken-1.20.1-1.3.2.jar
+    compileOnly fg.deobf("curse.maven:thirst-was-taken-679270:4721665") // ThirstWasTaken-1.20.1-1.3.2.jar
     compileOnly fg.deobf("curse.maven:tough-as-nails-246391:4750298") // ToughAsNails-1.20.1-9.0.0.96.jar
+    // 稳态
+    implementation fg.deobf("curse.maven:homeostatic-634466:4738204") // homeostatic-1.20.1-2.9.5.0.jar
+    // 生存要素 - 有冲突,暂不打算
+//    implementation fg.deobf("curse.maven:survive-367337:4791291") // Survive-1.20.1-9.0.5.jar
+//    implementation fg.deobf("curse.maven:unionlib-367806:4789434") // UnionLib-1.20.1-10.2.2-Forge.jar
 
     // 测试用.
     implementation fg.deobf("curse.maven:jei-238222:4712868")

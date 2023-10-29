@@ -37,18 +37,21 @@ public class ClassicAndSimpleStatusBars {
                 LOGGER.info("CSSB: "+"Enable the Modifications to the appleskin");
                 MinecraftForge.EVENT_BUS.register(new AppleSkinEventHandler());
             }
-
             if ( ModList.get().isLoaded("thirst") ) {
-                LOGGER.info("CSSB: "+"Enable the Thirst value");
+                LOGGER.info("CSSB: "+"Enable For thirst the Thirst value");
                 ThirstWasTakenUse.StopConflictRenderingIDEA(false);
                 FoodLevel.StopConflictRenderingIDEA(false);
             }
             if ( ModList.get().isLoaded("toughasnails") ){
-                LOGGER.info("CSSB: "+"Enable the Thirst value");
-                FoodLevel.toughasnailsIDEA(false);
+                LOGGER.info("CSSB: "+"Enable For toughasnails, the Thirst value");
                 ThirstWasTakenUse.toughasnailsIDEA(false);
+                FoodLevel.StopConflictRenderingIDEA(false);
             }
-
+            if ( ModList.get().isLoaded("homeostatic") ){
+                LOGGER.info("CSSB: "+"Enable For homeostatic, the Thirst value");
+                ThirstWasTakenUse.HomeostaticIDEA(false);
+                FoodLevel.StopConflictRenderingIDEA(false);
+            }
             if ( ModList.get().isLoaded("artifacts") ) {
                 LOGGER.info("CSSB: "+"Enable the flamingo swimming ring");
                 FoodLevel.ArtifactsIDEA(true);
