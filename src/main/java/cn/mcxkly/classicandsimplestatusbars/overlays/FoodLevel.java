@@ -174,7 +174,10 @@ public class FoodLevel implements IGuiOverlay {
             int xx = x + 10;
             guiGraphics.drawString(font, text, xx, finalY - 9, Config.Color_Vampires_Blood, false);
             xx = xx + font.width(text);
-            text = Config.Interval_lll + helper.KeepOneDecimal(maxBlood);
+            text = Config.Interval_lll;
+            guiGraphics.drawString(font, text, xx, finalY - 9, Config.Color_Interval_lll, false);
+            xx = xx + font.width(text);
+            text = helper.KeepOneDecimal(maxBlood);
             guiGraphics.drawString(font, text, xx, finalY - 9, Config.Color_Vampires_MaxBlood, false);
         });
     }

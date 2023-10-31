@@ -41,8 +41,8 @@ public class Config {
     private static final ForgeConfigSpec.ConfigValue<String> Color_Interval_String_1_ = BUILDER
             .comment("\n" + "符号'/'的颜色。" +
                     "\nThe color of the symbol '/'." +
-                    "\n默认值(Default)：\"#E0EEEE\"")
-            .define("Color_Interval_String_1", "#E0EEEE");
+                    "\n默认值(Default)：\"#5A5A5A\"")
+            .define("Color_Interval_String_1", "#5A5A5A");
     private static final ForgeConfigSpec.ConfigValue<String> Interval__Text1 = BUILDER
             .pop(1)
             .push("Interval_2")
@@ -66,8 +66,8 @@ public class Config {
     private static final ForgeConfigSpec.ConfigValue<String> Color_Interval_String_2_ = BUILDER
             .comment("\n" + "符号'+'的颜色。" +
                     "\nThe color of the symbol '+'." +
-                    "\n默认值(Default)：\"#BFEFFF\"")
-            .define("Color_Interval_String_2", "#BFEFFF");
+                    "\n默认值(Default)：\"#F6E58D\"")
+            .define("Color_Interval_String_2", "#F6E58D");
     /*************************************/
     private static final ForgeConfigSpec.BooleanValue Bloodsucker_On1 = BUILDER
             .pop(1)
@@ -79,13 +79,13 @@ public class Config {
     private static final ForgeConfigSpec.ConfigValue<String> Color_Vampires_Blood1 = BUILDER
             .comment("\n" + "吸血鬼血量文本颜色。" +
                     "\nVampires Blood value text color." +
-                    "\n默认值(Default)：\"#FFD700\"")
-            .define("Color_Vampires_Blood", "#FFD700");
+                    "\n默认值(Default)：\"#AC2019\"")
+            .define("Color_Vampires_Blood", "#AC2019");
     private static final ForgeConfigSpec.ConfigValue<String> Color_Vampires_MaxBlood1 = BUILDER
             .comment("\n" + "吸血鬼最大血量文本颜色。" +
                     "\nVampires Max Blood value text color." +
-                    "\n默认值(Default)：\"#FFD700\"")
-            .define("Color_Vampires_MaxBlood", "#FFD700");
+                    "\n默认值(Default)：\"#600000\"")
+            .define("Color_Vampires_MaxBlood", "#600000");
     private static final ForgeConfigSpec.BooleanValue Thirst_On1 = BUILDER
             .pop(1)
             .push("Thirst")
@@ -96,13 +96,13 @@ public class Config {
     private static final ForgeConfigSpec.ConfigValue<String> Color_Thirst1 = BUILDER
             .comment("\n" + "水分值文本颜色。" +
                     "\nThirst Value text color." +
-                    "\n默认值(Default)：\"#FFD700\"")
-            .define("Color_Thirst", "#FFD700");
+                    "\n默认值(Default)：\"#0048AD\"")
+            .define("Color_Thirst", "#0048AD");
     private static final ForgeConfigSpec.ConfigValue<String> Color_Thirst_Quenched1 = BUILDER
             .comment("\n" + "止渴水分值文本颜色。" +
                     "\nThirst Quenched value text color." +
-                    "\n默认值(Default)：\"#FFD700\"")
-            .define("Color_Thirst_Quenched", "#FFD700");
+                    "\n默认值(Default)：\"#82DAFD\"")
+            .define("Color_Thirst_Quenched", "#82DAFD");
     private static final ForgeConfigSpec.BooleanValue Origins_On1 = BUILDER
             .pop(1)
             .push("Origins")
@@ -113,8 +113,13 @@ public class Config {
     private static final ForgeConfigSpec.ConfigValue<String> Color_Origins1 = BUILDER
             .comment("\n" + "起源能力文本颜色。" +
                     "\nOrigins Power value text color." +
-                    "\n默认值(Default)：\"#FFD700\"")
-            .define("Color_Origins", "#FFD700");
+                    "\n默认值(Default)：\"#EBE994\"")
+            .define("Color_Origins", "#EBE994");
+    private static final ForgeConfigSpec.ConfigValue<String> Color_Origins_Symbol1 = BUILDER
+            .comment("\n" + "符号'%'文本颜色。" +
+                    "\nSymbol value text color." +
+                    "\n默认值(Default)：\"#D2DAA4\"")
+            .define("Color_Origins_Symbol", "#D2DAA4");
     private static final ForgeConfigSpec.BooleanValue Artifact_On1 = BUILDER
             .pop(1)
             .push("Artifacts")
@@ -125,13 +130,13 @@ public class Config {
     private static final ForgeConfigSpec.ConfigValue<String> Color_Artifacts1 = BUILDER
             .comment("\n" + "火烈鸟饰品飞行时间文本颜色。" +
                     "\nFlamingo ornament flight time text color." +
-                    "\n默认值(Default)：\"#EE0000\"")
-            .define("Color_Artifacts", "#EE0000");
+                    "\n默认值(Default)：\"#BE3D6F\"")
+            .define("Color_Artifacts", "#BE3D6F");
     private static final ForgeConfigSpec.ConfigValue<String> Color_Artifacts_Symbol1 = BUILDER
             .comment("\n" + "符号'%'文本颜色。" +
                     "\nSymbol value text color." +
-                    "\n默认值(Default)：\"#EE0000\"")
-            .define("Color_Artifacts_Symbol", "#EE0000");
+                    "\n默认值(Default)：\"#DC6788\"")
+            .define("Color_Artifacts_Symbol", "#DC6788");
     /*************************************/
     private static final ForgeConfigSpec.BooleanValue Food_On1 = BUILDER
             .pop(2)
@@ -179,62 +184,61 @@ public class Config {
             .push("Color")
             .comment( "血量值文本颜色。" +
                     "\nHealth value text color." +
-                    "\n默认值(Default)：\"#EE0000\"")
-            .define("Color_Health", "#EE0000");
+                    "\n默认值(Default)：\"#B3473C\"")
+            .define("Color_Health", "#B3473C");
     private static final ForgeConfigSpec.ConfigValue<String> Color_Health_Absorb1 = BUILDER
             .comment("\n" + "伤害吸收文本颜色。" +
                     "\nHealth Absorb value text color." +
-                    "\n默认值(Default)：\"#EE0000\"")
-            .define("Color_Health_Absorb", "#EE0000");
+                    "\n默认值(Default)：\"#BAB363\"")
+            .define("Color_Health_Absorb", "#BAB363");
     private static final ForgeConfigSpec.ConfigValue<String> Color_Health_Tail1 = BUILDER
             .comment("\n" + "最大血量文本颜色。" +
                     "\nMax Health value text color." +
-                    "\n默认值(Default)：\"#EE0000\"")
-            .define("Color_Health_Tail", "#EE0000");
+                    "\n默认值(Default)：\"#FF1313\"")
+            .define("Color_Health_Tail", "#FF1313");
     private static final ForgeConfigSpec.ConfigValue<String> Color_Food1 = BUILDER
             .comment("\n" + "饱食度文本颜色。" +
                     "\nFood value text color." +
-                    "\n默认值(Default)：\"#EE0000\"")
-            .define("Color_Food", "#EE0000");
+                    "\n默认值(Default)：\"#C6C677\"")
+            .define("Color_Food", "#C6C677");
     private static final ForgeConfigSpec.ConfigValue<String> Color_Food_Saturation1 = BUILDER
             .comment("\n" + "饱和度文本颜色。" +
                     "\nSaturation value text color." +
-                    "\n默认值(Default)：\"#EE0000\"")
-            .define("Color_Food_Saturation", "#EE0000");
+                    "\n默认值(Default)：\"#C1805D\"")
+            .define("Color_Food_Saturation", "#C1805D");
     private static final ForgeConfigSpec.ConfigValue<String> Color_Food_Tail1 = BUILDER
             .comment("\n" + "最大饱食度文本颜色。" +
                     "\nMax Food value text color." +
-                    "\n默认值(Default)：\"#EE0000\"")
-            .define("Color_Food_Tail", "#EE0000");
+                    "\n默认值(Default)：\"#DFB18F\"")
+            .define("Color_Food_Tail", "#DFB18F");
     private static final ForgeConfigSpec.ConfigValue<String> Color_Armor1 = BUILDER
             .comment("\n" + "盔甲文本颜色。" +
                     "\nArmor value text color." +
-                    "\n默认值(Default)：\"#EE0000\"")
-            .define("Color_Armor", "#EE0000");
+                    "\n默认值(Default)：\"#DDEBEB\"")
+            .define("Color_Armor", "#DDEBEB");
     private static final ForgeConfigSpec.ConfigValue<String> Color_Armor_Toughness1 = BUILDER
             .comment("\n" + "盔甲韧性文本颜色。" +
                     "\nArmor Toughness value text color." +
-                    "\n默认值(Default)：\"#EE0000\"")
-            .define("Color_Armor_Toughness", "#EE0000");
+                    "\n默认值(Default)：\"#BDECFC\"")
+            .define("Color_Armor_Toughness", "#BDECFC");
     private static final ForgeConfigSpec.ConfigValue<String> Color_Air1 = BUILDER
             .comment("\n" + "氧气文本颜色。" +
                     "\nAir value text color." +
-                    "\n默认值(Default)：\"#EE0000\"")
-            .define("Color_Air", "#EE0000");
+                    "\n默认值(Default)：\"#0094FF\"")
+            .define("Color_Air", "#0094FF");
     private static final ForgeConfigSpec.ConfigValue<String> Color_Air_Symbol1 = BUILDER
             .comment("\n" + "氧气符号'%'文本颜色。" +
                     "\nAir Symbol value text color." +
-                    "\n默认值(Default)：\"#EE0000\"")
-            .define("Color_Air_Symbol", "#EE0000");
+                    "\n默认值(Default)：\"#D1EBFF\"")
+            .define("Color_Air_Symbol", "#D1EBFF");
 
     static final ForgeConfigSpec SPEC = BUILDER.build();
     public static String Interval_lll, Interval_TTT, Prefix_Health, Prefix_Food;
     public static boolean Thirst_On, Artifacts_On, MaxFood_On, Origins_On, All_On, Bloodsucker_On, Food_On, Health_On, EasyMode_Text_On, Armour_On, Armor_Toughness_On, Air_On, Mounts_On;
-    public static int Color_Thirst_Quenched, Color_Thirst, Color_Artifacts, Color_Air, Color_Artifacts_Symbol, Color_Air_Symbol, Color_Vampires_Blood, Color_Vampires_MaxBlood, Color_Origins, Color_Health, Color_Health_Absorb, Color_Health_Tail, Color_Food, Color_Food_Saturation, Color_Food_Tail, Color_Armor, Color_Armor_Toughness, Color_Interval_lll, Color_Interval_TTT;
+    public static int Color_Origins_Symbol,Color_Thirst_Quenched, Color_Thirst, Color_Artifacts, Color_Air, Color_Artifacts_Symbol, Color_Air_Symbol, Color_Vampires_Blood, Color_Vampires_MaxBlood, Color_Origins, Color_Health, Color_Health_Absorb, Color_Health_Tail, Color_Food, Color_Food_Saturation, Color_Food_Tail, Color_Armor, Color_Armor_Toughness, Color_Interval_lll, Color_Interval_TTT;
 
     @SubscribeEvent
     static void onLoad(final ModConfigEvent event) {
-
             All_On = AllOn.get();
             Interval_lll = Interval_Textis.get();
             Interval_TTT = Interval__Text1.get();
@@ -263,7 +267,6 @@ public class Config {
             Color_Vampires_MaxBlood = Integer.parseInt(Color_Vampires_MaxBlood1.get().substring(1), 16);
             Color_Thirst_Quenched = Integer.parseInt(Color_Thirst_Quenched1.get().substring(1), 16);
             Color_Thirst = Integer.parseInt(Color_Thirst1.get().substring(1), 16);
-
             Color_Health = Integer.parseInt(Color_Health1.get().substring(1), 16);
             Color_Health_Absorb = Integer.parseInt(Color_Health_Absorb1.get().substring(1), 16);
             Color_Health_Tail = Integer.parseInt(Color_Health_Tail1.get().substring(1), 16);
@@ -275,6 +278,6 @@ public class Config {
             Color_Interval_lll = Integer.parseInt(Color_Interval_String_1_.get().substring(1), 16);
             Color_Interval_TTT = Integer.parseInt(Color_Interval_String_2_.get().substring(1), 16);
             Color_Origins = Integer.parseInt(Color_Origins1.get().substring(1), 16);
-
+            Color_Origins_Symbol = Integer.parseInt(Color_Origins_Symbol1.get().substring(1), 16);
     }
 }

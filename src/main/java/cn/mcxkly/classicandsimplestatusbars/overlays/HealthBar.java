@@ -167,7 +167,7 @@ public class HealthBar implements IGuiOverlay {
                             // 避免血量文本太长. 在拥有吸收值时，提高高度.
                             finalY2 -= 10;
                         } */
-                        guiGraphics.drawString(font, "%", finalX - font.width("%"), finalY2, Config.Color_Origins, false);
+                        guiGraphics.drawString(font, "%", finalX - font.width("%"), finalY2, Config.Color_Origins_Symbol, false);
                         guiGraphics.drawString(font, tex, finalX - font.width(tex) - font.width("%"), finalY2, Config.Color_Origins, false);
                         // 渲染图标
                         guiGraphics.blit(currentLocation,
