@@ -145,7 +145,7 @@ public class HealthBar implements IGuiOverlay {
                     256, 256); // 护甲图标
             guiGraphics.drawString(font, helper.KeepOneDecimal(ARMOR), x + 10, y - 19, Config.Color_Armor, false);
         }
-        if ( Config.Origins_On ) {
+        if ( ClassicAndSimpleStatusBars.origins ) {
             IPowerContainer.get(player).ifPresent((component) -> {
                 int iconSize = 8;
                 List<? extends ConfiguredPower<?, ?>> configuredPowers = component.getPowers().stream().map(Holder :: value).filter((power) -> power.asHudRendered().isPresent()).sorted(Comparator.comparing((power) -> power.getRenderSettings(player).orElse(HudRender.DONT_RENDER).spriteLocation())).toList();

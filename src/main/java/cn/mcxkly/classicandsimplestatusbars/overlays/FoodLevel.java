@@ -62,7 +62,7 @@ public class FoodLevel implements IGuiOverlay {
                 updateBarTextures(player);
                 // 其他元素
                 renderFoodValue(font, guiGraphics, x, y, player);
-                if ( Helper.isVampire(player) ) {
+                if ( ClassicAndSimpleStatusBars.vampirism && Helper.isVampire(player) ) {
                     // 如果当前是吸血鬼.
                     if ( Config.Bloodsucker_On ) {
                         // 如果开启功能，将渲染血条,否则仅把鸡腿饱食度文本替换成吸血鬼血液文本
@@ -98,7 +98,8 @@ public class FoodLevel implements IGuiOverlay {
             text = helper.KeepOneDecimal(player.getFoodData().getSaturationLevel());
             guiGraphics.drawString(font, text, xx, y - 1, Config.Color_Food_Saturation, false);
         }
-        if ( Config.MaxFood_On ) {
+        boolean OnMaxFood = (Config.MaxFood_On == 1) || (Config.MaxFood_On == 0 && player.getFoodData().getLastFoodLevel() > 20);
+        if ( OnMaxFood ) {
             //第三部分  Max
             xx = xx + font.width(text); // '/'
             text = Config.Interval_lll;
@@ -216,7 +217,8 @@ public class FoodLevel implements IGuiOverlay {
             text = helper.KeepOneDecimal(player.getFoodData().getSaturationLevel());
             guiGraphics.drawString(font, text, xx, y - 9, Config.Color_Food_Saturation, false);
         }
-        if ( Config.MaxFood_On ) {
+        boolean OnMaxFood = (Config.MaxFood_On == 1) || (Config.MaxFood_On == 0 && player.getFoodData().getLastFoodLevel() > 20);
+        if ( OnMaxFood ) {
             //第三部分  Max
             xx = xx + font.width(text); // '/'
             text = Config.Interval_lll;

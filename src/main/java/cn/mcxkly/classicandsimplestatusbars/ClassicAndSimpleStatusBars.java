@@ -21,7 +21,8 @@ public class ClassicAndSimpleStatusBars {
 
     public static final String MOD_ID = "classicandsimplestatusbars";
     public static final Logger LOGGER = LogUtils.getLogger();
-
+    public static boolean vampirism = false;
+    public static boolean origins = false;
     public ClassicAndSimpleStatusBars() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         modEventBus.addListener(this :: commonSetup);
@@ -55,6 +56,14 @@ public class ClassicAndSimpleStatusBars {
             if ( Config.Artifacts_On && ModList.get().isLoaded("artifacts") ) {
                 LOGGER.info("CSSB: " + "Enable the flamingo swimming ring");
                 FoodLevel.ArtifactsIDEA(true);
+            }
+            if ( Config.Bloodsucker_On && ModList.get().isLoaded("vampirism") ) {
+                LOGGER.info("CSSB: " + "Enable the vampirism blood value");
+                vampirism=true;
+            }
+            if ( Config.Origins_On && ModList.get().isLoaded("origins") ) {
+                LOGGER.info("CSSB: " + "Enable the origins power value");
+                origins=true;
             }
         }
     }

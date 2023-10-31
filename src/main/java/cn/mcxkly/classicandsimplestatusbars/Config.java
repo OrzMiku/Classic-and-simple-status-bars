@@ -145,11 +145,12 @@ public class Config {
                     "\nIf set to false, all feature modifications to the right of the experience level will be turned off." +
                     "\n默认值(Default)：true")
             .define("Food-functional-status", true);
-    private static final ForgeConfigSpec.BooleanValue MaxFood_On1 = BUILDER
-            .comment("\n" + "如果设置为true,将增加最大饱食度的显示。" +
-                    "\nIf set to true, the display of maximum satiety will be increased." +
-                    "\n默认值(Default)：false")
-            .define("MaxFood-functional-status", false);
+    private static final ForgeConfigSpec.IntValue MaxFood_On1 = BUILDER
+            .comment("\n" + "如果设置为'0',将在最大饱食度大于20时自动渲染、如果设置为'1',将始终显示最大饱食度、如果设置为'2',将始终隐藏最大饱食度。" +
+                    "\nIf set to '0', auto the maximum satiety greater than 20 will be displayed, if set to '1', the maximum satiety will always be displayed, and if set to '2', the maximum satiety will always be hidden." +
+                    "\n默认值(Default)：0")
+            .defineInRange("MaxFood-functional-status", 0,0,2);
+    //      .defineInRange("magicNumber", 42, 0, Integer.MAX_VALUE);
     private static final ForgeConfigSpec.BooleanValue Armor_Toughness_On1 = BUILDER
             .comment("\n" + "如果设置为false,将关闭盔甲韧性的显示。" +
                     "\nIf set to false, the display of armor toughness values is turned off" +
@@ -234,8 +235,8 @@ public class Config {
 
     static final ForgeConfigSpec SPEC = BUILDER.build();
     public static String Interval_lll, Interval_TTT, Prefix_Health, Prefix_Food;
-    public static boolean Thirst_On, Artifacts_On, MaxFood_On, Origins_On, All_On, Bloodsucker_On, Food_On, Health_On, EasyMode_Text_On, Armour_On, Armor_Toughness_On, Air_On, Mounts_On;
-    public static int Color_Origins_Symbol,Color_Thirst_Quenched, Color_Thirst, Color_Artifacts, Color_Air, Color_Artifacts_Symbol, Color_Air_Symbol, Color_Vampires_Blood, Color_Vampires_MaxBlood, Color_Origins, Color_Health, Color_Health_Absorb, Color_Health_Tail, Color_Food, Color_Food_Saturation, Color_Food_Tail, Color_Armor, Color_Armor_Toughness, Color_Interval_lll, Color_Interval_TTT;
+    public static boolean Thirst_On, Artifacts_On,  Origins_On, All_On, Bloodsucker_On, Food_On, Health_On, EasyMode_Text_On, Armour_On, Armor_Toughness_On, Air_On, Mounts_On;
+    public static int MaxFood_On,Color_Origins_Symbol,Color_Thirst_Quenched, Color_Thirst, Color_Artifacts, Color_Air, Color_Artifacts_Symbol, Color_Air_Symbol, Color_Vampires_Blood, Color_Vampires_MaxBlood, Color_Origins, Color_Health, Color_Health_Absorb, Color_Health_Tail, Color_Food, Color_Food_Saturation, Color_Food_Tail, Color_Armor, Color_Armor_Toughness, Color_Interval_lll, Color_Interval_TTT;
 
     @SubscribeEvent
     static void onLoad(final ModConfigEvent event) {

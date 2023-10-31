@@ -17,6 +17,8 @@ base {
 // Mojang ships Java 17 to end users in 1.18+, so your mod should target Java 17.
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
+// jarJar.enable()
+
 println "Java: ${System.getProperty 'java.version'}, JVM: ${System.getProperty 'java.vm.version'} (${System.getProperty 'java.vendor'}), Arch: ${System.getProperty 'os.arch'}"
 minecraft {
     // The mappings can be changed at any time and must be in the following format.
@@ -121,7 +123,7 @@ repositories {
             includeGroup "curse.maven"
         }
     }
-    maven { url "https://maven.merchantpug.net/releases"} // 起源-Forge
+    maven { url "https://maven.merchantpug.net/releases" } // 起源-Forge
     mavenCentral()
 }
 
@@ -176,10 +178,17 @@ dependencies {
     implementation fg.deobf("curse.maven:vampirism-become-a-vampire-233029:4799959")
 
     // 起源 origins-forge
-    implementation fg.deobf("io.github.edwinmindcraft:apoli-forge:1.20.1-2.9.0.1")
-    implementation fg.deobf("io.github.edwinmindcraft:calio-forge:1.20.1-1.11.0.0")
+//    jarJar('io.github.edwinmindcraft:apoli-forge:1.20.1-2.9.0.1') {
+//        jarJar.ranged(it, '[1.20.1-2.9.0,)')
+//    }
+//    jarJar('io.github.edwinmindcraft:calio-forge:1.20.1-1.11.0.0') {
+//        jarJar.ranged(it, '[1.20.1-1.11.0,)')
+//    }
+    implementation fg.deobf('io.github.edwinmindcraft:apoli-forge:1.20.1-2.9.0.1')
+    implementation fg.deobf('io.github.edwinmindcraft:calio-forge:1.20.1-1.11.0.0')
     implementation fg.deobf("io.github.edwinmindcraft:origins-forge:1.20.1-1.10.0.1")
 }
+/**/
 mixin {
     add sourceSets.main, "classicandsimplestatusbars.refmap.json"
     config 'classicandsimplestatusbars.mixin.json'
@@ -222,6 +231,8 @@ tasks.named('jar', Jar).configure {
     finalizedBy 'reobfJar'
 }
 
+tasks.jarJar.configure {
+}
 // However if you are in a multi-project build, dev time needs unobfed jar files, so you can delay the obfuscation until publishing by doing:
 // tasks.named('publish').configure {
 //     dependsOn 'reobfJar'
