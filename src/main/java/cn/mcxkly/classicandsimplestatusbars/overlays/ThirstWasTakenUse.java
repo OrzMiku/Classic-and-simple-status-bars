@@ -102,11 +102,12 @@ public class ThirstWasTakenUse implements IGuiOverlay {
         } else return; // 如果两者都不在，并且也没有稳态，跳过渲染.
         if ( Quenched.get() > 0 ) { // 如果Quenched大于0渲染.
             int x2 = x + 70 - font.width(Quenched + Config.Interval_TTT) - font.width(String.valueOf(Thirst.get())); // 计算长度
-            // guiGraphics.blit(THIRST_ICONS, x, y, 0.0F, 0.0F, 9, 9, 25, 9);
-            guiGraphics.drawString(font, Quenched + Config.Interval_TTT, x2, y - 9, 0x48D1CC, false);
+            guiGraphics.drawString(font, Quenched + "", x2, y - 9, Config.Color_Thirst_Quenched, false);
+            x2 += font.width(Quenched + "");
+            guiGraphics.drawString(font, Config.Interval_TTT, x2, y - 9, Config.Color_Interval_TTT, false);
         }
         font.width("0.3");
-        guiGraphics.drawString(font, String.valueOf(Thirst.get()), x + 70 - font.width(String.valueOf(Thirst.get())), y - 9, 0x4876FF, false);
+        guiGraphics.drawString(font, String.valueOf(Thirst.get()), x + 70 - font.width(String.valueOf(Thirst.get())), y - 9, Config.Color_Thirst, false);
     }
 }
 

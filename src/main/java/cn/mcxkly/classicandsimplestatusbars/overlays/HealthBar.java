@@ -43,14 +43,10 @@ public class HealthBar implements IGuiOverlay {
             int x = width / 2 - 91;
             int y = height - 39;
             y += 4;
-            if ( Config.All_On ) {
-                if ( Config.Health_On ) {
-                    updateBarTextures(player);
-                    renderHealthBar(guiGraphics, partialTick, x, y, player);
-                    renderHealthValue(font, guiGraphics, x, y, player);
-                } else if ( Config.EasyMode_Text_On ) {
-                    renderHealthValue_Easy(font, guiGraphics, x, y, player);
-                }
+            if ( Config.All_On && Config.Health_On ) {
+                updateBarTextures(player);
+                renderHealthBar(guiGraphics, partialTick, x, y, player);
+                renderHealthValue(font, guiGraphics, x, y, player);
             } else if ( Config.EasyMode_Text_On ) {
                 renderHealthValue_Easy(font, guiGraphics, x, y, player);
             }
@@ -66,7 +62,7 @@ public class HealthBar implements IGuiOverlay {
         String text = helper.KeepOneDecimal(MaxHealth);
         xx = xx - font.width(text); // 要向左
         guiGraphics.drawString(font, text, xx, y - 1, Config.Color_Health, false);
-        text =  Config.Interval_lll;
+        text = Config.Interval_lll;
         xx = xx - font.width(text); // '/'
         guiGraphics.drawString(font, text, xx, y - 1, Config.Color_Interval_lll, false);
         if ( Absorption > 0 ) {
@@ -74,7 +70,7 @@ public class HealthBar implements IGuiOverlay {
             xx = xx - font.width(text);
             guiGraphics.drawString(font, text, xx, y - 1, Config.Color_Health_Absorb, false);
 
-            text =  Config.Interval_TTT;
+            text = Config.Interval_TTT;
             xx = xx - font.width(text); // '+'
             guiGraphics.drawString(font, text, xx, y - 1, Config.Color_Interval_TTT, false);
         }
@@ -115,7 +111,7 @@ public class HealthBar implements IGuiOverlay {
             guiGraphics.drawString(font, text, xx, y - 9, Config.Color_Health, false);
 
             xx = xx + font.width(text); // '+'
-            text =  Config.Interval_TTT;
+            text = Config.Interval_TTT;
             guiGraphics.drawString(font, text, xx, y - 9, Config.Color_Interval_TTT, false);
 
             xx = xx + font.width(text);
@@ -123,7 +119,7 @@ public class HealthBar implements IGuiOverlay {
             guiGraphics.drawString(font, text, xx, y - 9, Config.Color_Health_Absorb, false);
 
             xx = xx + font.width(text); // '/'
-            text =  Config.Interval_lll;
+            text = Config.Interval_lll;
             guiGraphics.drawString(font, text, xx, y - 9, Config.Color_Interval_lll, false);
 
             xx = xx + font.width(text);
@@ -134,20 +130,20 @@ public class HealthBar implements IGuiOverlay {
             guiGraphics.drawString(font, text, xx, y - 9, Config.Color_Health, false);
 
             xx = xx + font.width(text); // '/'
-            text =  Config.Interval_lll;
+            text = Config.Interval_lll;
             guiGraphics.drawString(font, text, xx, y - 9, Config.Color_Interval_lll, false);
 
             xx = xx + font.width(text);
             text = helper.KeepOneDecimal(MaxHealth);
             guiGraphics.drawString(font, text, xx, y - 9, Config.Color_Health_Tail, false);
         }
-        if ( ARMOR > 0 && Config.Armour_On) {
+        if ( ARMOR > 0 && Config.Armour_On ) {
             guiGraphics.blit(guiIconsLocation,
                     x, y - 19,
                     43, 9,
                     9, 9,
                     256, 256); // 护甲图标
-            guiGraphics.drawString(font, helper.KeepOneDecimal(ARMOR), x + 10, y - 19, 0xEDEDED, false);
+            guiGraphics.drawString(font, helper.KeepOneDecimal(ARMOR), x + 10, y - 19, Config.Color_Armor, false);
         }
         if ( Config.Origins_On ) {
             IPowerContainer.get(player).ifPresent((component) -> {
@@ -163,7 +159,7 @@ public class HealthBar implements IGuiOverlay {
                         if ( render.isInverted() ) {
                             fill = 1.0F - fill;
                         }
-                        String tex = helper.KeepOneDecimal((int)(fill * (float)100));
+                        String tex = helper.KeepOneDecimal((int) (fill * (float) 100));
                         int finalY2 = finalY - 10;
                         /*
                         int finalY2 = finalY;
@@ -172,7 +168,7 @@ public class HealthBar implements IGuiOverlay {
                             finalY2 -= 10;
                         } */
                         guiGraphics.drawString(font, "%", finalX - font.width("%"), finalY2, Config.Color_Origins, false);
-                        guiGraphics.drawString(font, tex, finalX - font.width(tex) - font.width("%"), finalY2,Config.Color_Origins , false);
+                        guiGraphics.drawString(font, tex, finalX - font.width(tex) - font.width("%"), finalY2, Config.Color_Origins, false);
                         // 渲染图标
                         guiGraphics.blit(currentLocation,
                                 finalX, finalY2,

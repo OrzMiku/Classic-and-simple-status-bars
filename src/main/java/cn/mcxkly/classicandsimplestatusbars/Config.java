@@ -11,7 +11,9 @@ public class Config {
     private static final ForgeConfigSpec.BooleanValue AllOn = BUILDER
             .push("All_On")
             .comment("我不是很推荐关闭功能，因为某种情况下无法解决冲突，比如本模组的图片高度是5像素点，但原版图标是9像素点，如果你有兼容性的问题建议联系我。" +
+                    "\n因需要保持显示内容正常显示，大部分联动渲染功能关闭后仍然被阻止此模组的渲染." +
                     "\nI don't really recommend turning off the function, because there is no way to resolve the conflict in some cases, for example, the image height of this module is 5 pixels, but the original icon is 9 pixels, if you have compatibility problems, please contact me." +
+                    "\nDue to the need to keep the display content displayed normally, the rendering of they Mods is still blocked after most of the linkage rendering function is turned off." +
                     "\nIf you can help me, feel free to make a merge request." +
                     "\n你可以在网络上查找你需要的颜色代码，其中之一: https://www.ysdaima.com/hexbiao" +
                     "\nYou can check the color code you need on the web. (HEXADECIMAL)" +
@@ -72,12 +74,43 @@ public class Config {
     /*************************************/
     private static final ForgeConfigSpec.BooleanValue Bloodsucker_On1 = BUILDER
             .pop(2)
-            .push("linkage_function")
+            .push("linkage_function.Vampires")
             .comment("\n" + "如果设置false,当玩家被感染成吸血鬼时，关闭本模组的饱食度显示。如果为ture，将代替吸血鬼模组的血条进行显示。" +
-                    "\nIf set to false, when the player is infected as a vampire, the saturation display of this mod will be turned off. If it is TURE, it will be displayed in place of the vampire mod's health bar." +
+                    "\nIf set to false, when the player is infected as a vampire, the saturation display of this mod will be turned off. If it is TURE, it will be displayed in place of the Vampires mod's health bar." +
                     "\n默认值(Default)：true")
-            .define("Bloodsucker-functional-status", true);
+            .define("Vampires-functional-status", true);
+    private static final ForgeConfigSpec.ConfigValue<String> Color_Vampires_Blood1 = BUILDER
+            .push("Color")
+            .comment("\n" + "吸血鬼血量文本颜色。" +
+                    "\nVampires Blood value text color." +
+                    "\n默认值(Default)：\"#FFD700\"")
+            .define("Color_Vampires_Blood", "#FFD700");
+    private static final ForgeConfigSpec.ConfigValue<String> Color_Vampires_MaxBlood1 = BUILDER
+            .comment("\n" + "吸血鬼最大血量文本颜色。" +
+                    "\nVampires Max Blood value text color." +
+                    "\n默认值(Default)：\"#FFD700\"")
+            .define("Color_Vampires_MaxBlood", "#FFD700");
+
+    private static final ForgeConfigSpec.BooleanValue Thirst_On1 = BUILDER
+            .push("Thirst")
+            .comment("\n" + "如果设置为false，将关闭对于模组'口渴'/'意志坚定'、'稳态'的水分值渲染覆盖。" +
+                    "\n"+"If set to false, the rendering override of the moisture value for the mod's 'thirst' and 'toughasnails' or 'homeostatic' will be turned off."+
+                    "\n默认值(Default)：true")
+            .define("Thirst-functional-status", true);
+    private static final ForgeConfigSpec.ConfigValue<String> Color_Thirst1 = BUILDER
+            .pop(2)
+            .push("Color")
+            .comment("\n" + "水分值文本颜色。" +
+                    "\nThirst Value text color." +
+                    "\n默认值(Default)：\"#FFD700\"")
+            .define("Color_Thirst", "#FFD700");
+    private static final ForgeConfigSpec.ConfigValue<String> Color_Thirst_Quenched1 = BUILDER
+            .comment("\n" + "止渴水分值文本颜色。" +
+                    "\nThirst Quenched value text color." +
+                    "\n默认值(Default)：\"#FFD700\"")
+            .define("Color_Thirst_Quenched", "#FFD700");
     private static final ForgeConfigSpec.BooleanValue Origins_On1 = BUILDER
+            .pop(2)
             .push("Origins")
             .comment("\n" + "如果设置为false,将关闭起源能力槽的显示。" +
                     "\nIf set to false, the display of Origins Power values will be turned off." +
@@ -90,6 +123,24 @@ public class Config {
                     "\n默认值(Default)：\"#FFD700\"")
             .define("Color_Origins", "#FFD700");
 
+
+    private static final ForgeConfigSpec.BooleanValue Artifact_On1 = BUILDER
+            .pop(2)
+            .push("Artifacts")
+            .comment("\n" + "如果设置为false,将关闭奇异饰品模组-火烈鸟泳圈的显示。" +
+                    "\nIf set to false, the display of the Artifacts Mod, Flamingo Swimming Ring, will be turned off." +
+                    "\n默认值(Default)：true")
+            .define("Artifacts-functional-status", true);
+    private static final ForgeConfigSpec.ConfigValue<String> Color_Artifacts1 = BUILDER
+            .comment("\n" + "火烈鸟饰品飞行时间文本颜色。" +
+                    "\nFlamingo ornament flight time text color." +
+                    "\n默认值(Default)：\"#EE0000\"")
+            .define("Color_Artifacts", "#EE0000");
+    private static final ForgeConfigSpec.ConfigValue<String> Color_Artifacts_Symbol1 = BUILDER
+            .comment("\n" + "符号'%'文本颜色。" +
+                    "\nSymbol value text color." +
+                    "\n默认值(Default)：\"#EE0000\"")
+            .define("Color_Artifacts_Symbol", "#EE0000");
     /*************************************/
     private static final ForgeConfigSpec.BooleanValue Food_On1 = BUILDER
             .pop(3)
@@ -177,12 +228,22 @@ public class Config {
                     "\nArmor Toughness value text color." +
                     "\n默认值(Default)：\"#EE0000\"")
             .define("Color_Armor_Toughness", "#EE0000");
+    private static final ForgeConfigSpec.ConfigValue<String> Color_Air1 = BUILDER
+            .comment("\n" + "氧气文本颜色。" +
+                    "\nAir value text color." +
+                    "\n默认值(Default)：\"#EE0000\"")
+            .define("Color_Air", "#EE0000");
+    private static final ForgeConfigSpec.ConfigValue<String> Color_Air_Symbol1 = BUILDER
+            .comment("\n" + "氧气符号'%'文本颜色。" +
+                    "\nAir Symbol value text color." +
+                    "\n默认值(Default)：\"#EE0000\"")
+            .define("Color_Air_Symbol", "#EE0000");
 
 
     static final ForgeConfigSpec SPEC = BUILDER.build();
     public static String Interval_lll, Interval_TTT, Prefix_Health, Prefix_Food;
-    public static boolean MaxFood_On,Origins_On,All_On, Bloodsucker_On, Food_On, Health_On, EasyMode_Text_On, Armour_On, Armor_Toughness_On, Air_On, Mounts_On;
-    public static int Color_Origins,Color_Health, Color_Health_Absorb, Color_Health_Tail, Color_Food, Color_Food_Saturation, Color_Food_Tail, Color_Armor, Color_Armor_Toughness, Color_Interval_lll, Color_Interval_TTT;
+    public static boolean Thirst_On, Artifacts_On, MaxFood_On, Origins_On, All_On, Bloodsucker_On, Food_On, Health_On, EasyMode_Text_On, Armour_On, Armor_Toughness_On, Air_On, Mounts_On;
+    public static int Color_Thirst_Quenched, Color_Thirst, Color_Artifacts, Color_Air, Color_Artifacts_Symbol, Color_Air_Symbol, Color_Vampires_Blood, Color_Vampires_MaxBlood, Color_Origins, Color_Health, Color_Health_Absorb, Color_Health_Tail, Color_Food, Color_Food_Saturation, Color_Food_Tail, Color_Armor, Color_Armor_Toughness, Color_Interval_lll, Color_Interval_TTT;
 
     @SubscribeEvent
     static void onLoad(final ModConfigEvent event) {
@@ -205,6 +266,18 @@ public class Config {
             Air_On = Air_On1.get();
             Mounts_On = Mounts_On1.get();
             Origins_On = Origins_On1.get();
+            Artifacts_On = Artifact_On1.get();
+            Thirst_On = Thirst_On1.get();
+
+            Color_Artifacts = Integer.parseInt(Color_Artifacts1.get().substring(1), 16);
+            Color_Artifacts_Symbol = Integer.parseInt(Color_Artifacts_Symbol1.get().substring(1), 16);
+
+            Color_Air = Integer.parseInt(Color_Air1.get().substring(1), 16);
+            Color_Air_Symbol = Integer.parseInt(Color_Air_Symbol1.get().substring(1), 16);
+            Color_Vampires_Blood = Integer.parseInt(Color_Vampires_Blood1.get().substring(1), 16);
+            Color_Vampires_MaxBlood = Integer.parseInt(Color_Vampires_MaxBlood1.get().substring(1), 16);
+            Color_Thirst_Quenched = Integer.parseInt(Color_Thirst_Quenched1.get().substring(1), 16);
+            Color_Thirst = Integer.parseInt(Color_Thirst1.get().substring(1), 16);
 
             Color_Health = Integer.parseInt(Color_Health1.get().substring(1), 16);
             Color_Health_Absorb = Integer.parseInt(Color_Health_Absorb1.get().substring(1), 16);

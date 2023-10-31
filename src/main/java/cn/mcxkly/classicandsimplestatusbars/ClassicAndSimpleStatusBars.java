@@ -32,28 +32,28 @@ public class ClassicAndSimpleStatusBars {
 
     private void commonSetup(final FMLCommonSetupEvent event) {
         if ( Config.All_On ) {
-            LOGGER.info("CSSB: "+"Now 'CSSB' Has Loaded.");
-            if ( ModList.get().isLoaded("appleskin") ) {
-                LOGGER.info("CSSB: "+"Enable the Modifications to the appleskin");
+            LOGGER.info("CSSB: " + "Now 'CSSB' Has Loaded.");
+            if ( Config.Food_On && ModList.get().isLoaded("appleskin") ) {
+                LOGGER.info("CSSB: " + "Enable the Modifications to the appleskin");
                 MinecraftForge.EVENT_BUS.register(new AppleSkinEventHandler());
             }
-            if ( ModList.get().isLoaded("thirst") ) {
-                LOGGER.info("CSSB: "+"Enable For thirst the Thirst value");
+            if ( Config.Thirst_On && ModList.get().isLoaded("thirst") ) {
+                LOGGER.info("CSSB: " + "Enable For thirst the Thirst value");
                 ThirstWasTakenUse.StopConflictRenderingIDEA(false);
                 FoodLevel.StopConflictRenderingIDEA(false);
             }
-            if ( ModList.get().isLoaded("toughasnails") ){
-                LOGGER.info("CSSB: "+"Enable For toughasnails, the Thirst value");
+            if ( Config.Thirst_On && ModList.get().isLoaded("toughasnails") ) {
+                LOGGER.info("CSSB: " + "Enable For toughasnails, the Thirst value");
                 ThirstWasTakenUse.toughasnailsIDEA(false);
                 FoodLevel.StopConflictRenderingIDEA(false);
             }
-            if ( ModList.get().isLoaded("homeostatic") ){
-                LOGGER.info("CSSB: "+"Enable For homeostatic, the Thirst value");
+            if ( Config.Thirst_On && ModList.get().isLoaded("homeostatic") ) {
+                LOGGER.info("CSSB: " + "Enable For homeostatic, the Thirst value");
                 ThirstWasTakenUse.HomeostaticIDEA(false);
                 FoodLevel.StopConflictRenderingIDEA(false);
             }
-            if ( ModList.get().isLoaded("artifacts") ) {
-                LOGGER.info("CSSB: "+"Enable the flamingo swimming ring");
+            if ( Config.Artifacts_On && ModList.get().isLoaded("artifacts") ) {
+                LOGGER.info("CSSB: " + "Enable the flamingo swimming ring");
                 FoodLevel.ArtifactsIDEA(true);
             }
         }
