@@ -10,7 +10,9 @@ public class Config {
     private static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
     private static final ForgeConfigSpec.BooleanValue AllOn = BUILDER
             .push("All_On")
-            .comment("我不是很推荐关闭功能，因为某种情况下无法解决冲突，比如本模组的图片高度是5像素点，但原版图标是9像素点，如果你有兼容性的问题建议联系我。" +
+            .comment("在修改任何功能后都建议重启游戏以便正确生效。\n"+
+                    "It is advisable to restart the game after any feature has been modified for it to take effect correctly。\n"+
+                    "我不是很推荐关闭功能，因为某种情况下无法解决冲突，比如本模组的图片高度是5像素点，但原版图标是9像素点，如果你有兼容性的问题建议联系我。" +
                     "\n因需要保持显示内容正常显示，大部分联动渲染功能关闭后仍然被阻止此模组的渲染." +
                     "\nI don't really recommend turning off the function, because there is no way to resolve the conflict in some cases, for example, the image height of this module is 5 pixels, but the original icon is 9 pixels, if you have compatibility problems, please contact me." +
                     "\nDue to the need to keep the display content displayed normally, the rendering of they Mods is still blocked after most of the linkage rendering function is turned off." +
