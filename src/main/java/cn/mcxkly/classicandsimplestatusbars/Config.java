@@ -8,7 +8,6 @@ import net.minecraftforge.fml.event.config.ModConfigEvent;
 @Mod.EventBusSubscriber(modid = ClassicAndSimpleStatusBars.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class Config {
     private static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
-    static final ForgeConfigSpec SPEC = BUILDER.build();
     private static final ForgeConfigSpec.BooleanValue AllOn = BUILDER
             .push("All_On")
             .comment("我不是很推荐关闭功能，因为某种情况下无法解决冲突，比如本模组的图片高度是5像素点，但原版图标是9像素点，如果你有兼容性的问题建议联系我。" +
@@ -27,7 +26,7 @@ public class Config {
     private static final ForgeConfigSpec.BooleanValue EasyMode = BUILDER
             .push("EasyMode")
             // 或单独关闭左测/右测功能时生效， 暂未完成.
-            .comment("如果设置true,在你关闭全部功能时生效，会在健康值左侧/饱食度右侧显示文本.如果设置为false则什么都不做。" +
+            .comment("\n" + "如果设置true,在你关闭全部功能时生效，会在健康值左侧/饱食度右侧显示文本.如果设置为false则什么都不做。" +
                     "\nIf set to true, it will take effect when you turn off all functions or turn off the left/right test function separately, and the text will be displayed to the left of the health value/to the right of satiety. If set to false, nothing is done." +
                     "\n默认值(Default)：true")
             .define("EasyMode-status", true);
@@ -35,22 +34,30 @@ public class Config {
     private static final ForgeConfigSpec.ConfigValue<String> Interval_Textis = BUILDER
             .pop(2)
             .push("Interval_1")
-            .comment("定义'当前值和最大值'间隔所使用的符号。" +
+            .comment("\n" + "定义'当前值和最大值'间隔所使用的符号。" +
                     "\nDefines the symbol used for the 'Current' and 'Maximum' intervals." +
                     "\n默认值(Default)：Interval_String_1=\"/\"")
             .define("Interval_String_1", "/");
     private static final ForgeConfigSpec.ConfigValue<String> Color_Interval_String_1_ = BUILDER
+            .push("Color")
             .comment("\n" + "符号'/'的颜色。" +
                     "\nThe color of the symbol '/'." +
                     "\n默认值(Default)：\"#E0EEEE\"")
             .define("Color_Interval_String_1", "#E0EEEE");
+
     private static final ForgeConfigSpec.ConfigValue<String> Interval__Text1 = BUILDER
-            .pop(1)
+            .pop(2)
             .push("Interval_2")
-            .comment("定义'当前值'附加内容所使用的符号，如：+16伤害吸收。" +
+            .comment("\n" + "定义'当前值'附加内容所使用的符号，如：+16伤害吸收。" +
                     "\n\"Defines the symbol used for 'Current Value Add-on'." +
                     "\n默认值(Default)：Interval_String_2=\"+\"")
             .define("Interval_String_2", "+");
+    private static final ForgeConfigSpec.ConfigValue<String> Color_Interval_String_2_ = BUILDER
+            .push("Color")
+            .comment("\n" + "符号'+'的颜色。" +
+                    "\nThe color of the symbol '+'." +
+                    "\n默认值(Default)：\"#BFEFFF\"")
+            .define("Color_Interval_String_2", "#BFEFFF");
             /* 感觉完全没必要...
     private static final ForgeConfigSpec.ConfigValue<String> Prefix_Health1 = BUILDER
             .comment("\n" + "定义血量的前缀，如：‘血量:’20+5/40" +
@@ -64,20 +71,16 @@ public class Config {
                     "\n默认值(Default)：Prefix_String=\"\"")
             .define("Prefix_String", "");
 */
-    private static final ForgeConfigSpec.ConfigValue<String> Color_Interval_String_2_ = BUILDER
-            .comment("\n" + "符号'+'的颜色。" +
-                    "\nThe color of the symbol '+'." +
-                    "\n默认值(Default)：\"#BFEFFF\"")
-            .define("Color_Interval_String_2", "#BFEFFF");
     /*************************************/
     private static final ForgeConfigSpec.BooleanValue Bloodsucker_On1 = BUILDER
-            .pop(1)
+            .pop(2)
             .push("linkage_function.Vampires")
             .comment("\n" + "如果设置false,当玩家被感染成吸血鬼时，关闭本模组的饱食度显示。如果为ture，将代替吸血鬼模组的血条进行显示。" +
                     "\nIf set to false, when the player is infected as a vampire, the saturation display of this mod will be turned off. If it is TURE, it will be displayed in place of the Vampires mod's health bar." +
                     "\n默认值(Default)：true")
             .define("Vampires-functional-status", true);
     private static final ForgeConfigSpec.ConfigValue<String> Color_Vampires_Blood1 = BUILDER
+            .push("Color")
             .comment("\n" + "吸血鬼血量文本颜色。" +
                     "\nVampires Blood value text color." +
                     "\n默认值(Default)：\"#FFD700\"")
@@ -87,14 +90,16 @@ public class Config {
                     "\nVampires Max Blood value text color." +
                     "\n默认值(Default)：\"#FFD700\"")
             .define("Color_Vampires_MaxBlood", "#FFD700");
+
     private static final ForgeConfigSpec.BooleanValue Thirst_On1 = BUILDER
-            .pop(1)
             .push("Thirst")
             .comment("\n" + "如果设置为false，将关闭对于模组'口渴'/'意志坚定'、'稳态'的水分值渲染覆盖。" +
-                    "\n" + "If set to false, the rendering override of the moisture value for the mod's 'thirst' and 'toughasnails' or 'homeostatic' will be turned off." +
+                    "\n"+"If set to false, the rendering override of the moisture value for the mod's 'thirst' and 'toughasnails' or 'homeostatic' will be turned off."+
                     "\n默认值(Default)：true")
             .define("Thirst-functional-status", true);
     private static final ForgeConfigSpec.ConfigValue<String> Color_Thirst1 = BUILDER
+            .pop(2)
+            .push("Color")
             .comment("\n" + "水分值文本颜色。" +
                     "\nThirst Value text color." +
                     "\n默认值(Default)：\"#FFD700\"")
@@ -105,21 +110,24 @@ public class Config {
                     "\n默认值(Default)：\"#FFD700\"")
             .define("Color_Thirst_Quenched", "#FFD700");
     private static final ForgeConfigSpec.BooleanValue Origins_On1 = BUILDER
-            .pop(1)
+            .pop(2)
             .push("Origins")
-            .comment("如果设置为false,将关闭起源能力槽的显示。" +
+            .comment("\n" + "如果设置为false,将关闭起源能力槽的显示。" +
                     "\nIf set to false, the display of Origins Power values will be turned off." +
                     "\n默认值(Default)：true")
             .define("Origins-functional-status", true);
     private static final ForgeConfigSpec.ConfigValue<String> Color_Origins1 = BUILDER
+            .push("Color")
             .comment("\n" + "起源能力文本颜色。" +
                     "\nOrigins Power value text color." +
                     "\n默认值(Default)：\"#FFD700\"")
             .define("Color_Origins", "#FFD700");
+
+
     private static final ForgeConfigSpec.BooleanValue Artifact_On1 = BUILDER
-            .pop(1)
+            .pop(2)
             .push("Artifacts")
-            .comment( "如果设置为false,将关闭奇异饰品模组-火烈鸟泳圈的显示。" +
+            .comment("\n" + "如果设置为false,将关闭奇异饰品模组-火烈鸟泳圈的显示。" +
                     "\nIf set to false, the display of the Artifacts Mod, Flamingo Swimming Ring, will be turned off." +
                     "\n默认值(Default)：true")
             .define("Artifacts-functional-status", true);
@@ -135,9 +143,9 @@ public class Config {
             .define("Color_Artifacts_Symbol", "#EE0000");
     /*************************************/
     private static final ForgeConfigSpec.BooleanValue Food_On1 = BUILDER
-            .pop(2)
+            .pop(3)
             .push("FEATURES.RIGHT_SIDE_FEATURES")
-            .comment("如果设置false,将关闭以经验等级右侧的所有功能修改。" +
+            .comment("\n" + "如果设置false,将关闭以经验等级右侧的所有功能修改。" +
                     "\nIf set to false, all feature modifications to the right of the experience level will be turned off." +
                     "\n默认值(Default)：true")
             .define("Food-functional-status", true);
@@ -156,6 +164,7 @@ public class Config {
                     "\nIf Set To false The Displayed Of Oxygen Value Is Turned Off | I can't breathe, but I seem to be alive." +
                     "\n默认值(Default)：true")
             .define("Air-functional-status", true);
+
     private static final ForgeConfigSpec.BooleanValue Mounts_On1 = BUILDER
             .comment("\n" + "如果设置为false,将关闭坐骑健康值的显示。" +
                     "\nIf set to false, the display of mount health values will be turned off." +
@@ -165,7 +174,7 @@ public class Config {
     private static final ForgeConfigSpec.BooleanValue Health_On1 = BUILDER
             .pop(1)
             .push("LEFT_SIDE_FEATURES")
-            .comment("如果设置false,将关闭以经验等级左侧的所有功能修改。" +
+            .comment("\n" + "如果设置false,将关闭以经验等级左侧的所有功能修改。" +
                     "\nIf set to false, all feature modifications to the left of the experience level will be turned off." +
                     "\n默认值(Default)：true")
             .define("Health-functional-status", true);
@@ -174,14 +183,16 @@ public class Config {
                     "\nIf set to false, the display of armor values is turned off" +
                     "\n默认值(Default)：true")
             .define("Armour-functional-status", true);
+
     /*************************************/
     private static final ForgeConfigSpec.ConfigValue<String> Color_Health1 = BUILDER
             .pop(2)
             .push("Color")
-            .comment( "血量值文本颜色。" +
+            .comment("\n" + "血量值文本颜色。" +
                     "\nHealth value text color." +
                     "\n默认值(Default)：\"#EE0000\"")
             .define("Color_Health", "#EE0000");
+
     private static final ForgeConfigSpec.ConfigValue<String> Color_Health_Absorb1 = BUILDER
             .comment("\n" + "伤害吸收文本颜色。" +
                     "\nHealth Absorb value text color." +
@@ -227,13 +238,16 @@ public class Config {
                     "\nAir Symbol value text color." +
                     "\n默认值(Default)：\"#EE0000\"")
             .define("Color_Air_Symbol", "#EE0000");
+
+
+    static final ForgeConfigSpec SPEC = BUILDER.build();
     public static String Interval_lll, Interval_TTT, Prefix_Health, Prefix_Food;
     public static boolean Thirst_On, Artifacts_On, MaxFood_On, Origins_On, All_On, Bloodsucker_On, Food_On, Health_On, EasyMode_Text_On, Armour_On, Armor_Toughness_On, Air_On, Mounts_On;
     public static int Color_Thirst_Quenched, Color_Thirst, Color_Artifacts, Color_Air, Color_Artifacts_Symbol, Color_Air_Symbol, Color_Vampires_Blood, Color_Vampires_MaxBlood, Color_Origins, Color_Health, Color_Health_Absorb, Color_Health_Tail, Color_Food, Color_Food_Saturation, Color_Food_Tail, Color_Armor, Color_Armor_Toughness, Color_Interval_lll, Color_Interval_TTT;
 
     @SubscribeEvent
     static void onLoad(final ModConfigEvent event) {
-
+        try {
             All_On = AllOn.get();
             Interval_lll = Interval_Textis.get();
             Interval_TTT = Interval__Text1.get();
@@ -241,6 +255,7 @@ public class Config {
             Prefix_Health = Prefix_Health1.get();
             Prefix_Food = Prefix_Food1.get();
              */
+            // 待完成：颜色修改的应用、颜色默认值.
             MaxFood_On = MaxFood_On1.get();
             Bloodsucker_On = Bloodsucker_On1.get();
             Food_On = Food_On1.get();
@@ -256,6 +271,7 @@ public class Config {
 
             Color_Artifacts = Integer.parseInt(Color_Artifacts1.get().substring(1), 16);
             Color_Artifacts_Symbol = Integer.parseInt(Color_Artifacts_Symbol1.get().substring(1), 16);
+
             Color_Air = Integer.parseInt(Color_Air1.get().substring(1), 16);
             Color_Air_Symbol = Integer.parseInt(Color_Air_Symbol1.get().substring(1), 16);
             Color_Vampires_Blood = Integer.parseInt(Color_Vampires_Blood1.get().substring(1), 16);
@@ -274,6 +290,8 @@ public class Config {
             Color_Interval_lll = Integer.parseInt(Color_Interval_String_1_.get().substring(1), 16);
             Color_Interval_TTT = Integer.parseInt(Color_Interval_String_2_.get().substring(1), 16);
             Color_Origins = Integer.parseInt(Color_Origins1.get().substring(1), 16);
-
+        } catch (NumberFormatException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
