@@ -72,7 +72,7 @@ public class Config {
     private static final ForgeConfigSpec.BooleanValue Bloodsucker_On1 = BUILDER
             .pop(1)
             .push("linkage_function.Vampires")
-            .comment("\n" + "如果设置false,当玩家被感染成吸血鬼时，关闭本模组的饱食度显示。如果为ture，将代替吸血鬼模组的血条进行显示。" +
+            .comment("如果设置false,当玩家被感染成吸血鬼时，关闭本模组的饱食度显示。如果为ture，将代替吸血鬼模组的血条进行显示。" +
                     "\nIf set to false, when the player is infected as a vampire, the saturation display of this mod will be turned off. If it is TURE, it will be displayed in place of the Vampires mod's health bar." +
                     "\n默认值(Default)：true")
             .define("Vampires-functional-status", true);
@@ -89,7 +89,7 @@ public class Config {
     private static final ForgeConfigSpec.BooleanValue Thirst_On1 = BUILDER
             .pop(1)
             .push("Thirst")
-            .comment("\n" + "如果设置为false，将关闭对于模组'口渴'/'意志坚定'、'稳态'的水分值渲染覆盖。" +
+            .comment("如果设置为false，将关闭对于模组'口渴'/'意志坚定'、'稳态'的水分值渲染覆盖。" +
                     "\n" + "If set to false, the rendering override of the moisture value for the mod's 'thirst' and 'toughasnails' or 'homeostatic' will be turned off." +
                     "\n默认值(Default)：true")
             .define("Thirst-functional-status", true);
