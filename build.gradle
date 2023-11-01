@@ -72,6 +72,9 @@ dependencies {
 	modImplementation "curse.maven:architectury-api-419699:4663009" // architectury-9.1.12-fabric.jar
 	modImplementation "io.github.fabricators_of_create.Porting-Lib:attributes:2.1.1142+1.20-entity-refactor"
 	modImplementation "curse.maven:expandability-465066:4630723" // expandability-9.0.0.jar
+
+	// 配置文件
+	modImplementation "curse.maven:yacl-667299:4772784" // yet-another-config-lib-forge-3.2.1+1.20.jar
 }
 
 base {
