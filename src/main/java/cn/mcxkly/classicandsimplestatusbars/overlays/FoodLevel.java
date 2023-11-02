@@ -384,8 +384,8 @@ public class FoodLevel implements IGuiOverlay {
 
         // 疲劳值
         if ( Config.Food_ExhaustionLevel_On ) {
-            int ExhaustionLevel = (int) ((4f - player.getFoodData().getExhaustionLevel()) * 78f) / 4;
-            guiGraphics.hLine(x + 78 - ExhaustionLevel, x + 78, y + 4, Config.Color_Food_ExhaustionLevel);
+            int ExhaustionLevel = Math.max(1, (int) ((4f - player.getFoodData().getExhaustionLevel()) * 78f) / 4);
+            guiGraphics.hLine(x + 79 - ExhaustionLevel, x + 78, y + 4, Config.Color_Food_ExhaustionLevel);
         }
 
         float InsFood;
