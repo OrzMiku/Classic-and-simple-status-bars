@@ -4,6 +4,7 @@ import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.config.ModConfigEvent;
+import java.awt.Color;
 
 @Mod.EventBusSubscriber(modid = ClassicAndSimpleStatusBars.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class Config {
@@ -153,6 +154,13 @@ public class Config {
                     "\n默认值(Default)：0")
             .defineInRange("MaxFood-functional-status", 0,0,2);
     //      .defineInRange("magicNumber", 42, 0, Integer.MAX_VALUE);
+
+    private static final ForgeConfigSpec.BooleanValue Food_ExhaustionLevel_On1 = BUILDER
+            .comment("\n" + "如果设置为false,将关闭食物消耗(疲劳度)的显示。" +
+                    "\nIf set to false, the display of Food ExhaustionLevel values is turned off" +
+                    "\n默认值(Default)：true")
+            .define("Food_ExhaustionLevel-functional-status", true);
+
     private static final ForgeConfigSpec.BooleanValue Armor_Toughness_On1 = BUILDER
             .comment("\n" + "如果设置为false,将关闭盔甲韧性的显示。" +
                     "\nIf set to false, the display of armor toughness values is turned off" +
@@ -235,10 +243,15 @@ public class Config {
                     "\n默认值(Default)：\"#D1EBFF\"")
             .define("Color_Air_Symbol", "#D1EBFF");
 
+    private static final ForgeConfigSpec.ConfigValue<String> Color_Food_ExhaustionLevel1 = BUILDER
+            .comment("\n" + "食物消耗进度（疲劳值）的文本颜色。" +
+                    "\nFood ExhaustionLevel value text color." +
+                    "\n默认值(Default)：\"#66C3CC\"")
+            .define("Color_Food_ExhaustionLevel", "#66C3CC");
     static final ForgeConfigSpec SPEC = BUILDER.build();
     public static String Interval_lll, Interval_TTT, Prefix_Health, Prefix_Food;
-    public static boolean Thirst_On, Artifacts_On,  Origins_On, All_On, Bloodsucker_On, Food_On, Health_On, EasyMode_Text_On, Armour_On, Armor_Toughness_On, Air_On, Mounts_On;
-    public static int MaxFood_On,Color_Origins_Symbol,Color_Thirst_Quenched, Color_Thirst, Color_Artifacts, Color_Air, Color_Artifacts_Symbol, Color_Air_Symbol, Color_Vampires_Blood, Color_Vampires_MaxBlood, Color_Origins, Color_Health, Color_Health_Absorb, Color_Health_Tail, Color_Food, Color_Food_Saturation, Color_Food_Tail, Color_Armor, Color_Armor_Toughness, Color_Interval_lll, Color_Interval_TTT;
+    public static boolean Food_ExhaustionLevel_On,Thirst_On, Artifacts_On,  Origins_On, All_On, Bloodsucker_On, Food_On, Health_On, EasyMode_Text_On, Armour_On, Armor_Toughness_On, Air_On, Mounts_On;
+    public static int Color_Food_ExhaustionLevel,MaxFood_On,Color_Origins_Symbol,Color_Thirst_Quenched, Color_Thirst, Color_Artifacts, Color_Air, Color_Artifacts_Symbol, Color_Air_Symbol, Color_Vampires_Blood, Color_Vampires_MaxBlood, Color_Origins, Color_Health, Color_Health_Absorb, Color_Health_Tail, Color_Food, Color_Food_Saturation, Color_Food_Tail, Color_Armor, Color_Armor_Toughness, Color_Interval_lll, Color_Interval_TTT;
 
     @SubscribeEvent
     static void onLoad(final ModConfigEvent event) {
@@ -261,7 +274,10 @@ public class Config {
             Origins_On = Origins_On1.get();
             Artifacts_On = Artifact_On1.get();
             Thirst_On = Thirst_On1.get();
+            Food_ExhaustionLevel_On = Food_ExhaustionLevel_On1.get();
 
+            Color color_Food_ExhaustionLevel = Color.decode(Color_Food_ExhaustionLevel1.get().toLowerCase());
+            Color_Food_ExhaustionLevel = color_Food_ExhaustionLevel.getRGB();
             Color_Artifacts = Integer.parseInt(Color_Artifacts1.get().substring(1), 16);
             Color_Artifacts_Symbol = Integer.parseInt(Color_Artifacts_Symbol1.get().substring(1), 16);
             Color_Air = Integer.parseInt(Color_Air1.get().substring(1), 16);

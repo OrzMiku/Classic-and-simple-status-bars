@@ -11,6 +11,7 @@ import de.teamlapen.vampirism.util.Helper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -21,6 +22,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.client.gui.overlay.ForgeGui;
 import net.minecraftforge.client.gui.overlay.IGuiOverlay;
 
+import java.awt.*;
 import java.util.Objects;
 
 public class FoodLevel implements IGuiOverlay {
@@ -382,7 +384,13 @@ public class FoodLevel implements IGuiOverlay {
                 intermediateWidth, 5,
                 80, 5);
 
-        float InsFood = 0;
+        // 疲劳值
+        if(Config.Food_ExhaustionLevel_On) {
+            int ExhaustionLevel = (int) ((4f - player.getFoodData().getExhaustionLevel()) * 78f) / 4;
+            guiGraphics.hLine(x + 79 - ExhaustionLevel, x + 79, y + 4, Config.Color_Food_ExhaustionLevel);
+        }
+
+        float InsFood;
         if ( player.getFoodData().getSaturationLevel() > 0 ) {
             InsFood = player.getFoodData().getSaturationLevel();
         } else {
