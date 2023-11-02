@@ -3,14 +3,9 @@ package cn.mcxkly.classicandsimplestatusbars.mixin;
 import cn.mcxkly.classicandsimplestatusbars.Config;
 import io.github.apace100.apoli.screen.PowerHudRenderer;
 import io.github.apace100.apoli.util.ApoliConfigs;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.ForgeMod;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -28,22 +23,22 @@ public abstract class ApoliMixin {
 //        [resources_and_cooldowns]
 //            hud_offset_x = 0
 //            hud_offset_y = 0  // 如果这里没被改就说明可能冲突，我们增加高度.
-            if ( !Only ) {
-                Only = true; // 确定只改一次
-                int sy = ApoliConfigs.CLIENT.resourcesAndCooldowns.hudOffsetY.get();
-                int sx = ApoliConfigs.CLIENT.resourcesAndCooldowns.hudOffsetX.get();
-                if ( sy == 0 || sx == 0 ) {
-                    // 似乎不需要修改 Y
-                    //ApoliConfigs.CLIENT.resourcesAndCooldowns.hudOffsetY.set(0);
-                    ApoliConfigs.CLIENT.resourcesAndCooldowns.hudOffsetX.set(85);
-                }
+        if ( !Only ) {
+            Only = true; // 确定只改一次
+            int sy = ApoliConfigs.CLIENT.resourcesAndCooldowns.hudOffsetY.get();
+            int sx = ApoliConfigs.CLIENT.resourcesAndCooldowns.hudOffsetX.get();
+            if ( sy == 0 || sx == 0 ) {
+                // 似乎不需要修改 Y
+                //ApoliConfigs.CLIENT.resourcesAndCooldowns.hudOffsetY.set(0);
+                ApoliConfigs.CLIENT.resourcesAndCooldowns.hudOffsetX.set(85);
             }
-            // 极其残忍
+        }
+        // 极其残忍
 //          Minecraft client = Minecraft.getInstance();
 //          lient.getWindow().setHeight(client.getWindow().getGuiScaledHeight() + 1);
-            if ( Config.All_On && Config.Origins_On ) {
-                ci.cancel(); // 我滴 注入 任务完成啦.
-            }// else {
+        if ( Config.All_On && Config.Origins_On ) {
+            ci.cancel(); // 我滴 注入 任务完成啦.
+        }// else {
 //                // 提前修改，防止动来动去的.
 //                暂时有点问题. 因为每次渲染，条件都会改变这个数值..
 //

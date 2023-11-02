@@ -3,7 +3,7 @@ package cn.mcxkly.classicandsimplestatusbars;
 import cn.mcxkly.classicandsimplestatusbars.overlays.AppleSkinEventHandler;
 import cn.mcxkly.classicandsimplestatusbars.overlays.FoodLevel;
 import cn.mcxkly.classicandsimplestatusbars.overlays.ThirstWasTakenUse;
-import net.minecraft.world.level.block.Blocks;
+import com.mojang.logging.LogUtils;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModList;
@@ -12,9 +12,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.registries.ForgeRegistries;
 import org.slf4j.Logger;
-import com.mojang.logging.LogUtils;
 
 @Mod(ClassicAndSimpleStatusBars.MOD_ID)
 public class ClassicAndSimpleStatusBars {
@@ -23,6 +21,7 @@ public class ClassicAndSimpleStatusBars {
     public static final Logger LOGGER = LogUtils.getLogger();
     public static boolean vampirism = false;
     public static boolean origins = false;
+
     public ClassicAndSimpleStatusBars() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         modEventBus.addListener(this :: commonSetup);
@@ -59,11 +58,11 @@ public class ClassicAndSimpleStatusBars {
             }
             if ( Config.Bloodsucker_On && ModList.get().isLoaded("vampirism") ) {
                 LOGGER.info("CSSB: " + "Enable the vampirism blood value");
-                vampirism=true;
+                vampirism = true;
             }
             if ( Config.Origins_On && ModList.get().isLoaded("origins") ) {
                 LOGGER.info("CSSB: " + "Enable the origins power value");
-                origins=true;
+                origins = true;
             }
         }
     }

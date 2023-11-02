@@ -1,8 +1,8 @@
 package cn.mcxkly.classicandsimplestatusbars.mixin;
 
 import cn.mcxkly.classicandsimplestatusbars.Config;
-import org.spongepowered.asm.mixin.Mixin;
 import net.silentchaos512.scalinghealth.client.gui.health.HeartDisplayHandler;
+import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -16,6 +16,7 @@ public class ScalingHealthMixin {
             ci.cancel();
         }
     }
+
     @Inject(method = "onHealthDraw", at = @At("HEAD"), cancellable = true)
     private void injected2(CallbackInfo ci) {
         // 效果等于 this.info.heartStyle.get() = HeartIconStyle.VANILLA ，无视掉配置文件的修改.

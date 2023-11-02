@@ -7,28 +7,28 @@ public class AppleSkinEventHandler {
     // 取消苹果皮MOD的部分渲染，应该能增加性能.
     @SubscribeEvent
     public void StopRenderingHunger(HUDOverlayEvent.HungerRestored event) {
-        if (event.isCancelable()) {
+        if ( event.isCancelable() ) {
             event.setCanceled(true);
         }
     }
 
     @SubscribeEvent
     public void StopRenderingSaturation(HUDOverlayEvent.Saturation event) {
-        if (event.isCancelable()) {
+        if ( event.isCancelable() ) {
             event.setCanceled(true);
         }
     }
 
     @SubscribeEvent
     public void StopRenderingEstimated(HUDOverlayEvent.Exhaustion event) {
-        if (event.isCancelable()) {
+        if ( event.isCancelable() ) {
             event.setCanceled(true);
         }
     }
 
     @SubscribeEvent
     public void StopRenderingHealth(HUDOverlayEvent.HealthRestored event) {
-        if (event.isCancelable()) {
+        if ( event.isCancelable() ) {
             event.setCanceled(true);
         }
     }

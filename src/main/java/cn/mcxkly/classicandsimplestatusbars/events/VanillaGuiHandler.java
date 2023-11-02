@@ -24,40 +24,49 @@ public class VanillaGuiHandler {
     private static final ResourceLocation vanillAarmor_level = new ResourceLocation("minecraft", "armor_level");
     private static final ResourceLocation ThirstWasTaken = new ResourceLocation("thirst", "thirst_level");
     private static final ResourceLocation toughasnailsl = new ResourceLocation("toughasnails", "thirst_level");
+
     @SubscribeEvent
     public static void disableVanillaAarmor(RenderGuiOverlayEvent.Pre event) {
-        if(Config.All_On){
+        if ( Config.All_On ) {
             final ForgeGui gui = ((ForgeGui) mc.gui);
             // 兼容性测试-尝试让其他模组兼容 如果其他模组依赖这个.
             gui.leftHeight += 2;
             gui.rightHeight += 2;
-            if (!event.isCanceled() && !mc.options.hideGui && gui.shouldDrawSurvivalElements() && mc.cameraEntity instanceof Player) {
-                if(event.getOverlay().id().equals(vanillAarmor_level)){
+            if ( !event.isCanceled() && !mc.options.hideGui && gui.shouldDrawSurvivalElements() && mc.cameraEntity instanceof Player ) {
+                if ( event.getOverlay().id().equals(vanillAarmor_level) ) {
                     event.setCanceled(true);
-                };
-                if(event.getOverlay().id().equals(vanillaMount_health)){
+                }
+                ;
+                if ( event.getOverlay().id().equals(vanillaMount_health) ) {
                     event.setCanceled(true);
-                };
-                if(event.getOverlay().id().equals(vanillaHealthBar)){
+                }
+                ;
+                if ( event.getOverlay().id().equals(vanillaHealthBar) ) {
                     event.setCanceled(true);
-                };
-                if(event.getOverlay().id().equals(vanillAarmor_level)){
+                }
+                ;
+                if ( event.getOverlay().id().equals(vanillAarmor_level) ) {
                     event.setCanceled(true);
-                };
-                if(event.getOverlay().id().equals(vanillaFoodBar)){
+                }
+                ;
+                if ( event.getOverlay().id().equals(vanillaFoodBar) ) {
                     event.setCanceled(true);
-                };
-                if(event.getOverlay().id().equals(vanillaAir)){
+                }
+                ;
+                if ( event.getOverlay().id().equals(vanillaAir) ) {
                     event.setCanceled(true);
-                };
+                }
+                ;
                 // 意志坚定
-                if(event.getOverlay().id().equals(toughasnailsl)){
+                if ( event.getOverlay().id().equals(toughasnailsl) ) {
                     event.setCanceled(true);
-                };
+                }
+                ;
                 // 口渴
-                if(event.getOverlay().id().equals(ThirstWasTaken)){
+                if ( event.getOverlay().id().equals(ThirstWasTaken) ) {
                     event.setCanceled(true);
-                };
+                }
+                ;
             }
         }
 

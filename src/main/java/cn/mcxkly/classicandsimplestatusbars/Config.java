@@ -4,15 +4,16 @@ import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.config.ModConfigEvent;
-import java.awt.Color;
+
+import java.awt.*;
 
 @Mod.EventBusSubscriber(modid = ClassicAndSimpleStatusBars.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class Config {
     private static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
     private static final ForgeConfigSpec.BooleanValue AllOn = BUILDER
             .push("All_On")
-            .comment("在修改任何功能后都建议重启游戏以便正确生效。\n"+
-                    "It is advisable to restart the game after any feature has been modified for it to take effect correctly。\n"+
+            .comment("在修改任何功能后都建议重启游戏以便正确生效。\n" +
+                    "It is advisable to restart the game after any feature has been modified for it to take effect correctly。\n" +
                     "我不是很推荐关闭功能，因为某种情况下无法解决冲突，比如本模组的图片高度是5像素点，但原版图标是9像素点，如果你有兼容性的问题建议联系我。" +
                     "\n因需要保持显示内容正常显示，大部分联动渲染功能关闭后仍然被阻止此模组的渲染." +
                     "\nI don't really recommend turning off the function, because there is no way to resolve the conflict in some cases, for example, the image height of this module is 5 pixels, but the original icon is 9 pixels, if you have compatibility problems, please contact me." +
@@ -53,18 +54,18 @@ public class Config {
                     "\n\"Defines the symbol used for 'Current Value Add-on'." +
                     "\n默认值(Default)：Interval_String_2=\"+\"")
             .define("Interval_String_2", "+");
-            /* 感觉完全没必要...
-    private static final ForgeConfigSpec.ConfigValue<String> Prefix_Health1 = BUILDER
-            .comment("\n" + "定义血量的前缀，如：‘血量:’20+5/40" +
-                    "\n\"A prefix that defines the amount of health, e.g. 'HP:'20+5/40" +
-                    "\n默认值(Default)：Prefix_String=\"\"")
-            .define("Prefix_String", "");
+    /* 感觉完全没必要...
+private static final ForgeConfigSpec.ConfigValue<String> Prefix_Health1 = BUILDER
+    .comment("\n" + "定义血量的前缀，如：‘血量:’20+5/40" +
+            "\n\"A prefix that defines the amount of health, e.g. 'HP:'20+5/40" +
+            "\n默认值(Default)：Prefix_String=\"\"")
+    .define("Prefix_String", "");
 
-    private static final ForgeConfigSpec.ConfigValue<String> Prefix_Food1 = BUILDER
-            .comment("\n" + "定义饱食度的前缀，如：‘蛋糕:’16+5" +
-                    "\n\"A prefix that defines the amount of Food, e.g. 'Food:'16+5" +
-                    "\n默认值(Default)：Prefix_String=\"\"")
-            .define("Prefix_String", "");
+private static final ForgeConfigSpec.ConfigValue<String> Prefix_Food1 = BUILDER
+    .comment("\n" + "定义饱食度的前缀，如：‘蛋糕:’16+5" +
+            "\n\"A prefix that defines the amount of Food, e.g. 'Food:'16+5" +
+            "\n默认值(Default)：Prefix_String=\"\"")
+    .define("Prefix_String", "");
 */
     private static final ForgeConfigSpec.ConfigValue<String> Color_Interval_String_2_ = BUILDER
             .comment("\n" + "符号'+'的颜色。" +
@@ -126,7 +127,7 @@ public class Config {
     private static final ForgeConfigSpec.BooleanValue Artifact_On1 = BUILDER
             .pop(1)
             .push("Artifacts")
-            .comment( "如果设置为false,将关闭奇异饰品模组-火烈鸟泳圈的显示。" +
+            .comment("如果设置为false,将关闭奇异饰品模组-火烈鸟泳圈的显示。" +
                     "\nIf set to false, the display of the Artifacts Mod, Flamingo Swimming Ring, will be turned off." +
                     "\n默认值(Default)：true")
             .define("Artifacts-functional-status", true);
@@ -152,7 +153,7 @@ public class Config {
             .comment("\n" + "如果设置为'0',将在最大饱食度大于20时自动渲染、如果设置为'1',将始终显示最大饱食度、如果设置为'2',将始终隐藏最大饱食度。" +
                     "\nIf set to '0', auto the maximum satiety greater than 20 will be displayed, if set to '1', the maximum satiety will always be displayed, and if set to '2', the maximum satiety will always be hidden." +
                     "\n默认值(Default)：0")
-            .defineInRange("MaxFood-functional-status", 0,0,2);
+            .defineInRange("MaxFood-functional-status", 0, 0, 2);
     //      .defineInRange("magicNumber", 42, 0, Integer.MAX_VALUE);
 
     private static final ForgeConfigSpec.BooleanValue Food_ExhaustionLevel_On1 = BUILDER
@@ -193,7 +194,7 @@ public class Config {
     private static final ForgeConfigSpec.ConfigValue<String> Color_Health1 = BUILDER
             .pop(2)
             .push("Color")
-            .comment( "血量值文本颜色。" +
+            .comment("血量值文本颜色。" +
                     "\nHealth value text color." +
                     "\n默认值(Default)：\"#B3473C\"")
             .define("Color_Health", "#B3473C");
@@ -250,53 +251,53 @@ public class Config {
             .define("Color_Food_ExhaustionLevel", "#66C3CC");
     static final ForgeConfigSpec SPEC = BUILDER.build();
     public static String Interval_lll, Interval_TTT, Prefix_Health, Prefix_Food;
-    public static boolean Food_ExhaustionLevel_On,Thirst_On, Artifacts_On,  Origins_On, All_On, Bloodsucker_On, Food_On, Health_On, EasyMode_Text_On, Armour_On, Armor_Toughness_On, Air_On, Mounts_On;
-    public static int Color_Food_ExhaustionLevel,MaxFood_On,Color_Origins_Symbol,Color_Thirst_Quenched, Color_Thirst, Color_Artifacts, Color_Air, Color_Artifacts_Symbol, Color_Air_Symbol, Color_Vampires_Blood, Color_Vampires_MaxBlood, Color_Origins, Color_Health, Color_Health_Absorb, Color_Health_Tail, Color_Food, Color_Food_Saturation, Color_Food_Tail, Color_Armor, Color_Armor_Toughness, Color_Interval_lll, Color_Interval_TTT;
+    public static boolean Food_ExhaustionLevel_On, Thirst_On, Artifacts_On, Origins_On, All_On, Bloodsucker_On, Food_On, Health_On, EasyMode_Text_On, Armour_On, Armor_Toughness_On, Air_On, Mounts_On;
+    public static int Color_Food_ExhaustionLevel, MaxFood_On, Color_Origins_Symbol, Color_Thirst_Quenched, Color_Thirst, Color_Artifacts, Color_Air, Color_Artifacts_Symbol, Color_Air_Symbol, Color_Vampires_Blood, Color_Vampires_MaxBlood, Color_Origins, Color_Health, Color_Health_Absorb, Color_Health_Tail, Color_Food, Color_Food_Saturation, Color_Food_Tail, Color_Armor, Color_Armor_Toughness, Color_Interval_lll, Color_Interval_TTT;
 
     @SubscribeEvent
     static void onLoad(final ModConfigEvent event) {
-            All_On = AllOn.get();
-            Interval_lll = Interval_Textis.get();
-            Interval_TTT = Interval__Text1.get();
+        All_On = AllOn.get();
+        Interval_lll = Interval_Textis.get();
+        Interval_TTT = Interval__Text1.get();
             /* 感觉完全没必要...
             Prefix_Health = Prefix_Health1.get();
             Prefix_Food = Prefix_Food1.get();
              */
-            MaxFood_On = MaxFood_On1.get();
-            Bloodsucker_On = Bloodsucker_On1.get();
-            Food_On = Food_On1.get();
-            Health_On = Health_On1.get();
-            EasyMode_Text_On = EasyMode.get();
-            Armour_On = Armour_On1.get();
-            Armor_Toughness_On = Armor_Toughness_On1.get();
-            Air_On = Air_On1.get();
-            Mounts_On = Mounts_On1.get();
-            Origins_On = Origins_On1.get();
-            Artifacts_On = Artifact_On1.get();
-            Thirst_On = Thirst_On1.get();
-            Food_ExhaustionLevel_On = Food_ExhaustionLevel_On1.get();
+        MaxFood_On = MaxFood_On1.get();
+        Bloodsucker_On = Bloodsucker_On1.get();
+        Food_On = Food_On1.get();
+        Health_On = Health_On1.get();
+        EasyMode_Text_On = EasyMode.get();
+        Armour_On = Armour_On1.get();
+        Armor_Toughness_On = Armor_Toughness_On1.get();
+        Air_On = Air_On1.get();
+        Mounts_On = Mounts_On1.get();
+        Origins_On = Origins_On1.get();
+        Artifacts_On = Artifact_On1.get();
+        Thirst_On = Thirst_On1.get();
+        Food_ExhaustionLevel_On = Food_ExhaustionLevel_On1.get();
 
-            Color color_Food_ExhaustionLevel = Color.decode(Color_Food_ExhaustionLevel1.get().toLowerCase());
-            Color_Food_ExhaustionLevel = color_Food_ExhaustionLevel.getRGB();
-            Color_Artifacts = Integer.parseInt(Color_Artifacts1.get().substring(1), 16);
-            Color_Artifacts_Symbol = Integer.parseInt(Color_Artifacts_Symbol1.get().substring(1), 16);
-            Color_Air = Integer.parseInt(Color_Air1.get().substring(1), 16);
-            Color_Air_Symbol = Integer.parseInt(Color_Air_Symbol1.get().substring(1), 16);
-            Color_Vampires_Blood = Integer.parseInt(Color_Vampires_Blood1.get().substring(1), 16);
-            Color_Vampires_MaxBlood = Integer.parseInt(Color_Vampires_MaxBlood1.get().substring(1), 16);
-            Color_Thirst_Quenched = Integer.parseInt(Color_Thirst_Quenched1.get().substring(1), 16);
-            Color_Thirst = Integer.parseInt(Color_Thirst1.get().substring(1), 16);
-            Color_Health = Integer.parseInt(Color_Health1.get().substring(1), 16);
-            Color_Health_Absorb = Integer.parseInt(Color_Health_Absorb1.get().substring(1), 16);
-            Color_Health_Tail = Integer.parseInt(Color_Health_Tail1.get().substring(1), 16);
-            Color_Food = Integer.parseInt(Color_Food1.get().substring(1), 16);
-            Color_Food_Saturation = Integer.parseInt(Color_Food_Saturation1.get().substring(1), 16);
-            Color_Food_Tail = Integer.parseInt(Color_Food_Tail1.get().substring(1), 16);
-            Color_Armor = Integer.parseInt(Color_Armor1.get().substring(1), 16);
-            Color_Armor_Toughness = Integer.parseInt(Color_Armor_Toughness1.get().substring(1), 16);
-            Color_Interval_lll = Integer.parseInt(Color_Interval_String_1_.get().substring(1), 16);
-            Color_Interval_TTT = Integer.parseInt(Color_Interval_String_2_.get().substring(1), 16);
-            Color_Origins = Integer.parseInt(Color_Origins1.get().substring(1), 16);
-            Color_Origins_Symbol = Integer.parseInt(Color_Origins_Symbol1.get().substring(1), 16);
+        Color color_Food_ExhaustionLevel = Color.decode(Color_Food_ExhaustionLevel1.get().toLowerCase());
+        Color_Food_ExhaustionLevel = color_Food_ExhaustionLevel.getRGB();
+        Color_Artifacts = Integer.parseInt(Color_Artifacts1.get().substring(1), 16);
+        Color_Artifacts_Symbol = Integer.parseInt(Color_Artifacts_Symbol1.get().substring(1), 16);
+        Color_Air = Integer.parseInt(Color_Air1.get().substring(1), 16);
+        Color_Air_Symbol = Integer.parseInt(Color_Air_Symbol1.get().substring(1), 16);
+        Color_Vampires_Blood = Integer.parseInt(Color_Vampires_Blood1.get().substring(1), 16);
+        Color_Vampires_MaxBlood = Integer.parseInt(Color_Vampires_MaxBlood1.get().substring(1), 16);
+        Color_Thirst_Quenched = Integer.parseInt(Color_Thirst_Quenched1.get().substring(1), 16);
+        Color_Thirst = Integer.parseInt(Color_Thirst1.get().substring(1), 16);
+        Color_Health = Integer.parseInt(Color_Health1.get().substring(1), 16);
+        Color_Health_Absorb = Integer.parseInt(Color_Health_Absorb1.get().substring(1), 16);
+        Color_Health_Tail = Integer.parseInt(Color_Health_Tail1.get().substring(1), 16);
+        Color_Food = Integer.parseInt(Color_Food1.get().substring(1), 16);
+        Color_Food_Saturation = Integer.parseInt(Color_Food_Saturation1.get().substring(1), 16);
+        Color_Food_Tail = Integer.parseInt(Color_Food_Tail1.get().substring(1), 16);
+        Color_Armor = Integer.parseInt(Color_Armor1.get().substring(1), 16);
+        Color_Armor_Toughness = Integer.parseInt(Color_Armor_Toughness1.get().substring(1), 16);
+        Color_Interval_lll = Integer.parseInt(Color_Interval_String_1_.get().substring(1), 16);
+        Color_Interval_TTT = Integer.parseInt(Color_Interval_String_2_.get().substring(1), 16);
+        Color_Origins = Integer.parseInt(Color_Origins1.get().substring(1), 16);
+        Color_Origins_Symbol = Integer.parseInt(Color_Origins_Symbol1.get().substring(1), 16);
     }
 }
