@@ -14,20 +14,23 @@
 - [CurseForge](https://curseforge.com/minecraft/mc-mods/classic-and-simple-status-bars)
 
 ### 🌈Support Functions
+- Support Function switches, text color formatting；
 - Support Texture changes such as withering, poisoning, freezing, and starvation
 - Support Breaking through 20 health maximum operating conditions
 - Support Health Absorption
-- Support Hunger
+- Support Hunger/Max and Exhaustion (configurable)
 - Support Saturation
 - Support Air conditions
 - Support The maximum operating condition of MountHealth
 - Support Armor value
 - Support Armor Toughness
-- Support Thirst levels provided Mod Thirst and Tough As Nails
+- Support Thirst levels provided Mod Thirst and Tough As Nails or Homeostatic
 - Support Dehydration (Fabric)
-- Support flamingo flight status, from Artifacts Mod.
-- Support for ParCool Mod, forcing parkour physical rendering in the lower right corner (if rendering is allowed).
-- Support for ScalingHealth Mod, Disable Its Heart Container Rendering.
+- Support THE CLASS ABILITY BAR FOR THE Origins MOD；
+- Support Vampire mod, vampire blood-drinking slot；
+- Support flamingo flight status, from Artifacts Mod
+- Support for ParCool Mod, forcing parkour physical rendering in the lower right corner (if rendering is allowed)
+- Support for ScalingHealth Mod, Disable Its Heart Container Rendering
 
 ### 🖼️Photo:
   ![0](/Textures/in/0.png)
