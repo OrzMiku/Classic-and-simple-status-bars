@@ -2,6 +2,7 @@ package cn.mcxkly.classicandsimplestatusbars.overlays;
 
 import cn.mcxkly.classicandsimplestatusbars.Config;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import dev.ghen.thirst.foundation.common.capability.IThirst;
 import dev.ghen.thirst.foundation.common.capability.ModCapabilities;
 import homeostatic.common.capabilities.CapabilityRegistry;
@@ -58,7 +59,15 @@ public class ThirstWasTakenUse implements IGuiOverlay {
         }
     }
 
-    private void renderThirstLevelBar(Font font, GuiGraphics guiGraphics, float partialTick, int x, int y, Player player) {
+    private void renderThirstLevelBar(Font font, GuiGraphics guiGraphics, float partialTick, int X, int Y, Player player) {
+        // 渲染尺寸
+        float scale = Config.Font_Size_Multiples;
+        PoseStack stack = guiGraphics.pose();
+        stack.pushPose();
+        stack.scale(scale, scale, 1.0F);
+        float y = (Y - scale / 2) / scale;
+        float x = (X - scale / 2) / scale;
+
         AtomicInteger Quenched = new AtomicInteger();
         AtomicInteger Thirst = new AtomicInteger();
         if ( !StopConflictRendering ) { // 如果口渴存在，不管意志坚定是否存在.
@@ -66,7 +75,7 @@ public class ThirstWasTakenUse implements IGuiOverlay {
             Thirst.set(Play_THIRST.getThirst());
             Quenched.set(Play_THIRST.getQuenched());
             guiGraphics.blit(THIRST_ICONS,
-                    x + 70, y - 10,
+                    X + 70, Y - 10,
                     16.0F, 0.0F,
                     9, 9,
                     25, 9);
@@ -75,7 +84,7 @@ public class ThirstWasTakenUse implements IGuiOverlay {
             Thirst.set(thirst.getThirst());
             Quenched.set((int) thirst.getHydration());
             guiGraphics.blit(Toughasnails_Icons,
-                    x + 70, y - 10,
+                    X + 70, Y - 10,
                     0, 41,
                     9, 9);
         } else if ( !HomeostaticIS ) { // 优先级最低，迫不得已.
@@ -85,29 +94,30 @@ public class ThirstWasTakenUse implements IGuiOverlay {
                 Quenched.set((int) data.getWaterSaturationLevel());
                 // 底图
                 guiGraphics.blit(Homeostatic_Icons,
-                        x + 70, y - 10,
+                        X + 70, Y - 10,
                         0, 0,
                         9, 9);
                 // 附加1
                 guiGraphics.blit(Homeostatic_Icons,
-                        x + 70, y - 10,
+                        X + 70, Y - 10,
                         9, 0,
                         9, 9);
                 // 附加2
                 guiGraphics.blit(Homeostatic_Icons,
-                        x + 70, y - 10,
+                        X + 70, Y - 10,
                         0, 9,
                         9, 9);
             });
         } else return; // 如果两者都不在，并且也没有稳态，跳过渲染.
         if ( Quenched.get() > 0 ) { // 如果Quenched大于0渲染.
-            int x2 = x + 70 - font.width(Quenched + Config.Interval_TTT) - font.width(String.valueOf(Thirst.get())); // 计算长度
+            float x2 = x + 70 - font.width(Quenched + Config.Interval_TTT) - font.width(String.valueOf(Thirst.get())); // 计算长度
             guiGraphics.drawString(font, Quenched + "", x2, y - 9, Config.Color_Thirst_Quenched, false);
             x2 += font.width(Quenched + "");
             guiGraphics.drawString(font, Config.Interval_TTT, x2, y - 9, Config.Color_Interval_TTT, false);
         }
         font.width("0.3");
         guiGraphics.drawString(font, String.valueOf(Thirst.get()), x + 70 - font.width(String.valueOf(Thirst.get())), y - 9, Config.Color_Thirst, false);
+        stack.popPose();
     }
 }
 

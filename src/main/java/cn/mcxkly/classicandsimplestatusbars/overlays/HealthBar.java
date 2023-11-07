@@ -3,6 +3,7 @@ package cn.mcxkly.classicandsimplestatusbars.overlays;
 import cn.mcxkly.classicandsimplestatusbars.ClassicAndSimpleStatusBars;
 import cn.mcxkly.classicandsimplestatusbars.Config;
 import cn.mcxkly.classicandsimplestatusbars.other.helper;
+import com.mojang.blaze3d.vertex.PoseStack;
 import io.github.apace100.apoli.util.HudRender;
 import io.github.edwinmindcraft.apoli.api.component.IPowerContainer;
 import io.github.edwinmindcraft.apoli.api.power.configuration.ConfiguredPower;
@@ -53,12 +54,20 @@ public class HealthBar implements IGuiOverlay {
         }
     }
 
-    private void renderHealthValue_Easy(Font font, GuiGraphics guiGraphics, int x, int y, Player player) {
-        y -= 2;
+    private void renderHealthValue_Easy(Font font, GuiGraphics guiGraphics, int x, int Y, Player player) {
+        float y = Y - 2;
         float MaxHealth = player.getMaxHealth(); // 最大血量
         float Health = Math.min(player.getHealth(), MaxHealth); // 当前血量
         float Absorption = player.getAbsorptionAmount(); // 吸收量
-        int xx = x - 2;
+        float xx = x - 2;
+        // 渲染尺寸
+        float scale = Config.Font_Size_Multiples;
+        PoseStack stack = guiGraphics.pose();
+        stack.pushPose();
+        stack.scale(scale, scale, 1.0F);
+        y = (y - scale / 2) / scale;
+        xx = (xx - scale / 2) / scale;
+
         String text = helper.KeepOneDecimal(MaxHealth);
         xx = xx - font.width(text); // 要向左
         guiGraphics.drawString(font, text, xx, y - 1, Config.Color_Health, false);
@@ -77,6 +86,7 @@ public class HealthBar implements IGuiOverlay {
         text = helper.KeepOneDecimal(Health);
         xx = xx - font.width(text);
         guiGraphics.drawString(font, text, xx, y - 1, Config.Color_Health_Tail, false);
+        stack.popPose();
     }
 
     public void updateBarTextures(Player player) {
@@ -91,12 +101,14 @@ public class HealthBar implements IGuiOverlay {
         }
     }
 
-    private void renderHealthValue(Font font, GuiGraphics guiGraphics, int x, int Y, Player player) {
-        int y = Y + 1;
-        int finalY = Y - 8;
-        int finalX = x + 72;
+    private void renderHealthValue(Font font, GuiGraphics guiGraphics, int X, int Y, Player player) {
+        Y += 1;
+        float y = Y;
+        float x = X;
+        int finalY = Y - 18;
+        float finalX = x + 72;
         guiGraphics.blit(guiIconsLocation,
-                x, y - 10,
+                X, Y - 10,
                 52, 0,
                 9, 9,
                 256, 256); // 红心图标
@@ -104,12 +116,18 @@ public class HealthBar implements IGuiOverlay {
         float Health = Math.min(player.getHealth(), MaxHealth); // 当前血量
         float Absorption = player.getAbsorptionAmount(); // 吸收量
         float ARMOR = player.getArmorValue(); // 护甲值
-        int xx = x + 10;
+        float xx = x + 10f;
+        // 渲染尺寸
+        float scale = Config.Font_Size_Multiples;
+        PoseStack stack = guiGraphics.pose();
+        stack.pushPose();
+        stack.scale(scale, scale, 1.0F);
+        y = (y - scale / 2) / scale;
+        xx = (xx - scale / 2) / scale;
         String text;
-        if ( Absorption > 0 ) {
-            text = helper.KeepOneDecimal(Health);
-            guiGraphics.drawString(font, text, xx, y - 9, Config.Color_Health, false);
-
+        text = helper.KeepOneDecimal(Health);
+        guiGraphics.drawString(font, text, xx, y - 9, Config.Color_Health, false);
+        if (Absorption > 0) {
             xx = xx + font.width(text); // '+'
             text = Config.Interval_TTT;
             guiGraphics.drawString(font, text, xx, y - 9, Config.Color_Interval_TTT, false);
@@ -117,29 +135,19 @@ public class HealthBar implements IGuiOverlay {
             xx = xx + font.width(text);
             text = helper.KeepOneDecimal(Absorption);
             guiGraphics.drawString(font, text, xx, y - 9, Config.Color_Health_Absorb, false);
-
-            xx = xx + font.width(text); // '/'
-            text = Config.Interval_lll;
-            guiGraphics.drawString(font, text, xx, y - 9, Config.Color_Interval_lll, false);
-
-            xx = xx + font.width(text);
-            text = helper.KeepOneDecimal(MaxHealth);
-            guiGraphics.drawString(font, text, xx, y - 9, Config.Color_Health_Tail, false);
-        } else {
-            text = helper.KeepOneDecimal(Health);
-            guiGraphics.drawString(font, text, xx, y - 9, Config.Color_Health, false);
-
-            xx = xx + font.width(text); // '/'
-            text = Config.Interval_lll;
-            guiGraphics.drawString(font, text, xx, y - 9, Config.Color_Interval_lll, false);
-
-            xx = xx + font.width(text);
-            text = helper.KeepOneDecimal(MaxHealth);
-            guiGraphics.drawString(font, text, xx, y - 9, Config.Color_Health_Tail, false);
         }
+
+        xx = xx + font.width(text); // '/'
+        text = Config.Interval_lll;
+        guiGraphics.drawString(font, text, xx, y - 9, Config.Color_Interval_lll, false);
+
+        xx = xx + font.width(text);
+        text = helper.KeepOneDecimal(MaxHealth);
+        guiGraphics.drawString(font, text, xx, y - 9, Config.Color_Health_Tail, false);
+
         if ( ARMOR > 0 && Config.Armour_On ) {
             guiGraphics.blit(guiIconsLocation,
-                    x, y - 19,
+                    X, Y - 19,
                     43, 9,
                     9, 9,
                     256, 256); // 护甲图标
@@ -160,25 +168,18 @@ public class HealthBar implements IGuiOverlay {
                             fill = 1.0F - fill;
                         }
                         String tex = helper.KeepOneDecimal((int) (fill * (float) 100));
-                        int finalY2 = finalY - 10;
-                        /*
-                        int finalY2 = finalY;
-                        if ( Absorption > 0 ) {
-                            // 避免血量文本太长. 在拥有吸收值时，提高高度.
-                            finalY2 -= 10;
-                        } */
-                        guiGraphics.drawString(font, "%", finalX - font.width("%"), finalY2, Config.Color_Origins_Symbol, false);
-                        guiGraphics.drawString(font, tex, finalX - font.width(tex) - font.width("%"), finalY2, Config.Color_Origins, false);
+                        guiGraphics.drawString(font, "%", finalX - font.width("%"), finalY, Config.Color_Origins_Symbol, false);
+                        guiGraphics.drawString(font, tex, finalX - font.width(tex) - font.width("%"), finalY, Config.Color_Origins, false);
                         // 渲染图标
                         guiGraphics.blit(currentLocation,
-                                finalX, finalY2,
+                                X + 72, finalY,
                                 73, v,
                                 iconSize, iconSize);
                     }
                 }
             });
         }
-
+        stack.popPose();
     }
 
     private void renderHealthBar(GuiGraphics guiGraphics, float partialTick, int x, int y, Player player) {

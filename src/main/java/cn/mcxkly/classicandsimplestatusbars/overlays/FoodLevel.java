@@ -6,6 +6,7 @@ import artifacts.registry.ModGameRules;
 import cn.mcxkly.classicandsimplestatusbars.ClassicAndSimpleStatusBars;
 import cn.mcxkly.classicandsimplestatusbars.Config;
 import cn.mcxkly.classicandsimplestatusbars.other.helper;
+import com.mojang.blaze3d.vertex.PoseStack;
 import de.teamlapen.vampirism.entity.player.vampire.VampirePlayer;
 import de.teamlapen.vampirism.util.Helper;
 import net.minecraft.client.Minecraft;
@@ -82,11 +83,20 @@ public class FoodLevel implements IGuiOverlay {
         }
     }
 
-    private void renderFoodValue_Easy(Font font, GuiGraphics guiGraphics, int x, int y, Player player) {
-        y -= 2;
+    private void renderFoodValue_Easy(Font font, GuiGraphics guiGraphics, int x, int Y, Player player) {
+        float y = Y-2;
         String text;
         text = helper.KeepOneDecimal(player.getFoodData().getFoodLevel());
-        int xx = x + 82; // 右侧
+        float xx = x + 82; // 右侧
+
+        // 渲染尺寸
+        float scale = Config.Font_Size_Multiples;
+        PoseStack stack = guiGraphics.pose();
+        stack.pushPose();
+        stack.scale(scale, scale, 1.0F);
+        y = (y - scale / 2) / scale;
+        xx = (xx - scale / 2) / scale;
+
         guiGraphics.drawString(font, text, xx, y - 1, Config.Color_Food, false);
         if ( player.getFoodData().getSaturationLevel() > 0 ) {
             //第二部分
@@ -109,6 +119,7 @@ public class FoodLevel implements IGuiOverlay {
             text = helper.KeepOneDecimal(player.getFoodData().getLastFoodLevel());
             guiGraphics.drawString(font, text, xx, y - 1, Config.Color_Food_Tail, false);
         }
+        stack.popPose();
     }
 
     float intermediate = 0;
@@ -160,26 +171,31 @@ public class FoodLevel implements IGuiOverlay {
         });
     }
 
-    private void renderInfectedVampires(Font font, GuiGraphics guiGraphics, int x, int y, Player player) {
-        y += 1;
-        int finalY = y;
+    private void renderInfectedVampires(Font font, GuiGraphics guiGraphics, int X, int Y, Player player) {
+        // 渲染尺寸
+        float scale = Config.Font_Size_Multiples;
+        PoseStack stack = guiGraphics.pose();
+        stack.pushPose();
+        stack.scale(scale, scale, 1.0F);
+        float y = (Y + 1 - scale / 2) / scale;
+        final float[] xx = {(X - scale / 2) / scale};
+        xx[0] = xx[0] + 10;
         VampirePlayer.getOpt(player).map(VampirePlayer :: getBloodStats).ifPresent((stats) -> {
             String text;
             int blood = stats.getBloodLevel();
             int maxBlood = stats.getMaxBlood();
             guiGraphics.blit(Vampires_Icons,
-                    x, finalY - 10,
+                    X, Y - 9,
                     9, 9,
                     9, 9); // 血液
             text = helper.KeepOneDecimal(blood);
-            int xx = x + 10;
-            guiGraphics.drawString(font, text, xx, finalY - 9, Config.Color_Vampires_Blood, false);
-            xx = xx + font.width(text);
+            guiGraphics.drawString(font, text, xx[0], y - 9, Config.Color_Vampires_Blood, false);
+            xx[0] = xx[0] + font.width(text);
             text = Config.Interval_lll;
-            guiGraphics.drawString(font, text, xx, finalY - 9, Config.Color_Interval_lll, false);
-            xx = xx + font.width(text);
+            guiGraphics.drawString(font, text, xx[0], y - 9, Config.Color_Interval_lll, false);
+            xx[0] = xx[0] + font.width(text);
             text = helper.KeepOneDecimal(maxBlood);
-            guiGraphics.drawString(font, text, xx, finalY - 9, Config.Color_Vampires_MaxBlood, false);
+            guiGraphics.drawString(font, text, xx[0], y - 9, Config.Color_Vampires_MaxBlood, false);
         });
     }
 
@@ -191,21 +207,27 @@ public class FoodLevel implements IGuiOverlay {
         }
     }
 
-    private void renderFood(Font font, GuiGraphics guiGraphics, int x, int y, Player player) {
-        y += 1;
+    private void renderFood(Font font, GuiGraphics guiGraphics, int X, int Y, Player player) {
         String text;
+        // 渲染尺寸
+        float scale = Config.Font_Size_Multiples;
+        PoseStack stack = guiGraphics.pose();
+        stack.pushPose();
+        stack.scale(scale, scale, 1.0F);
+        float y = (Y + 1 - scale / 2) / scale;
+        float xx = (X - scale / 2) / scale;
         guiGraphics.blit(guiIconsLocation,
-                x, y - 10,
+                X, Y - 9,
                 16, 27,
                 9, 9,
                 256, 256); // 鸡腿图标-背景
         guiGraphics.blit(guiIconsLocation,
-                x, y - 10,
+                X, Y - 9,
                 52, 27,
                 9, 9,
                 256, 256); // 鸡腿图标
         text = helper.KeepOneDecimal(player.getFoodData().getFoodLevel());
-        int xx = x + 10;
+        xx += 10;
         guiGraphics.drawString(font, text, xx, y - 9, Config.Color_Food, false);
         if ( player.getFoodData().getSaturationLevel() > 0 ) {
             //第二部分
@@ -228,23 +250,31 @@ public class FoodLevel implements IGuiOverlay {
             text = helper.KeepOneDecimal(player.getFoodData().getLastFoodLevel());
             guiGraphics.drawString(font, text, xx, y - 9, Config.Color_Food_Tail, false);
         }
+        stack.popPose();
     }
 
-    private void renderFoodValue(Font font, GuiGraphics guiGraphics, int x, int y, Player player) {
+    private void renderFoodValue(Font font, GuiGraphics guiGraphics, int X, int Y, Player player) {
         // getSaturationLevel饱食条 | getFoodLevel饥饿度 |  getLastFoodLevel饥饿最大值 | player.getFoodData().getExhaustionLevel(); 消耗度
-        y += 1;
         String text;
+        // 渲染尺寸
+        float scale = Config.Font_Size_Multiples;
+        PoseStack stack = guiGraphics.pose();
+        stack.pushPose();
+        stack.scale(scale, scale, 1.0F);
+        float y = (Y + 1 - scale / 2) / scale;
+        float x = (X - scale / 2) / scale;
+
         if ( Config.Air_On && player.getAirSupply() < 300 ) { // max=300
             int siz = player.getAirSupply() / 3;
             siz = Math.max(siz, 0); //防止负数
             text = String.valueOf(siz);
-            int y2 = y;
+            int y2 = Y+1;
             if ( !StopConflictRendering ) y2 -= 10; // 如果口渴/意志坚定存在，在渲染时高度 + 10
             guiGraphics.drawString(font, "%", x + 70 - font.width("%"), y2 - 9, Config.Color_Air_Symbol, false);
 
             guiGraphics.drawString(font, text, x + 70 - font.width(text) - font.width("%"), y2 - 9, Config.Color_Air, false);
             guiGraphics.blit(guiIconsLocation,
-                    x + 70, y2 - 10,
+                    X + 70, y2 - 10,
                     16, 18,
                     9, 9,
                     256, 256); // 气泡图标
@@ -256,7 +286,7 @@ public class FoodLevel implements IGuiOverlay {
                 int swimTime = swimData.getSwimTime();
                 int maxProgressTime;
                 if ( swimTime != 0 ) {
-                    int AirY = y;
+                    int AirY = Y+1;
                     if ( Config.Air_On && player.getAirSupply() < 300 ) AirY -= 10; // 如果渲染了氧气值，在渲染时高度 + 10
                     if ( !StopConflictRendering ) AirY -= 10; // 如果口渴/意志坚定存在，在渲染时高度 + 10
                     if ( swimTime > 0 ) {
@@ -270,7 +300,7 @@ public class FoodLevel implements IGuiOverlay {
                     guiGraphics.drawString(font, "%", x + 70 - font.width("%"), AirY - 9, Config.Color_Artifacts_Symbol, false);
                     guiGraphics.drawString(font, texts, x + 70 - font.width(texts) - font.width("%"), AirY - 9, Config.Color_Artifacts, false);
                     guiGraphics.blit(HELIUM_FLAMINGO_ICON,
-                            x + 70, AirY - 10,
+                            X + 70, AirY - 10,
                             (swimTimes < 0 ? 9 : 0), 0,
                             9, 9,
                             32, 16); // 烈火鸟 泳圈
@@ -292,13 +322,13 @@ public class FoodLevel implements IGuiOverlay {
                 float MountHealths = Math.min(FsMount.getHealth(), MountHealthsMax);
                 if ( MountHealths > 0 ) {
                     guiGraphics.blit(guiIconsLocation,
-                            x, y - 19,
+                            X, Y - 20,
                             88, 9,
                             9, 9,
                             256, 256);
                     // 骑乘血量
                     String text_Mount = helper.KeepOneDecimal(MountHealths);
-                    int X_Mount = x + 10;
+                    int X_Mount = X + 10;
                     guiGraphics.drawString(font, text_Mount, X_Mount, y - 19, Config.Color_Health, false);
                     X_Mount += font.width(text_Mount);
                     text_Mount = Config.Interval_lll;
@@ -315,12 +345,12 @@ public class FoodLevel implements IGuiOverlay {
                 float ARMORTOUGHNESS = (float) Objects.requireNonNull(player.getAttribute(Attributes.ARMOR_TOUGHNESS)).getValue();
                 if ( ARMORTOUGHNESS > 0 ) {
                     guiGraphics.blit(guiIconsLocation,
-                            x, y - 19,
+                            X, Y - 20,
                             43, 9,
                             9, 9,
                             256, 256); // 护甲图标
                     guiGraphics.blit(guiIconsLocation,
-                            x, y - 19,
+                            X, Y - 20,
                             43, 18,
                             9, 9,
                             256, 256); // 韧性图标
@@ -328,6 +358,7 @@ public class FoodLevel implements IGuiOverlay {
                 }
             }
         }
+        stack.popPose();
     }
 
     private void renderFoodBar(GuiGraphics guiGraphics, float partialTick, int x, int y, Player player) {

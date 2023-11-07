@@ -26,6 +26,11 @@ public class Config {
                     "\nTurn All Features On Or Off | what-a-painful-realization." +
                     "\n默认值(Default)：true")
             .define("All-functional-status", true);
+    private static final ForgeConfigSpec.DoubleValue Font_Size_Multiples1 = BUILDER
+            .comment("\n" + "如果设置为'1',文本将以默认方式渲染，该数值决定了渲染字体的倍数. 范围 0.1-2.0" +
+                    "\nIf set to '1', the text will be rendered in the default way, and this value determines the multiple of the rendered font. Range 0.1-2.0" +
+                    "\n默认值(Default)：1.0")
+            .defineInRange("Font_Size_Multiples", 1.0, 0.1, 2.0);
     /*************************************/
     private static final ForgeConfigSpec.BooleanValue EasyMode = BUILDER
             .push("EasyMode")
@@ -253,10 +258,12 @@ private static final ForgeConfigSpec.ConfigValue<String> Prefix_Food1 = BUILDER
     public static String Interval_lll, Interval_TTT, Prefix_Health, Prefix_Food;
     public static boolean Food_ExhaustionLevel_On, Thirst_On, Artifacts_On, Origins_On, All_On, Bloodsucker_On, Food_On, Health_On, EasyMode_Text_On, Armour_On, Armor_Toughness_On, Air_On, Mounts_On;
     public static int Color_Food_ExhaustionLevel, MaxFood_On, Color_Origins_Symbol, Color_Thirst_Quenched, Color_Thirst, Color_Artifacts, Color_Air, Color_Artifacts_Symbol, Color_Air_Symbol, Color_Vampires_Blood, Color_Vampires_MaxBlood, Color_Origins, Color_Health, Color_Health_Absorb, Color_Health_Tail, Color_Food, Color_Food_Saturation, Color_Food_Tail, Color_Armor, Color_Armor_Toughness, Color_Interval_lll, Color_Interval_TTT;
-
+    public static float Font_Size_Multiples;
     @SubscribeEvent
     static void onLoad(final ModConfigEvent event) {
         All_On = AllOn.get();
+        double Font_Size_Multiples_D = Font_Size_Multiples1.get();
+        Font_Size_Multiples = (float)Font_Size_Multiples_D;
         Interval_lll = Interval_Textis.get();
         Interval_TTT = Interval__Text1.get();
             /* 感觉完全没必要...
