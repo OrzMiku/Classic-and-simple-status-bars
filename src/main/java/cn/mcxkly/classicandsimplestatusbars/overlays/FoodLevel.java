@@ -1,5 +1,6 @@
 package cn.mcxkly.classicandsimplestatusbars.overlays;
 
+import arcaios26.supersaturation.data.CapabilitySuperSat;
 import artifacts.component.SwimData;
 import artifacts.platform.PlatformServices;
 import artifacts.registry.ModGameRules;
@@ -11,6 +12,7 @@ import de.teamlapen.vampirism.util.Helper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -22,6 +24,7 @@ import net.minecraftforge.client.gui.overlay.ForgeGui;
 import net.minecraftforge.client.gui.overlay.IGuiOverlay;
 
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class FoodLevel implements IGuiOverlay {
     private final ResourceLocation Vampires_Icons = new ResourceLocation("vampirism", "textures/gui/icons.png");
@@ -83,19 +86,29 @@ public class FoodLevel implements IGuiOverlay {
     }
 
     private void renderFoodValue_Easy(Font font, GuiGraphics guiGraphics, int x, int y, Player player) {
+        AtomicReference<Integer> AddedHunger = new AtomicReference<>(0);
+
+        AtomicReference<Float> AddedSat = new AtomicReference<>(0.0f);
+        if ( Config.supersaturation_On ) {
+            player.getCapability(CapabilitySuperSat.SUPER_SAT, (Direction) null).ifPresent((c) -> {
+                AddedHunger.set(c.getHunger());
+                AddedSat.set(c.getSat());
+            });
+        }
+
         y -= 2;
         String text;
-        text = helper.KeepOneDecimal(player.getFoodData().getFoodLevel());
+        text = helper.KeepOneDecimal(player.getFoodData().getFoodLevel() + AddedHunger.get());
         int xx = x + 82; // 右侧
         guiGraphics.drawString(font, text, xx, y - 1, Config.Color_Food, false);
-        if ( player.getFoodData().getSaturationLevel() > 0 ) {
+        if ( player.getFoodData().getSaturationLevel() + AddedSat.get() > 0 ) {
             //第二部分
             xx = xx + font.width(text); // '+'
             text = Config.Interval_TTT;
             guiGraphics.drawString(font, text, xx, y - 1, Config.Color_Interval_TTT, false);
 
             xx = xx + font.width(text);
-            text = helper.KeepOneDecimal(player.getFoodData().getSaturationLevel());
+            text = helper.KeepOneDecimal(player.getFoodData().getSaturationLevel() + AddedSat.get());
             guiGraphics.drawString(font, text, xx, y - 1, Config.Color_Food_Saturation, false);
         }
         boolean OnMaxFood = (Config.MaxFood_On == 1) || (Config.MaxFood_On == 0 && player.getFoodData().getLastFoodLevel() > 20);
@@ -204,17 +217,28 @@ public class FoodLevel implements IGuiOverlay {
                 52, 27,
                 9, 9,
                 256, 256); // 鸡腿图标
-        text = helper.KeepOneDecimal(player.getFoodData().getFoodLevel());
+
+        AtomicReference<Integer> AddedHunger = new AtomicReference<>(0);
+
+        AtomicReference<Float> AddedSat = new AtomicReference<>(0.0f);
+        if ( Config.supersaturation_On ) {
+            player.getCapability(CapabilitySuperSat.SUPER_SAT, (Direction) null).ifPresent((c) -> {
+                AddedHunger.set(c.getHunger());
+                AddedSat.set(c.getSat());
+            });
+        }
+
+        text = helper.KeepOneDecimal(player.getFoodData().getFoodLevel() + AddedHunger.get());
         int xx = x + 10;
         guiGraphics.drawString(font, text, xx, y - 9, Config.Color_Food, false);
-        if ( player.getFoodData().getSaturationLevel() > 0 ) {
+        if ( player.getFoodData().getSaturationLevel() + AddedSat.get() > 0 ) {
             //第二部分
             xx = xx + font.width(text); // '+'
             text = Config.Interval_TTT;
             guiGraphics.drawString(font, text, xx, y - 9, Config.Color_Interval_TTT, false);
 
             xx = xx + font.width(text);
-            text = helper.KeepOneDecimal(player.getFoodData().getSaturationLevel());
+            text = helper.KeepOneDecimal(player.getFoodData().getSaturationLevel() + AddedSat.get());
             guiGraphics.drawString(font, text, xx, y - 9, Config.Color_Food_Saturation, false);
         }
         boolean OnMaxFood = (Config.MaxFood_On == 1) || (Config.MaxFood_On == 0 && player.getFoodData().getLastFoodLevel() > 20);

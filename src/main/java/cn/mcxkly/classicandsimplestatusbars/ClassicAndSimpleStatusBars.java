@@ -21,6 +21,7 @@ public class ClassicAndSimpleStatusBars {
     public static final Logger LOGGER = LogUtils.getLogger();
     public static boolean vampirism = false;
     public static boolean origins = false;
+    public static boolean supersaturation = false;
 
     public ClassicAndSimpleStatusBars() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -63,6 +64,10 @@ public class ClassicAndSimpleStatusBars {
             if ( Config.Origins_On && ModList.get().isLoaded("origins") ) {
                 LOGGER.info("CSSB: " + "Enable the origins power value");
                 origins = true;
+            }
+            if ( Config.supersaturation_On && ModList.get().isLoaded("supersaturation") ) {
+                LOGGER.info("CSSB: " + "Enable the SuperSaturation Added Value");
+                supersaturation = true;
             }
         }
     }
