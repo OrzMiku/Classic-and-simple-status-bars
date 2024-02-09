@@ -1,10 +1,10 @@
 package cn.mcxkly.classicandsimplestatusbars.overlays;
 
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import squeek.appleskin.api.event.HUDOverlayEvent;
+import net.neoforged.bus.api.SubscribeEvent;
+//import squeek.appleskin.api.event.HUDOverlayEvent;
 
 public class AppleSkinEventHandler {
-    // 取消苹果皮MOD的部分渲染，应该能增加性能.
+/*    // 取消苹果皮MOD的部分渲染，应该能增加性能.
     @SubscribeEvent
     public void StopRenderingHunger(HUDOverlayEvent.HungerRestored event) {
         if ( event.isCancelable() ) {
@@ -31,7 +31,7 @@ public class AppleSkinEventHandler {
         if ( event.isCancelable() ) {
             event.setCanceled(true);
         }
-    }
+    }*/
 
 
 //    @SubscribeEvent // 例子-检测手中物品，是苹果就取消渲染 - 来自wiki

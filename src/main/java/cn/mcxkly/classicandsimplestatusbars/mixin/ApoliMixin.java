@@ -1,20 +1,20 @@
 package cn.mcxkly.classicandsimplestatusbars.mixin;
 
-import cn.mcxkly.classicandsimplestatusbars.Config;
-import io.github.apace100.apoli.screen.PowerHudRenderer;
-import io.github.apace100.apoli.util.ApoliConfigs;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+//import cn.mcxkly.classicandsimplestatusbars.Config;
+//import io.github.apace100.apoli.screen.PowerHudRenderer;
+//import io.github.apace100.apoli.util.ApoliConfigs;
+//import net.minecraft.client.gui.GuiGraphics;
+//import net.minecraftforge.api.distmarker.Dist;
+//import net.minecraftforge.api.distmarker.OnlyIn;
+//import org.spongepowered.asm.mixin.Mixin;
+//import org.spongepowered.asm.mixin.injection.At;
+//import org.spongepowered.asm.mixin.injection.Inject;
+//import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(value = PowerHudRenderer.class, remap = false)
+//@Mixin(value = PowerHudRenderer.class, remap = false)
 public abstract class ApoliMixin {
     boolean Only = false;
-
+/* 1.20.1------------------
     @OnlyIn(Dist.CLIENT)
     @Inject(method = "render", at = @At("HEAD"), cancellable = true)
     private void render99(GuiGraphics context, float delta, CallbackInfo ci) {
@@ -58,5 +58,5 @@ public abstract class ApoliMixin {
 //                }
 //            }
         //}
-    }
+    } */
 }

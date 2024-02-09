@@ -1,14 +1,14 @@
 package cn.mcxkly.classicandsimplestatusbars.overlays;
 
-import arcaios26.supersaturation.data.CapabilitySuperSat;
+/*import arcaios26.supersaturation.data.CapabilitySuperSat;
 import artifacts.component.SwimData;
 import artifacts.platform.PlatformServices;
 import artifacts.registry.ModGameRules;
+import de.teamlapen.vampirism.entity.player.vampire.VampirePlayer;
+import de.teamlapen.vampirism.util.Helper;*/
 import cn.mcxkly.classicandsimplestatusbars.ClassicAndSimpleStatusBars;
 import cn.mcxkly.classicandsimplestatusbars.Config;
 import cn.mcxkly.classicandsimplestatusbars.other.helper;
-import de.teamlapen.vampirism.entity.player.vampire.VampirePlayer;
-import de.teamlapen.vampirism.util.Helper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -20,8 +20,8 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.client.gui.overlay.ForgeGui;
-import net.minecraftforge.client.gui.overlay.IGuiOverlay;
+import net.neoforged.neoforge.client.gui.overlay.ExtendedGui;
+import net.neoforged.neoforge.client.gui.overlay.IGuiOverlay;
 
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
@@ -35,7 +35,13 @@ public class FoodLevel implements IGuiOverlay {
     private ResourceLocation currentBarLocation = fullHealthBarLocation;
     private static final ResourceLocation emmmmnBarLocation = new ResourceLocation(ClassicAndSimpleStatusBars.MOD_ID, "textures/gui/foodbars/debuff-hunger.png");
     private static final ResourceLocation intermediateHealthBarLocation = new ResourceLocation(ClassicAndSimpleStatusBars.MOD_ID, "textures/gui/foodbars/intermediate.png");
-    private static final ResourceLocation guiIconsLocation = new ResourceLocation("minecraft", "textures/gui/icons.png");
+
+    private static final ResourceLocation food_empty = new ResourceLocation("minecraft", "textures/gui/sprites/hud/food_empty.png");
+    private static final ResourceLocation food_full = new ResourceLocation("minecraft", "textures/gui/sprites/hud/food_full.png");
+    private static final ResourceLocation air = new ResourceLocation("minecraft", "textures/gui/sprites/hud/air.png");
+    private static final ResourceLocation vehicle_full = new ResourceLocation("minecraft", "textures/gui/sprites/hud/heart/vehicle_full.png");
+    private static final ResourceLocation armor_toughness = new ResourceLocation(ClassicAndSimpleStatusBars.MOD_ID, "textures/gui/foodbars/armor_toughness.png"); // The official deleted it, and I can only do this
+    private static final ResourceLocation armor_full = new ResourceLocation("minecraft", "textures/gui/sprites/hud/armor_full.png");
     private float intermediateFood = 0;
     public static boolean StopConflictRendering = true; // 如果 false ，抬高渲染，为需要水分的模组兼容.
 
@@ -51,7 +57,7 @@ public class FoodLevel implements IGuiOverlay {
     }
 
     @Override
-    public void render(ForgeGui gui, GuiGraphics guiGraphics, float partialTick, int width, int height) {
+    public void render(ExtendedGui gui, GuiGraphics guiGraphics, float partialTick, int width, int height) {
         if ( gui.shouldDrawSurvivalElements() ) {
             Font font = gui.getFont();
 
@@ -65,7 +71,7 @@ public class FoodLevel implements IGuiOverlay {
                 updateBarTextures(player);
                 // 其他元素
                 renderFoodValue(font, guiGraphics, x, y, player);
-                if ( ClassicAndSimpleStatusBars.vampirism && Helper.isVampire(player) ) {
+/*                if ( ClassicAndSimpleStatusBars.vampirism && Helper.isVampire(player) ) {
                     // 如果当前是吸血鬼.
                     if ( Config.Bloodsucker_On ) {
                         // 如果开启功能，将渲染血条,否则仅把鸡腿饱食度文本替换成吸血鬼血液文本
@@ -73,19 +79,19 @@ public class FoodLevel implements IGuiOverlay {
                     }
                     // 吸血鬼血液文本
                     renderInfectedVampires(font, guiGraphics, x, y, player);
-                } else {
+                } else {*/
                     // 文本
                     renderFood(font, guiGraphics, x, y, player);
                     // 状态栏图
                     renderFoodBar(guiGraphics, partialTick, x, y, player);
                 }
-            } else if ( Config.EasyMode_Text_On ) {
+/*            } else if ( Config.EasyMode_Text_On ) {
                 renderFoodValue_Easy(font, guiGraphics, x, y, player);
-            }
+            }*/
         }
     }
 
-    private void renderFoodValue_Easy(Font font, GuiGraphics guiGraphics, int x, int y, Player player) {
+    /*private void renderFoodValue_Easy(Font font, GuiGraphics guiGraphics, int x, int y, Player player) {
         AtomicReference<Integer> AddedHunger = new AtomicReference<>(0);
 
         AtomicReference<Float> AddedSat = new AtomicReference<>(0.0f);
@@ -194,7 +200,7 @@ public class FoodLevel implements IGuiOverlay {
             text = helper.KeepOneDecimal(maxBlood);
             guiGraphics.drawString(font, text, xx, finalY - 9, Config.Color_Vampires_MaxBlood, false);
         });
-    }
+    }*/
 
     public void updateBarTextures(Player player) {
         if ( player.hasEffect(MobEffects.HUNGER) ) {
@@ -207,26 +213,26 @@ public class FoodLevel implements IGuiOverlay {
     private void renderFood(Font font, GuiGraphics guiGraphics, int x, int y, Player player) {
         y += 1;
         String text;
-        guiGraphics.blit(guiIconsLocation,
+        guiGraphics.blit(food_empty,
                 x, y - 10,
-                16, 27,
+                0, 0,
                 9, 9,
-                256, 256); // 鸡腿图标-背景
-        guiGraphics.blit(guiIconsLocation,
+                9, 9); // 鸡腿图标-背景
+        guiGraphics.blit(food_full,
                 x, y - 10,
-                52, 27,
+                0, 0,
                 9, 9,
-                256, 256); // 鸡腿图标
+                9, 9); // 鸡腿图标
 
         AtomicReference<Integer> AddedHunger = new AtomicReference<>(0);
 
         AtomicReference<Float> AddedSat = new AtomicReference<>(0.0f);
-        if ( Config.supersaturation_On ) {
+/*        if ( Config.supersaturation_On ) {
             player.getCapability(CapabilitySuperSat.SUPER_SAT, (Direction) null).ifPresent((c) -> {
                 AddedHunger.set(c.getHunger());
                 AddedSat.set(c.getSat());
             });
-        }
+        }*/
 
         text = helper.KeepOneDecimal(player.getFoodData().getFoodLevel() + AddedHunger.get());
         int xx = x + 10;
@@ -267,13 +273,13 @@ public class FoodLevel implements IGuiOverlay {
             guiGraphics.drawString(font, "%", x + 70 - font.width("%"), y2 - 9, Config.Color_Air_Symbol, false);
 
             guiGraphics.drawString(font, text, x + 70 - font.width(text) - font.width("%"), y2 - 9, Config.Color_Air, false);
-            guiGraphics.blit(guiIconsLocation,
+            guiGraphics.blit(air,
                     x + 70, y2 - 10,
-                    16, 18,
+                    0, 0,
                     9, 9,
-                    256, 256); // 气泡图标
+                    9, 9); // 气泡图标
         }
-        if ( ArtifactsAir && Config.Artifacts_On ) {
+/*        if ( ArtifactsAir && Config.Artifacts_On ) {
             SwimData swimData = PlatformServices.platformHelper.getSwimData(player);
             if ( swimData == null ) {
             } else {
@@ -300,7 +306,7 @@ public class FoodLevel implements IGuiOverlay {
                             32, 16); // 烈火鸟 泳圈
                 }
             }
-        }
+        }*/
         Entity tsssmp = player.getVehicle();
         Boolean NotAValidMount = false; // 防止玩家正在乘坐，但并不是有效的坐骑（比如船）.
         if ( tsssmp != null ) {
@@ -315,11 +321,11 @@ public class FoodLevel implements IGuiOverlay {
                 float MountHealthsMax = FsMount.getMaxHealth();
                 float MountHealths = Math.min(FsMount.getHealth(), MountHealthsMax);
                 if ( MountHealths > 0 ) {
-                    guiGraphics.blit(guiIconsLocation,
+                    guiGraphics.blit(vehicle_full,
                             x, y - 19,
-                            88, 9,
+                            0, 0,
                             9, 9,
-                            256, 256);
+                            9, 9); // 骑乘血量
                     // 骑乘血量
                     String text_Mount = helper.KeepOneDecimal(MountHealths);
                     int X_Mount = x + 10;
@@ -338,16 +344,16 @@ public class FoodLevel implements IGuiOverlay {
             if ( Config.Armor_Toughness_On ) {
                 float ARMORTOUGHNESS = (float) Objects.requireNonNull(player.getAttribute(Attributes.ARMOR_TOUGHNESS)).getValue();
                 if ( ARMORTOUGHNESS > 0 ) {
-                    guiGraphics.blit(guiIconsLocation,
+                    guiGraphics.blit(armor_full,
                             x, y - 19,
-                            43, 9,
+                            0, 0,
                             9, 9,
-                            256, 256); // 护甲图标
-                    guiGraphics.blit(guiIconsLocation,
+                            9, 9); // 韧性图标
+                    guiGraphics.blit(armor_toughness,
                             x, y - 19,
-                            43, 18,
+                            0, 0,
                             9, 9,
-                            256, 256); // 韧性图标
+                            9, 9); // 背景图标 - 覆盖在上面的图标
                     guiGraphics.drawString(font, helper.KeepOneDecimal(ARMORTOUGHNESS), x + 10, y - 19, Config.Color_Armor_Toughness, false);
                 }
             }

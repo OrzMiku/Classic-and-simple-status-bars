@@ -2,17 +2,17 @@ package cn.mcxkly.classicandsimplestatusbars.overlays;
 
 import cn.mcxkly.classicandsimplestatusbars.Config;
 import com.mojang.blaze3d.systems.RenderSystem;
-import dev.ghen.thirst.foundation.common.capability.IThirst;
-import dev.ghen.thirst.foundation.common.capability.ModCapabilities;
-import homeostatic.common.capabilities.CapabilityRegistry;
+//import dev.ghen.thirst.foundation.common.capability.IThirst;
+//import dev.ghen.thirst.foundation.common.capability.ModCapabilities;
+//import homeostatic.common.capabilities.CapabilityRegistry;
+//import toughasnails.api.thirst.ThirstHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.client.gui.overlay.ForgeGui;
-import net.minecraftforge.client.gui.overlay.IGuiOverlay;
-import toughasnails.api.thirst.ThirstHelper;
+import net.neoforged.neoforge.client.gui.overlay.ExtendedGui;
+import net.neoforged.neoforge.client.gui.overlay.IGuiOverlay;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -44,7 +44,7 @@ public class ThirstWasTakenUse implements IGuiOverlay {
 
 
     @Override
-    public void render(ForgeGui gui, GuiGraphics guiGraphics, float partialTick, int width, int height) {
+    public void render(ExtendedGui gui, GuiGraphics guiGraphics, float partialTick, int width, int height) {
         Font font = gui.getFont();
         if ( gui.shouldDrawSurvivalElements() ) {
             Player player = (Player) Minecraft.getInstance().cameraEntity;
@@ -58,7 +58,7 @@ public class ThirstWasTakenUse implements IGuiOverlay {
         }
     }
 
-    private void renderThirstLevelBar(Font font, GuiGraphics guiGraphics, float partialTick, int x, int y, Player player) {
+    private void renderThirstLevelBar(Font font, GuiGraphics guiGraphics, float partialTick, int x, int y, Player player) {/*
         AtomicInteger Quenched = new AtomicInteger();
         AtomicInteger Thirst = new AtomicInteger();
         if ( !StopConflictRendering ) { // 如果口渴存在，不管意志坚定是否存在.
@@ -108,6 +108,7 @@ public class ThirstWasTakenUse implements IGuiOverlay {
         }
         font.width("0.3");
         guiGraphics.drawString(font, String.valueOf(Thirst.get()), x + 70 - font.width(String.valueOf(Thirst.get())), y - 9, Config.Color_Thirst, false);
+    */
     }
 }
 

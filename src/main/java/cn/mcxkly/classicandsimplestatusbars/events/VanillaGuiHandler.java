@@ -5,11 +5,11 @@ import cn.mcxkly.classicandsimplestatusbars.Config;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.RenderGuiOverlayEvent;
-import net.minecraftforge.client.gui.overlay.ForgeGui;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.client.event.RenderGuiOverlayEvent;
+import net.neoforged.neoforge.client.gui.overlay.ExtendedGui;
 
 @Mod.EventBusSubscriber(modid = ClassicAndSimpleStatusBars.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public class VanillaGuiHandler {
@@ -28,7 +28,7 @@ public class VanillaGuiHandler {
     @SubscribeEvent
     public static void disableVanillaAarmor(RenderGuiOverlayEvent.Pre event) {
         if ( Config.All_On ) {
-            final ForgeGui gui = ((ForgeGui) mc.gui);
+            final ExtendedGui gui = ((ExtendedGui) mc.gui);
             // 兼容性测试-尝试让其他模组兼容 如果其他模组依赖这个.
             gui.leftHeight += 2;
             gui.rightHeight += 2;

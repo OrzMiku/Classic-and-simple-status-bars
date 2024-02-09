@@ -12,8 +12,6 @@ out
 *.iws
 *.iml
 .idea
-Textures/other/*
-isRun
 
 # gradle
 build
@@ -22,6 +20,7 @@ build
 # other
 eclipse
 run
+runs
+run-data
 
-# Files from Forge MDK
-forge*changelog.txt
+repo
