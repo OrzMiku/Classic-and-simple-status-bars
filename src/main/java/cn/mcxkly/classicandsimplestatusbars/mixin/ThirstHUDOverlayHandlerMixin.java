@@ -10,14 +10,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(value = HUDOverlayHandler.class, remap = false)
 public class ThirstHUDOverlayHandlerMixin {
     @Inject(method = "onRenderGuiOverlayPre", at = @At("HEAD"), cancellable = true)
-    private void onRenderExhaustion(CallbackInfo ci) {
+    private void onRenderGuiOverlayPre(CallbackInfo ci) {
         if ( Config.All_On ) {
             ci.cancel();
         }
     }
 
     @Inject(method = "renderThirstOverlay", at = @At("HEAD"), cancellable = true)
-    private static void onRenderGuiOverlay(CallbackInfo ci) {
+    private static void renderThirstOverlay(CallbackInfo ci) {
         if ( Config.All_On ) {
             ci.cancel();
         }

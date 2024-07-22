@@ -1,5 +1,9 @@
 package cn.mcxkly.classicandsimplestatusbars.other;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.resources.ResourceLocation;
+
 public class helper {
     public static String KeepOneDecimal(float d) {
         if ( d > 0 ) {
@@ -9,5 +13,34 @@ public class helper {
         } else {
             return "0";
         }
+    }
+    public static void blit(GuiGraphics guiGraphics, ResourceLocation Icon, int PicsX, int PicsY, int IconStartingPointX, int IconStartingPointY,int IconWide,int IconHigh, int PicsWidth, int PicsHigh,int w1) {
+        guiGraphics.blit(Icon,
+                PicsX, PicsY,
+                IconStartingPointX, IconStartingPointY,
+                IconWide, IconHigh,
+                PicsWidth, PicsHigh,1);
+    }
+    public static void blit(GuiGraphics guiGraphics, ResourceLocation Icon, int PicsX, int PicsY, int IconStartingPointX, int IconStartingPointY,int IconWide,int IconHigh, int PicsWidth, int PicsHigh,int w1,int w2) {
+        guiGraphics.blit(Icon,
+                PicsX, PicsY,
+                IconStartingPointX, IconStartingPointY,
+                IconWide, IconHigh,
+                PicsWidth, PicsHigh,1,1);
+    }
+
+    private final ResourceLocation McIcon = new ResourceLocation("minecraft", "textures/gui/icons.png");
+
+    // 渲染图标
+    public static void blit(GuiGraphics guiGraphics, ResourceLocation Icon, int PicsX, int PicsY, int IconStartingPointX, int IconStartingPointY,int IconWide,int IconHigh, int PicsWidth, int PicsHigh) {
+        guiGraphics.blit(Icon,
+                PicsX, PicsY,
+                IconStartingPointX, IconStartingPointY,
+                IconWide, IconHigh,
+                PicsWidth, PicsHigh);
+    }
+    // 渲染文本
+    public static void drawString(GuiGraphics guiGraphics, String string, int leftX, int topY, int color, boolean shadow) {
+        guiGraphics.drawString(Minecraft.getInstance().font, string, leftX, topY, color, shadow);
     }
 }

@@ -1,12 +1,22 @@
 package cn.mcxkly.classicandsimplestatusbars.overlays;
 
 import arcaios26.supersaturation.data.CapabilitySuperSat;
+import artifacts.Artifacts;
 import artifacts.component.SwimData;
 import artifacts.platform.PlatformServices;
 import artifacts.registry.ModGameRules;
 import cn.mcxkly.classicandsimplestatusbars.ClassicAndSimpleStatusBars;
 import cn.mcxkly.classicandsimplestatusbars.Config;
 import cn.mcxkly.classicandsimplestatusbars.other.helper;
+import com.alrex.parcool.ParCool;
+import com.alrex.parcool.client.hud.impl.HUDType;
+import com.alrex.parcool.common.capability.IStamina;
+import com.alrex.parcool.common.capability.Parkourability;
+import com.alrex.parcool.config.ParCoolConfig;
+import com.elenai.feathers.Feathers;
+import com.elenai.feathers.client.ClientFeathersData;
+import com.elenai.feathers.effect.FeathersEffects;
+import de.teamlapen.vampirism.REFERENCE;
 import de.teamlapen.vampirism.entity.player.vampire.VampirePlayer;
 import de.teamlapen.vampirism.util.Helper;
 import net.minecraft.client.Minecraft;
@@ -14,6 +24,7 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -22,12 +33,14 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.client.gui.overlay.ForgeGui;
 import net.minecraftforge.client.gui.overlay.IGuiOverlay;
+import com.elenai.feathers.api.FeathersHelper;
 
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class FoodLevel implements IGuiOverlay {
-    private final ResourceLocation Vampires_Icons = new ResourceLocation("vampirism", "textures/gui/icons.png");
+    private final ResourceLocation Vampires_Icons = new ResourceLocation(REFERENCE.MODID, "textures/gui/icons.png");
     private static final ResourceLocation vampiresBarLocation = new ResourceLocation(ClassicAndSimpleStatusBars.MOD_ID, "textures/gui/foodbars/vampires.png");
     private static final ResourceLocation fullHealthBarLocation = new ResourceLocation(ClassicAndSimpleStatusBars.MOD_ID, "textures/gui/foodbars/foodeeg.png");
     private static final ResourceLocation emptyHealthBarLocation = new ResourceLocation(ClassicAndSimpleStatusBars.MOD_ID, "textures/gui/foodbars/empty.png");
@@ -35,7 +48,7 @@ public class FoodLevel implements IGuiOverlay {
     private ResourceLocation currentBarLocation = fullHealthBarLocation;
     private static final ResourceLocation emmmmnBarLocation = new ResourceLocation(ClassicAndSimpleStatusBars.MOD_ID, "textures/gui/foodbars/debuff-hunger.png");
     private static final ResourceLocation intermediateHealthBarLocation = new ResourceLocation(ClassicAndSimpleStatusBars.MOD_ID, "textures/gui/foodbars/intermediate.png");
-    private static final ResourceLocation guiIconsLocation = new ResourceLocation("minecraft", "textures/gui/icons.png");
+    private static final ResourceLocation guiIconsLocation = new ResourceLocation("textures/gui/icons.png");
     private float intermediateFood = 0;
     public static boolean StopConflictRendering = true; // 如果 false ，抬高渲染，为需要水分的模组兼容.
 
@@ -44,23 +57,29 @@ public class FoodLevel implements IGuiOverlay {
     }
 
     public static boolean ArtifactsAir = false; // 奇异饰品-火烈鸟
-    private static final ResourceLocation HELIUM_FLAMINGO_ICON = new ResourceLocation("artifacts", "textures/gui/icons.png");
+    private static final ResourceLocation HELIUM_FLAMINGO_ICON = new ResourceLocation(Artifacts.MOD_ID, "textures/gui/icons.png");
 
     public static void ArtifactsIDEA(boolean b) {
         ArtifactsAir = b;
     }
 
+    private static final ResourceLocation STAMINA = new ResourceLocation(ParCool.MOD_ID, "textures/gui/stamina_bar.png");
+
+    private static final ResourceLocation feathers = new ResourceLocation(Feathers.MODID, "textures/gui/icons.png");
+
     @Override
     public void render(ForgeGui gui, GuiGraphics guiGraphics, float partialTick, int width, int height) {
         if ( gui.shouldDrawSurvivalElements() ) {
             Font font = gui.getFont();
+            font.width(String.valueOf(10));
 
             Player player = (Player) Minecraft.getInstance().cameraEntity;
             if ( player == null ) return;
             int x = width / 2 + 11;
             int y = height - 39;
             y += 4;
-            //y -= 70; // test
+
+            // y -= 70; // test
             if ( Config.Food_On && Config.All_On ) {
                 updateBarTextures(player);
                 // 其他元素
@@ -86,8 +105,7 @@ public class FoodLevel implements IGuiOverlay {
     }
 
     private void renderFoodValue_Easy(Font font, GuiGraphics guiGraphics, int x, int y, Player player) {
-        AtomicReference<Integer> AddedHunger = new AtomicReference<>(0);
-
+        AtomicInteger AddedHunger = new AtomicInteger();
         AtomicReference<Float> AddedSat = new AtomicReference<>(0.0f);
         if ( Config.supersaturation_On ) {
             player.getCapability(CapabilitySuperSat.SUPER_SAT, (Direction) null).ifPresent((c) -> {
@@ -218,8 +236,7 @@ public class FoodLevel implements IGuiOverlay {
                 9, 9,
                 256, 256); // 鸡腿图标
 
-        AtomicReference<Integer> AddedHunger = new AtomicReference<>(0);
-
+        AtomicInteger AddedHunger = new AtomicInteger();
         AtomicReference<Float> AddedSat = new AtomicReference<>(0.0f);
         if ( Config.supersaturation_On ) {
             player.getCapability(CapabilitySuperSat.SUPER_SAT, (Direction) null).ifPresent((c) -> {
@@ -273,10 +290,10 @@ public class FoodLevel implements IGuiOverlay {
                     9, 9,
                     256, 256); // 气泡图标
         }
+        int isArtifactsAir = 0;
         if ( ArtifactsAir && Config.Artifacts_On ) {
             SwimData swimData = PlatformServices.platformHelper.getSwimData(player);
-            if ( swimData == null ) {
-            } else {
+            if ( swimData != null ) {
                 int swimTime = swimData.getSwimTime();
                 int maxProgressTime;
                 if ( swimTime != 0 ) {
@@ -298,11 +315,53 @@ public class FoodLevel implements IGuiOverlay {
                             (swimTimes < 0 ? 9 : 0), 0,
                             9, 9,
                             32, 16); // 烈火鸟 泳圈
+                    isArtifactsAir = font.width(texts);
+                } else {
+                    isArtifactsAir = 0;
                 }
             }
         }
-        Entity tsssmp = player.getVehicle();
-        Boolean NotAValidMount = false; // 防止玩家正在乘坐，但并不是有效的坐骑（比如船）.
+
+        if (ClassicAndSimpleStatusBars.parcool)   {
+            if ( Objects.requireNonNull(ParCoolConfig.Client.StaminaHUDType.get()) != HUDType.Normal ) {
+                if (player != null) {
+                    if (!player.isCreative()) {
+                        IStamina stamina = IStamina.get(player);
+                        Parkourability parkourability = Parkourability.get(player);
+                        if (stamina != null && parkourability != null) {
+                            if ( !ParCoolConfig.Client.Booleans.HideStaminaHUDWhenStaminaIsInfinite.get() || !parkourability.getActionInfo().isStaminaInfinite(player.isCreative() || player.isSpectator()) ) {
+                                float staminaScale = stamina.get();
+                                boolean exhausted = stamina.isExhausted();
+                                boolean justBecameMax = stamina.getOldValue() < stamina.get() && stamina.get() == stamina.getActualMaxStamina();
+                                int textureX = exhausted ? 27 : 0;
+                                if ( justBecameMax ) {
+                                    textureX = 81;
+                                } else if ( staminaScale <= (float) 1 ) {
+                                    textureX += 18;
+                                } else if ( staminaScale < (float) 1 + 0.5F ) {
+                                    textureX += 9;
+                                } // 跑酷，雷电图标
+                                int AirY = y;
+                                int AirX = x;
+                                String texts;
+                                if ( Config.Air_On && player.getAirSupply() < 300 ) AirY -= 10; // 如果渲染了氧气值，在渲染时高度 + 10
+                                if ( !StopConflictRendering ) AirY -= 10; // 如果口渴/意志坚定存在，在渲染时高度 + 10
+                                if ( isArtifactsAir != 0 ) AirX -= (font.width("99%") + 9/* 图标宽9 */); // isArtifactsAir 如果渲染泳圈, 为了美观手动改一下吧。
+                                texts = String.valueOf((int)(staminaScale / 20)); // max 2000 / 20
+                                guiGraphics.blit(STAMINA, AirX + 70, AirY - 9, (float) textureX, 119.0F, 9, 9, 129, 128);
+                                guiGraphics.drawString(font, texts, AirX + 70 - font.width(texts), AirY - 9, Config.Color_Artifacts, false);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        Entity tsssmp = null;
+        if ( player != null ) {
+            tsssmp = player.getVehicle();
+        }
+        boolean NotAValidMount = false; // 防止玩家正在乘坐，但并不是有效的坐骑（比如船）.
         if ( tsssmp != null ) {
             if ( tsssmp.getType() == EntityType.SKELETON_HORSE ||
                     tsssmp.getType() == EntityType.PIG ||
@@ -335,8 +394,12 @@ public class FoodLevel implements IGuiOverlay {
             }
         }
         if ( !NotAValidMount ) {
+            int ARMORTOUGHNESS_X= 0;
             if ( Config.Armor_Toughness_On ) {
-                float ARMORTOUGHNESS = (float) Objects.requireNonNull(player.getAttribute(Attributes.ARMOR_TOUGHNESS)).getValue();
+                float ARMORTOUGHNESS = 0;
+                if ( player != null ) {
+                    ARMORTOUGHNESS = (float) Objects.requireNonNull(player.getAttribute(Attributes.ARMOR_TOUGHNESS)).getValue();
+                }
                 if ( ARMORTOUGHNESS > 0 ) {
                     guiGraphics.blit(guiIconsLocation,
                             x, y - 19,
@@ -348,7 +411,90 @@ public class FoodLevel implements IGuiOverlay {
                             43, 18,
                             9, 9,
                             256, 256); // 韧性图标
+                    ARMORTOUGHNESS_X = font.width(String.valueOf(ARMORTOUGHNESS));
                     guiGraphics.drawString(font, helper.KeepOneDecimal(ARMORTOUGHNESS), x + 10, y - 19, Config.Color_Armor_Toughness, false);
+                }
+            }
+
+            // 羽毛耐力 Mod
+            int fx = 0;
+            if (ARMORTOUGHNESS_X !=0 ) fx += (ARMORTOUGHNESS_X + 10);
+            if(ClassicAndSimpleStatusBars.feathers && player != null) {
+                if (player.hasEffect(FeathersEffects.COLD.get())){
+                    // 无法重生羽毛
+                    /* 背景*/guiGraphics.blit(feathers, x + fx, y - 19 , 16, 0, 9, 9, 256, 256);
+                    guiGraphics.blit(feathers, x + fx, y - 19 , 34, 0, 9, 9, 256, 256);
+                    guiGraphics.blit(feathers, x + fx, y - 19 , 61, 9, 9, 9, 256, 256);
+                    guiGraphics.drawString(font, String.valueOf(ClientFeathersData.getFeathers() + ClientFeathersData.getEnduranceFeathers() - ClientFeathersData.getWeight())
+                            , x + fx + 10
+                            , y - 19
+                            , Config.Color_Armor, false);
+                } else if ( player.hasEffect(FeathersEffects.ENDURANCE.get())) {
+                    // 溢出羽毛
+                    /* 背景*/guiGraphics.blit(feathers, x + fx, y - 19 , 16, 0, 9, 9, 256, 256);
+                    guiGraphics.blit(feathers, x + fx, y - 19 , 34, 0, 9, 9, 256, 256);
+                    guiGraphics.blit(feathers, x + fx, y - 19 , 61, 0, 9, 9, 256, 256);
+                    guiGraphics.drawString(font, String.valueOf(ClientFeathersData.getFeathers() + ClientFeathersData.getEnduranceFeathers() - ClientFeathersData.getWeight())
+                            , x + fx + 10
+                            , y - 19
+                            , Config.Color_Armor, false);
+                } else if ( player.hasEffect(FeathersEffects.ENERGIZED.get()) ) {
+                    // 快速恢复
+                    /* 背景*/guiGraphics.blit(feathers, x + fx, y - 19 , 16, 0, 9, 9, 256, 256);
+                    guiGraphics.blit(feathers, x + fx, y - 19 , 34, 0, 9, 9, 256, 256);
+                    guiGraphics.blit(feathers, x + fx, y - 19 , 25, 18, 9, 9, 256, 256);
+                    guiGraphics.drawString(font, String.valueOf(ClientFeathersData.getFeathers() + ClientFeathersData.getEnduranceFeathers() - ClientFeathersData.getWeight())
+                            , x + fx + 10
+                            , y - 19
+                            , Config.Color_Armor, false);
+                } else { // 默认图标
+                    /* 背景*/guiGraphics.blit(feathers, x + fx, y - 19 , 16, 0, 9, 9, 256, 256);
+                    guiGraphics.blit(feathers, x + fx, y - 19 , 34, 0, 9, 9, 256, 256);
+                    guiGraphics.drawString(font, String.valueOf(ClientFeathersData.getFeathers() + ClientFeathersData.getEnduranceFeathers() - ClientFeathersData.getWeight())
+                            , x + fx + 10
+                            , y - 19
+                            , Config.Color_Armor, false);
+                }
+
+
+
+                if (false) { // 测试图标用
+                    // 数值文本
+                    String texts =  "Feathers:" + (ClientFeathersData.getFeathers() + ClientFeathersData.getEnduranceFeathers() - ClientFeathersData.getWeight()) + " Weight:" + ClientFeathersData.getWeight();
+                    guiGraphics.drawString(font, texts, x + 10, y - 29, Config.Color_Artifacts, false);
+                    int iy = y - 100;
+                    x += 80;
+
+                    // 背景
+                    guiGraphics.blit(feathers, x, iy - 29 , 16, 0, 9, 9, 256, 256);
+                    iy+=10;
+
+                    // 普通
+                    /* 背景*/guiGraphics.blit(feathers, x, iy - 29 , 16, 0, 9, 9, 256, 256);
+                    guiGraphics.blit(feathers, x, iy - 29 , 34, 0, 9, 9, 256, 256);
+                    iy+=10;
+
+                    // 快速
+                    /* 背景*/guiGraphics.blit(feathers, x, iy - 29 , 16, 0, 9, 9, 256, 256);
+                    guiGraphics.blit(feathers, x, iy - 29 , 34, 0, 9, 9, 256, 256);
+                    guiGraphics.blit(feathers, x, iy - 29 , 25, 18, 9, 9, 256, 256);
+                    iy+=10;
+
+                    // 溢出
+                    /* 背景*/guiGraphics.blit(feathers, x, iy - 29 , 16, 0, 9, 9, 256, 256);
+                    guiGraphics.blit(feathers, x, iy - 29 , 34, 0, 9, 9, 256, 256);
+                    guiGraphics.blit(feathers, x, iy - 29 , 61, 0, 9, 9, 256, 256);
+                    iy+=10;
+
+                    // 禁止恢复
+                    /* 背景*/guiGraphics.blit(feathers, x, iy - 29 , 16, 0, 9, 9, 256, 256);
+                    guiGraphics.blit(feathers, x, iy - 29 , 34, 0, 9, 9, 256, 256);
+                    guiGraphics.blit(feathers, x, iy - 29 , 61, 9, 9, 9, 256, 256);
+                    iy+=10;
+
+                    // 重量
+                    /* 背景*/guiGraphics.blit(feathers, x, iy - 29 , 16, 0, 9, 9, 256, 256);
+                    guiGraphics.blit(feathers, x, iy - 29 , 52, 0, 9, 9, 256, 256);
                 }
             }
         }

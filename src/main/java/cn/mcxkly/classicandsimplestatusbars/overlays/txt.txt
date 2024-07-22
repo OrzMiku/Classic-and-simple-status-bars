@@ -1,0 +1,9 @@
+        if (true){
+
+            IconManager iconManager =  new IconManager(Minecraft.getInstance().getTextureManager()); // 获取IconManager实例，可能需要通过某种方式注入或查找
+            ResourceLocation iconLocation =  new ResourceLocation("minecraft", "textures/gui/icons.png");
+            iconManager.registerIcon("Xin", HELIUM_FLAMINGO_ICON, 32, 16, 0, 0, 9, 9);
+
+            // 渲染图标
+            iconManager.renderIcon(guiGraphics, "Xin", x-40, y-30);
+        }

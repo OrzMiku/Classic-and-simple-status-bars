@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(value = HeartDisplayHandler.class, remap = false)
 public class ScalingHealthMixin {
     @Inject(method = "onHealthBar", at = @At("HEAD"), cancellable = true)
-    private void injected(CallbackInfo ci) {
+    private void onHealthBar(CallbackInfo ci) {
         // 效果等于 this.info.heartStyle.get() = HeartIconStyle.VANILLA ，无视掉配置文件的修改.
         if ( Config.All_On ) {
             ci.cancel();
@@ -18,7 +18,7 @@ public class ScalingHealthMixin {
     }
 
     @Inject(method = "onHealthDraw", at = @At("HEAD"), cancellable = true)
-    private void injected2(CallbackInfo ci) {
+    private void onHealthDraw(CallbackInfo ci) {
         // 效果等于 this.info.heartStyle.get() = HeartIconStyle.VANILLA ，无视掉配置文件的修改.
         if ( Config.All_On ) {
             ci.cancel();

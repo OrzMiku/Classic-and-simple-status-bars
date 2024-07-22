@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(value = WaterHelper.class, remap = false)
 public class HomeostaticMixin {
     @Inject(method = "drawWaterBar", at = @At("HEAD"), cancellable = true)
-    private static void renderWaterHud(ResourceLocation sprite, int scaledWidth, int scaledHeight, MobEffectInstance effectInstance, Gui gui, GuiGraphics guiGraphics, float waterSaturationLevel, int waterLevel, int tickCount, CallbackInfo ci) {
+    private static void drawWaterBar(ResourceLocation sprite, int scaledWidth, int scaledHeight, MobEffectInstance effectInstance, Gui gui, GuiGraphics guiGraphics, float waterSaturationLevel, int waterLevel, int tickCount, CallbackInfo ci) {
         if ( Config.All_On ) {
             ci.cancel();
         }

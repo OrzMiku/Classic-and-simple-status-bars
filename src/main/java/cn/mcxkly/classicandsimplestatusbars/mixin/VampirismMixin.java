@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(value = BloodBarOverlay.class, remap = false)
 public class VampirismMixin {
     @Inject(method = "render", at = @At("HEAD"), cancellable = true)
-    private void onRenderExhaustion(CallbackInfo ci) {
+    private void render(CallbackInfo ci) {
         // 让我替你渲染吧，这是个意外，可以在不关闭其他显示的情况下渲染他。
         if ( Config.All_On && Config.Bloodsucker_On ) {
             ci.cancel();

@@ -3,6 +3,8 @@ package cn.mcxkly.classicandsimplestatusbars.overlays;
 import cn.mcxkly.classicandsimplestatusbars.ClassicAndSimpleStatusBars;
 import cn.mcxkly.classicandsimplestatusbars.Config;
 import cn.mcxkly.classicandsimplestatusbars.other.helper;
+import com.elenai.feathers.Feathers;
+import com.elenai.feathers.client.ClientFeathersData;
 import io.github.apace100.apoli.util.HudRender;
 import io.github.edwinmindcraft.apoli.api.component.IPowerContainer;
 import io.github.edwinmindcraft.apoli.api.power.configuration.ConfiguredPower;
@@ -28,9 +30,10 @@ public class HealthBar implements IGuiOverlay {
     private ResourceLocation currentBarLocation = fullHealthBarLocation;
     private static final ResourceLocation intermediateHealthBarLocation = new ResourceLocation(ClassicAndSimpleStatusBars.MOD_ID, "textures/gui/healthbars/intermediate.png");
     private static final ResourceLocation emptyHealthBarLocation = new ResourceLocation(ClassicAndSimpleStatusBars.MOD_ID, "textures/gui/healthbars/empty.png");
-
     private static final ResourceLocation absorptionBarLocation = new ResourceLocation(ClassicAndSimpleStatusBars.MOD_ID, "textures/gui/healthbars/absorption.png");
-    private static final ResourceLocation guiIconsLocation = new ResourceLocation("minecraft", "textures/gui/icons.png");
+    private static final ResourceLocation guiIconsLocation = new ResourceLocation( "textures/gui/icons.png");
+
+    private static final ResourceLocation feathers = new ResourceLocation(Feathers.MODID, "textures/gui/icons.png");
 
     private float intermediateHealth = 0;
 
@@ -144,7 +147,21 @@ public class HealthBar implements IGuiOverlay {
                     9, 9,
                     256, 256); // 护甲图标
             guiGraphics.drawString(font, helper.KeepOneDecimal(ARMOR), x + 10, y - 19, Config.Color_Armor, false);
+
+            // 重量
+            if(ClassicAndSimpleStatusBars.feathers && ClientFeathersData.getWeight() != 0) { // 当护甲和重量都在时
+                int fx = x + 10 + font.width(String.valueOf(ARMOR));
+                // 重量
+                /* 背景*/guiGraphics.blit(feathers, fx, y - 19 , 16, 0, 9, 9, 256, 256);
+                guiGraphics.blit(feathers, fx, y - 19 , 52, 0, 9, 9, 256, 256);
+                guiGraphics.drawString(font, String.valueOf(ClientFeathersData.getWeight()), fx + 10, y - 19, Config.Color_Armor, false);
+            }
+        } else if (ClassicAndSimpleStatusBars.feathers && ClientFeathersData.getWeight() != 0) { // 当没有护甲并且也有重量时
+            /* 背景*/guiGraphics.blit(feathers, x, y - 19 , 16, 0, 9, 9, 256, 256);
+            guiGraphics.blit(feathers, x, y - 19 , 52, 0, 9, 9, 256, 256);
+            guiGraphics.drawString(font, String.valueOf(ClientFeathersData.getWeight()), x + 10, y - 19, Config.Color_Armor, false);
         }
+
         if ( ClassicAndSimpleStatusBars.origins ) {
             IPowerContainer.get(player).ifPresent((component) -> {
                 int iconSize = 8;

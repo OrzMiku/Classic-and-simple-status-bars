@@ -17,7 +17,7 @@ public abstract class ApoliMixin {
 
     @OnlyIn(Dist.CLIENT)
     @Inject(method = "render", at = @At("HEAD"), cancellable = true)
-    private void render99(GuiGraphics context, float delta, CallbackInfo ci) {
+    private void render(GuiGraphics context, float delta, CallbackInfo ci) {
         //if ( Config.All_On ) { // 这里就不受控制吧. 感觉是帮它解决冲突，没改变原本功能.
 //        我们假设 apoli-client.toml 配置文件没有被修改，那我们就进行修改.
 //        [resources_and_cooldowns]
