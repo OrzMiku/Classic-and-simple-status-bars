@@ -24,7 +24,6 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -33,7 +32,6 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.client.gui.overlay.ForgeGui;
 import net.minecraftforge.client.gui.overlay.IGuiOverlay;
-import com.elenai.feathers.api.FeathersHelper;
 
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -107,7 +105,7 @@ public class FoodLevel implements IGuiOverlay {
     private void renderFoodValue_Easy(Font font, GuiGraphics guiGraphics, int x, int y, Player player) {
         AtomicInteger AddedHunger = new AtomicInteger();
         AtomicReference<Float> AddedSat = new AtomicReference<>(0.0f);
-        if ( Config.supersaturation_On ) {
+        if ( ClassicAndSimpleStatusBars.supersaturation ) {
             player.getCapability(CapabilitySuperSat.SUPER_SAT, (Direction) null).ifPresent((c) -> {
                 AddedHunger.set(c.getHunger());
                 AddedSat.set(c.getSat());
@@ -238,7 +236,7 @@ public class FoodLevel implements IGuiOverlay {
 
         AtomicInteger AddedHunger = new AtomicInteger();
         AtomicReference<Float> AddedSat = new AtomicReference<>(0.0f);
-        if ( Config.supersaturation_On ) {
+        if ( ClassicAndSimpleStatusBars.supersaturation ) {
             player.getCapability(CapabilitySuperSat.SUPER_SAT, (Direction) null).ifPresent((c) -> {
                 AddedHunger.set(c.getHunger());
                 AddedSat.set(c.getSat());
@@ -420,43 +418,31 @@ public class FoodLevel implements IGuiOverlay {
             int fx = 0;
             if (ARMORTOUGHNESS_X !=0 ) fx += (ARMORTOUGHNESS_X + 10);
             if(ClassicAndSimpleStatusBars.feathers && player != null) {
+                String FeathersValue = String.valueOf(Math.max(0, ClientFeathersData.getFeathers() + ClientFeathersData.getEnduranceFeathers() - ClientFeathersData.getWeight()));
                 if (player.hasEffect(FeathersEffects.COLD.get())){
                     // 无法重生羽毛
                     /* 背景*/guiGraphics.blit(feathers, x + fx, y - 19 , 16, 0, 9, 9, 256, 256);
                     guiGraphics.blit(feathers, x + fx, y - 19 , 34, 0, 9, 9, 256, 256);
                     guiGraphics.blit(feathers, x + fx, y - 19 , 61, 9, 9, 9, 256, 256);
-                    guiGraphics.drawString(font, String.valueOf(ClientFeathersData.getFeathers() + ClientFeathersData.getEnduranceFeathers() - ClientFeathersData.getWeight())
-                            , x + fx + 10
-                            , y - 19
-                            , Config.Color_Armor, false);
+                    guiGraphics.drawString(font, FeathersValue, x + fx + 10, y - 19, Config.Color_Armor, false);
                 } else if ( player.hasEffect(FeathersEffects.ENDURANCE.get())) {
                     // 溢出羽毛
                     /* 背景*/guiGraphics.blit(feathers, x + fx, y - 19 , 16, 0, 9, 9, 256, 256);
                     guiGraphics.blit(feathers, x + fx, y - 19 , 34, 0, 9, 9, 256, 256);
                     guiGraphics.blit(feathers, x + fx, y - 19 , 61, 0, 9, 9, 256, 256);
-                    guiGraphics.drawString(font, String.valueOf(ClientFeathersData.getFeathers() + ClientFeathersData.getEnduranceFeathers() - ClientFeathersData.getWeight())
-                            , x + fx + 10
-                            , y - 19
-                            , Config.Color_Armor, false);
+                    guiGraphics.drawString(font, FeathersValue, x + fx + 10, y - 19, Config.Color_Armor, false);
                 } else if ( player.hasEffect(FeathersEffects.ENERGIZED.get()) ) {
                     // 快速恢复
                     /* 背景*/guiGraphics.blit(feathers, x + fx, y - 19 , 16, 0, 9, 9, 256, 256);
                     guiGraphics.blit(feathers, x + fx, y - 19 , 34, 0, 9, 9, 256, 256);
                     guiGraphics.blit(feathers, x + fx, y - 19 , 25, 18, 9, 9, 256, 256);
-                    guiGraphics.drawString(font, String.valueOf(ClientFeathersData.getFeathers() + ClientFeathersData.getEnduranceFeathers() - ClientFeathersData.getWeight())
-                            , x + fx + 10
-                            , y - 19
-                            , Config.Color_Armor, false);
+                    guiGraphics.drawString(font, FeathersValue, x + fx + 10, y - 19, Config.Color_Armor, false);
                 } else { // 默认图标
-                    /* 背景*/guiGraphics.blit(feathers, x + fx, y - 19 , 16, 0, 9, 9, 256, 256);
-                    guiGraphics.blit(feathers, x + fx, y - 19 , 34, 0, 9, 9, 256, 256);
-                    guiGraphics.drawString(font, String.valueOf(ClientFeathersData.getFeathers() + ClientFeathersData.getEnduranceFeathers() - ClientFeathersData.getWeight())
-                            , x + fx + 10
-                            , y - 19
-                            , Config.Color_Armor, false);
+                    /* 背景*/
+                    guiGraphics.blit(feathers, x + fx, y - 19, 16, 0, 9, 9, 256, 256);
+                    guiGraphics.blit(feathers, x + fx, y - 19, 34, 0, 9, 9, 256, 256);
+                    guiGraphics.drawString(font, FeathersValue, x + fx + 10, y - 19, Config.Color_Armor, false);
                 }
-
-
 
                 if (false) { // 测试图标用
                     // 数值文本
@@ -507,7 +493,7 @@ public class FoodLevel implements IGuiOverlay {
         float Food = Math.min(player.getFoodData().getFoodLevel(), maxFood);
         float saturationProportion = player.getFoodData().getSaturationLevel() / maxFood;
 
-        // Calculate bar proportions
+        // 计算状态线比例
         float FoodProportion;
         float intermediateProportion;
         if ( Food < intermediateFood ) {
@@ -524,7 +510,7 @@ public class FoodLevel implements IGuiOverlay {
         int saturationWidth = (int) Math.ceil(80 * saturationProportion);
         int intermediateWidth = (int) Math.ceil(80 * intermediateProportion);
 
-        // Display empty part
+        // 显示空部分
         guiGraphics.blit(emptyHealthBarLocation,
                 x, y,
                 0, 0,
@@ -545,17 +531,21 @@ public class FoodLevel implements IGuiOverlay {
                 saturationWidth, 5,
                 80, 5);
 
-        // Display intermediate part
+        // 显示中间部分
         guiGraphics.blit(intermediateHealthBarLocation,
                 x + 80 - FoodWidth - intermediateWidth, y,
                 80 - FoodWidth - intermediateWidth, 0,
                 intermediateWidth, 5,
                 80, 5);
 
-        // 疲劳值
-        if ( Config.Food_ExhaustionLevel_On ) {
-            int ExhaustionLevel = Math.max(1, (int) ((4f - player.getFoodData().getExhaustionLevel()) * 78f) / 4);
-            guiGraphics.hLine(x + 79 - ExhaustionLevel, x + 78, y + 4, Config.Color_Food_ExhaustionLevel);
+        // 疲劳值 某些情况下无法获取，当满的时候隐藏
+        if (Config.Food_ExhaustionLevel_On) {
+            float exhaustionLevel = player.getFoodData().getExhaustionLevel();
+            // Check if the exhaustion level is not at its maximum before proceeding
+            if (exhaustionLevel == 40.0) {
+                int visualLength = Math.max(1, (int) ((4f - exhaustionLevel) * 78f) / 4);
+                guiGraphics.hLine(x + 79 - visualLength, x + 78, y + 4, Config.Color_Food_ExhaustionLevel);
+            }
         }
 
         float InsFood;
@@ -564,7 +554,7 @@ public class FoodLevel implements IGuiOverlay {
         } else {
             InsFood = Food;
         }
-        // Update intermediate health
+        // 更新中间状态
         this.intermediateFood += (InsFood - intermediateFood) * partialTick * 0.08;
         if ( Math.abs(InsFood - intermediateFood) <= 0.25 ) {
             this.intermediateFood = InsFood;

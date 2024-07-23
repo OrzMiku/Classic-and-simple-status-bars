@@ -73,7 +73,7 @@ private static final ForgeConfigSpec.ConfigValue<String> Prefix_Food1 = BUILDER
                     "\n默认值(Default)：\"#F6E58D\"")
             .define("Color_Interval_String_2", "#F6E58D");
     /*************************************/
-    private static final ForgeConfigSpec.BooleanValue supersaturation_On1 = BUILDER
+/*    private static final ForgeConfigSpec.BooleanValue supersaturation_On1 = BUILDER
             .pop(1)
             .push("linkage_function.SuperSaturation")
             .comment("如果设置false，超级饱食度模组所允许的溢出，将不会被额外计算，不建议关闭此选项。" +
@@ -86,7 +86,7 @@ private static final ForgeConfigSpec.ConfigValue<String> Prefix_Food1 = BUILDER
             .comment("如果设置false，该模组的耐力条“蓝色羽毛”将不会有更好的渲染也不会有原来的样子，不建议关闭此选项。" +
                     "\nIf set to false, the Feathers Mod stamina bar 'Blue Feather' will not render better and will not look like it was, and it is not recommended to turn this option off." +
                     "\n默认值(Default)：true")
-            .define("Feathers-functional-status", true);
+            .define("Feathers-functional-status", true); */
     private static final ForgeConfigSpec.BooleanValue Bloodsucker_On1 = BUILDER
             .pop(1)
             .push("linkage_function.Vampires")
@@ -265,7 +265,7 @@ private static final ForgeConfigSpec.ConfigValue<String> Prefix_Food1 = BUILDER
             .define("Color_Food_ExhaustionLevel", "#66C3CC");
     static final ForgeConfigSpec SPEC = BUILDER.build();
     public static String Interval_lll, Interval_TTT, Prefix_Health, Prefix_Food;
-    public static boolean feathers_On,supersaturation_On, Food_ExhaustionLevel_On, Thirst_On, Artifacts_On, Origins_On, All_On, Bloodsucker_On, Food_On, Health_On, EasyMode_Text_On, Armour_On, Armor_Toughness_On, Air_On, Mounts_On;
+    public static boolean /*feathers_On,supersaturation_On,*/ Food_ExhaustionLevel_On, Thirst_On, Artifacts_On, Origins_On, All_On, Bloodsucker_On, Food_On, Health_On, EasyMode_Text_On, Armour_On, Armor_Toughness_On, Air_On, Mounts_On;
     public static int Color_Food_ExhaustionLevel, MaxFood_On, Color_Origins_Symbol, Color_Thirst_Quenched, Color_Thirst, Color_Artifacts, Color_Air, Color_Artifacts_Symbol, Color_Air_Symbol, Color_Vampires_Blood, Color_Vampires_MaxBlood, Color_Origins, Color_Health, Color_Health_Absorb, Color_Health_Tail, Color_Food, Color_Food_Saturation, Color_Food_Tail, Color_Armor, Color_Armor_Toughness, Color_Interval_lll, Color_Interval_TTT;
 
     @SubscribeEvent
@@ -290,8 +290,8 @@ private static final ForgeConfigSpec.ConfigValue<String> Prefix_Food1 = BUILDER
         Artifacts_On = Artifact_On1.get();
         Thirst_On = Thirst_On1.get();
         Food_ExhaustionLevel_On = Food_ExhaustionLevel_On1.get();
-        supersaturation_On =  supersaturation_On1.get();
-        feathers_On = feathers_On1.get();
+/*      supersaturation_On =  supersaturation_On1.get();
+        feathers_On = feathers_On1.get();*/
         
         Color color_Food_ExhaustionLevel = Color.decode(Color_Food_ExhaustionLevel1.get().toLowerCase());
         Color_Food_ExhaustionLevel = color_Food_ExhaustionLevel.getRGB();

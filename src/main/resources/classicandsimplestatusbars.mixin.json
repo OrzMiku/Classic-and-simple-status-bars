@@ -12,7 +12,9 @@
     "ScalingHealthMixin",
     "ThirstBarRendererMixin",
     "ThirstHUDOverlayHandlerMixin",
-    "VampirismMixin"
+    "VampirismMixin",
+    "CataclysmMixin",
+    "MekMixin"
   ],
   "minVersion": "0.8"
 }

@@ -7,11 +7,14 @@ import cn.mcxkly.classicandsimplestatusbars.overlays.FoodLevel;
 import cn.mcxkly.classicandsimplestatusbars.overlays.ThirstWasTakenUse;
 import com.alrex.parcool.ParCool;
 import com.elenai.feathers.Feathers;
+import com.github.L_Ender.cataclysm.Cataclysm;
+import com.legacy.blue_skies.BlueSkies;
 import com.mojang.logging.LogUtils;
 import de.teamlapen.vampirism.REFERENCE;
 import dev.ghen.thirst.Thirst;
 import homeostatic.Homeostatic;
 import io.github.apace100.origins.Origins;
+import mekanism.common.Mekanism;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModList;
@@ -32,8 +35,11 @@ public class ClassicAndSimpleStatusBars {
     public static boolean vampirism = false;
     public static boolean origins = false;
     public static boolean supersaturation = false;
-    public static boolean parcool =false;
-    public static boolean feathers =false;
+    public static boolean parcool = false;
+    public static boolean feathers = false;
+    public static boolean mekanism = false;
+    public static boolean cataclysm = false;
+    public static boolean blueSkies = false;
     public ClassicAndSimpleStatusBars() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         modEventBus.addListener(this :: commonSetup);
@@ -76,17 +82,29 @@ public class ClassicAndSimpleStatusBars {
                 LOGGER.info("CSSB: " + "Enable the origins power value");
                 origins = true;
             }
-            if ( Config.supersaturation_On && ModList.get().isLoaded(SuperSaturation.MODID) ) {
+            if ( ModList.get().isLoaded(SuperSaturation.MODID) ) {
                 LOGGER.info("CSSB: " + "Enable the SuperSaturation Added Value");
                 supersaturation = true;
             }
-            if ( Config.feathers_On && ModList.get().isLoaded(ParCool.MOD_ID) ) {
-                LOGGER.info("CSSB: " + "Enable the ParCool Added Value");
+            if ( ModList.get().isLoaded(ParCool.MOD_ID) ) {
+                LOGGER.info("CSSB: " + "Enable the ParCool Stamina Value");
                 parcool = true;
             }
-            if ( Config.feathers_On && ModList.get().isLoaded(Feathers.MODID) ) {
-                LOGGER.info("CSSB: " + "Enable the feathers Added Value");
+            if ( ModList.get().isLoaded(Feathers.MODID) ) {
+                LOGGER.info("CSSB: " + "Enable the Feathers StaminaFeather Value");
                 feathers = true;
+            }
+            if ( ModList.get().isLoaded(Mekanism.MODID) ) {
+                LOGGER.info("CSSB: " + "Enable the Mekanism Armor Energy Value");
+                mekanism = true;
+            }
+            if ( ModList.get().isLoaded(Cataclysm.MODID) ) {
+                LOGGER.info("CSSB: " + "Enable the L_Ender's Cataclysm Sandstorm Value");
+                cataclysm = true;
+            }
+            if ( ModList.get().isLoaded(BlueSkies.MODID) ) {
+                LOGGER.info("CSSB: " + "Enable the BlueSkies ExtraHealth Value");
+                blueSkies = true;
             }
         }
     }

@@ -25,6 +25,7 @@ public class VanillaGuiHandler {
     private static final ResourceLocation ThirstWasTaken = new ResourceLocation("thirst", "thirst_level");
     private static final ResourceLocation toughasnailsl = new ResourceLocation("toughasnails", "thirst_level");
     private static final ResourceLocation feathers = new ResourceLocation("feathers", "feathers");
+    private static final ResourceLocation blueskies = new ResourceLocation("blue_skies", "nature_arc_health_bonus");
 
     @SubscribeEvent
     public static void disableVanillaAarmor(RenderGuiOverlayEvent.Pre event) {
@@ -61,6 +62,11 @@ public class VanillaGuiHandler {
                 if ( event.getOverlay().id().equals(feathers) ) {
                     event.setCanceled(true);
                 }
+                // 蔚蓝皓空
+                if ( event.getOverlay().id().equals(blueskies) ) {
+                    event.setCanceled(true);
+                }
+
             }
         }
 
