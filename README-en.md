@@ -1,4 +1,4 @@
-## 🌐[简体中文](https://github.com/Xing-C/Classic-and-simple-status-bars)  English
+## 🌐[简体中文](https://github.com/Xing-C/Classic-and-simple-status-bars)  English (No Good, Help Me)
 ## Classic and simple status bars
 ![logo](/src/main/resources/image.png)
 
@@ -6,7 +6,7 @@
 
 ### 🪶Support Version
 - Supports Version 1.20-1.20.1 Forge And NeoForged
-- Supports Version 1.20-1.20.2 Fabric
+- Supports Version 1.20-1.20.2 Fabric (ItSOverNow)
 - Supports Future Minecraft Versions
 
 #### ⏬Download
@@ -26,11 +26,16 @@
 - Support Armor Toughness
 - Support Thirst levels provided Mod Thirst and Tough As Nails or Homeostatic
 - Support Dehydration (Fabric)
-- Support THE CLASS ABILITY BAR FOR THE Origins MOD；
-- Support Vampire mod, vampire blood-drinking slot；
+- Support THE CLASS ABILITY BAR FOR THE Origins MOD
+- Support Vampire mod, vampire blood-drinking slot
 - Support flamingo flight status, from Artifacts Mod
-- Support for ParCool Mod, forcing parkour physical rendering in the lower right corner (if rendering is allowed)
+- Support for parkour mod stamina (when renderType is not normal) is now displayed in a new way
 - Support for ScalingHealth Mod, Disable Its Heart Container Rendering
+- Support with the extra saturation of SuperSaturation mod
+- Support the absorption provided by BlueSkies mod, sourced from Nature Arc
+- Support the Armored energy bar of the Mekanism mod
+- Support the sandstorm status of the L_Ender'sCataclysm mod cosmetic Sandstorm In A Bottle
+- Support the Feather Endurance System brought by the Feathers mod
 
 ### 🖼️Photo:
   ![0](/Textures/in/0.png)
