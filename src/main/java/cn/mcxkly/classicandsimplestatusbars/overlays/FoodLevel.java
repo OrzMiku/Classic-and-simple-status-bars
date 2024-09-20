@@ -491,7 +491,7 @@ public class FoodLevel implements IGuiOverlay {
         float maxFood = player.getFoodData().getLastFoodLevel();
 
         float Food = Math.min(player.getFoodData().getFoodLevel(), maxFood);
-        float saturationProportion = Math.min(player.getFoodData().getSaturationLevel(), maxFood) / maxFood;
+        float saturationProportion = player.getFoodData().getSaturationLevel() / maxFood;
 
         // 计算状态线比例
         float FoodProportion;
@@ -506,8 +506,8 @@ public class FoodLevel implements IGuiOverlay {
         FoodProportion = Food / maxFood;
         //if (FoodProportion > 1) FoodProportion = 1F;
         //if (FoodProportion + intermediateProportion > 1) intermediateProportion = 1 - FoodProportion;
-        int FoodWidth = (int) Math.ceil(80 * FoodProportion);
-        int saturationWidth = (int) Math.ceil(80 * saturationProportion);
+        int FoodWidth = (int) Math.min(Math.ceil(80 * FoodProportion), 1);
+        int saturationWidth = (int) Math.min(Math.ceil(80 * saturationProportion), 1);
         int intermediateWidth = (int) Math.ceil(80 * intermediateProportion);
 
         // 显示空部分
