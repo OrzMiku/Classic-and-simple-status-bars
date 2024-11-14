@@ -19,10 +19,10 @@ public class HealthBar {
     private static final Identifier intermediateHealthBarLocation = new Identifier(ClassicAndSimpleStatusBars.MOD_ID, "textures/gui/healthbars/intermediate.png");
     private static final Identifier emptyHealthBarLocation = new Identifier(ClassicAndSimpleStatusBars.MOD_ID, "textures/gui/healthbars/empty.png");
     private static final Identifier absorptionBarLocation = new Identifier(ClassicAndSimpleStatusBars.MOD_ID, "textures/gui/healthbars/absorption.png");
-    public static boolean isUseSeparateIcons = false;
+    public static boolean isUseSeparateIcons = true;
     private static final Identifier guiIconsLocation = new Identifier(ClassicAndSimpleStatusBars.MOD_ID, "textures/gui/icons.png");
-    private static final Identifier armor_full = new Identifier("minecraft", "textures/gui/sprites/hud/armor_full.png");
-    private static final Identifier heart_full = new Identifier("minecraft", "textures/gui/sprites/hud/heart/full.png");
+    private static final Identifier armorIcon = new Identifier(ClassicAndSimpleStatusBars.MOD_ID, "textures/gui/icons/armor_icon.png");
+    private static final Identifier healthIcon = new Identifier(ClassicAndSimpleStatusBars.MOD_ID, "textures/gui/icons/health_icon.png");
     public static void isUseSeparateIconsIDEA(boolean is) {
         isUseSeparateIcons = is;
     }
@@ -35,7 +35,7 @@ public class HealthBar {
             int width = mc.getWindow().getScaledWidth();
             int height = mc.getWindow().getScaledHeight();
             float x = (float) width / 2 - 91;
-            float y = height - 39;
+            float y = height - 40;
             y += 4;
             TextRenderer font = mc.textRenderer;
             updateBarTextures(player);
@@ -57,9 +57,9 @@ public class HealthBar {
     }
 
     private void renderHealthValue(TextRenderer font, DrawContext context, int x, int y, PlayerEntity player) {
-        y += 1;
+        int gap = 1;
         if (isUseSeparateIcons) {
-            context.drawTexture(heart_full,
+            context.drawTexture(healthIcon,
                     x, y - 10,
                     0, 0,
                     9, 9,
@@ -90,9 +90,10 @@ public class HealthBar {
             text = helper.KeepOneDecimal(Health) + "/" + helper.KeepOneDecimal(MaxHealth);
             context.drawText(font, text, x + 10, y - 9, 0xAE132B, false);
         }
+        y -= gap;
         if (ARMOR > 0) {
             if (isUseSeparateIcons) {
-                context.drawTexture(armor_full,
+                context.drawTexture(armorIcon,
                         x, y - 20,
                         0, 0,
                         9, 9,

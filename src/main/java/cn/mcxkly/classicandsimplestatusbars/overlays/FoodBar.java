@@ -26,11 +26,10 @@ public class FoodBar {
     private static final Identifier emmmmnBarLocation = new Identifier(ClassicAndSimpleStatusBars.MOD_ID, "textures/gui/foodbars/debuff-hunger.png");
     private static final Identifier intermediateHealthBarLocation = new Identifier(ClassicAndSimpleStatusBars.MOD_ID, "textures/gui/foodbars/intermediate.png");
     private static final Identifier guiIconsLocation = new Identifier(ClassicAndSimpleStatusBars.MOD_ID, "textures/gui/icons.png");
-    public static boolean isUseSeparateIcons = false;
-    private static final Identifier food_empty = new Identifier("minecraft", "textures/gui/sprites/hud/food_empty.png");
-    private static final Identifier food_full = new Identifier("minecraft", "textures/gui/sprites/hud/food_full.png");
-    private static final Identifier air = new Identifier("minecraft", "textures/gui/sprites/hud/air.png");
-    private static final Identifier vehicle_full = new Identifier("minecraft", "textures/gui/sprites/hud/heart/vehicle_full.png");
+    public static boolean isUseSeparateIcons = true;
+    private static final Identifier hungerIcon = new Identifier(ClassicAndSimpleStatusBars.MOD_ID, "textures/gui/icons/hunger_icon.png");
+    private static final Identifier breatheIcon = new Identifier(ClassicAndSimpleStatusBars.MOD_ID, "textures/gui/icons/breathe_icon.png");
+    private static final Identifier healthIcon = new Identifier(ClassicAndSimpleStatusBars.MOD_ID, "textures/gui/icons/health_icon.png");
     private static final Identifier armor_toughness = new Identifier(ClassicAndSimpleStatusBars.MOD_ID, "textures/gui/foodbars/armor_toughness.png"); // The official deleted it, and I can only do this
     private static final Identifier armor_full = new Identifier("minecraft", "textures/gui/sprites/hud/armor_full.png");
     public static boolean StopConflictRendering = true; // 支持 脱水Mod
@@ -55,7 +54,7 @@ public class FoodBar {
             int width = mc.getWindow().getScaledWidth();
             int height = mc.getWindow().getScaledHeight();
             float x = (float) width / 2 + 11;
-            float y = height - 39;
+            float y = height - 40;
             y += 4;
             HungerManager FoodData = player.getHungerManager();
             TextRenderer font = mc.textRenderer;
@@ -74,18 +73,13 @@ public class FoodBar {
     }
 
     private void renderFoodValue(TextRenderer font, DrawContext context, int x, int y, PlayerEntity player, HungerManager FoodData) {
-        y += 1;
+        int gap = 1;
         if (isUseSeparateIcons) {
-            context.drawTexture(food_empty,
+            context.drawTexture(hungerIcon,
                     x, y - 10,
                     0, 0,
                     9, 9,
-                    9, 9); // 鸡腿图标-背景
-            context.drawTexture(food_full,
-                    x, y - 10,
-                    0, 0,
-                    9, 9,
-                    9, 9); // 鸡腿图标
+                    9, 9);
         } else {
             context.drawTexture(guiIconsLocation,
                     x, y - 10,
@@ -116,7 +110,7 @@ public class FoodBar {
             context.drawText(font, "%", x + 70 - font.getWidth("%"), Y2 - 9, 0x1E90FF, false);
             context.drawText(font, text, x + 70 - font.getWidth(text) - font.getWidth("%"), Y2 - 9, 0x1E90FF, false);
             if (isUseSeparateIcons) {
-                context.drawTexture(air,
+                context.drawTexture(breatheIcon,
                         x + 70, Y2 - 10,
                         0, 0,
                         9, 9,
@@ -129,6 +123,7 @@ public class FoodBar {
                         256, 256); // 气泡图标
             }
         }
+        y -= gap;
         if (ArtifactsAir) {
             SwimData swimData = PlatformServices.platformHelper.getSwimData(player);
             if (swimData == null) {
@@ -172,7 +167,7 @@ public class FoodBar {
                 float MountHealths = Math.min(FsMount.getHealth(), MountHealthsMax);
                 if (MountHealths > 0) {
                     if (isUseSeparateIcons) {
-                        context.drawTexture(vehicle_full,
+                        context.drawTexture(healthIcon,
                                 x, y - 19,
                                 0, 0,
                                 9, 9,
