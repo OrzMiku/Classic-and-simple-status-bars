@@ -20,7 +20,7 @@ public class HealthBar {
     private static final Identifier emptyHealthBarLocation = new Identifier(ClassicAndSimpleStatusBars.MOD_ID, "textures/gui/healthbars/empty.png");
     private static final Identifier absorptionBarLocation = new Identifier(ClassicAndSimpleStatusBars.MOD_ID, "textures/gui/healthbars/absorption.png");
     public static boolean isUseSeparateIcons = false;
-    private static final Identifier guiIconsLocation = new Identifier("minecraft", "textures/gui/icons.png");
+    private static final Identifier guiIconsLocation = new Identifier(ClassicAndSimpleStatusBars.MOD_ID, "textures/gui/icons.png");
     private static final Identifier armor_full = new Identifier("minecraft", "textures/gui/sprites/hud/armor_full.png");
     private static final Identifier heart_full = new Identifier("minecraft", "textures/gui/sprites/hud/heart/full.png");
     public static void isUseSeparateIconsIDEA(boolean is) {
@@ -79,27 +79,27 @@ public class HealthBar {
         String text;
         if (Absorption > 0) {
             text = helper.KeepOneDecimal(Health);
-            context.drawText(font, text, xx, y - 9, 0xEE0000, false);
+            context.drawText(font, text, xx, y - 9, 0xAE132B, false);
             xx = xx + font.getWidth(text);
             text = "+" + helper.KeepOneDecimal(Absorption);
-            context.drawText(font, text, xx, y - 9, 0xEEEE00, false);
+            context.drawText(font, text, xx, y - 9, 0xE7B700, false);
             xx = xx + font.getWidth(text);
             text = "/" + helper.KeepOneDecimal(MaxHealth);
-            context.drawText(font, text, xx, y - 9, 0xEE0000, false);
+            context.drawText(font, text, xx, y - 9, 0xAE132B, false);
         } else {
             text = helper.KeepOneDecimal(Health) + "/" + helper.KeepOneDecimal(MaxHealth);
-            context.drawText(font, text, x + 10, y - 9, 0xEE0000, false);
+            context.drawText(font, text, x + 10, y - 9, 0xAE132B, false);
         }
         if (ARMOR > 0) {
             if (isUseSeparateIcons) {
                 context.drawTexture(armor_full,
-                        x, y - 19,
+                        x, y - 20,
                         0, 0,
                         9, 9,
                         9, 9); // 护甲图标
             } else {
                 context.drawTexture(guiIconsLocation,
-                        x, y - 19,
+                        x, y - 20,
                         43, 9,
                         9, 9,
                         256, 256); // 护甲图标

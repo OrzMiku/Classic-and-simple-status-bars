@@ -25,7 +25,7 @@ public class FoodBar {
     private Identifier currentBarLocation = fullHealthBarLocation;
     private static final Identifier emmmmnBarLocation = new Identifier(ClassicAndSimpleStatusBars.MOD_ID, "textures/gui/foodbars/debuff-hunger.png");
     private static final Identifier intermediateHealthBarLocation = new Identifier(ClassicAndSimpleStatusBars.MOD_ID, "textures/gui/foodbars/intermediate.png");
-    private static final Identifier guiIconsLocation = new Identifier("minecraft", "textures/gui/icons.png");
+    private static final Identifier guiIconsLocation = new Identifier(ClassicAndSimpleStatusBars.MOD_ID, "textures/gui/icons.png");
     public static boolean isUseSeparateIcons = false;
     private static final Identifier food_empty = new Identifier("minecraft", "textures/gui/sprites/hud/food_empty.png");
     private static final Identifier food_full = new Identifier("minecraft", "textures/gui/sprites/hud/food_full.png");
@@ -100,12 +100,12 @@ public class FoodBar {
         }
         String text = helper.KeepOneDecimal(FoodData.getFoodLevel());
         int xx = x + 10;
-        context.drawText(font, text, xx, y - 9, 0xF4A460, false);
+        context.drawText(font, text, xx, y - 9, 0xC3702D, false);
         if (FoodData.getSaturationLevel() > 0) {
             //第二部分
             xx = xx + font.getWidth(text);
             text = "+" + helper.KeepOneDecimal(FoodData.getSaturationLevel());
-            context.drawText(font, text, xx, y - 9, 0xEEEE00, false);
+            context.drawText(font, text, xx, y - 9, 0xE7B700, false);
         }
         if (player.getAir() < 300) { // max=300
             int siz = player.getAir() / 3;
@@ -184,7 +184,7 @@ public class FoodBar {
                                 9, 9,
                                 256, 256); // 骑乘血量
                     }
-                        context.drawText(font, helper.KeepOneDecimal(MountHealths) + "/" + helper.KeepOneDecimal(MountHealthsMax), x + 10, y - 19, 0xEE0000, false);
+                        context.drawText(font, helper.KeepOneDecimal(MountHealths) + "/" + helper.KeepOneDecimal(MountHealthsMax), x + 10, y - 19, 0xAE132B, false);
                 }
             }
         } else {
