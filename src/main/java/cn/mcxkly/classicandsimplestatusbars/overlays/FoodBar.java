@@ -19,30 +19,44 @@ import net.minecraft.util.Identifier;
 
 public class FoodBar {
     private static final MinecraftClient mc = MinecraftClient.getInstance();
-    private static final Identifier fullHealthBarLocation = new Identifier(ClassicAndSimpleStatusBars.MOD_ID, "textures/gui/foodbars/foodeeg.png");
-    private static final Identifier emptyHealthBarLocation = new Identifier(ClassicAndSimpleStatusBars.MOD_ID, "textures/gui/foodbars/empty.png");
-    private static final Identifier saturationBarLocation = new Identifier(ClassicAndSimpleStatusBars.MOD_ID, "textures/gui/foodbars/saturation.png");
+    private static final Identifier fullHealthBarLocation = new Identifier(ClassicAndSimpleStatusBars.MOD_ID,
+            "textures/gui/foodbars/foodeeg.png");
+    private static final Identifier emptyHealthBarLocation = new Identifier(ClassicAndSimpleStatusBars.MOD_ID,
+            "textures/gui/foodbars/empty.png");
+    private static final Identifier saturationBarLocation = new Identifier(ClassicAndSimpleStatusBars.MOD_ID,
+            "textures/gui/foodbars/saturation.png");
     private Identifier currentBarLocation = fullHealthBarLocation;
-    private static final Identifier emmmmnBarLocation = new Identifier(ClassicAndSimpleStatusBars.MOD_ID, "textures/gui/foodbars/debuff-hunger.png");
-    private static final Identifier intermediateHealthBarLocation = new Identifier(ClassicAndSimpleStatusBars.MOD_ID, "textures/gui/foodbars/intermediate.png");
-    private static final Identifier guiIconsLocation = new Identifier(ClassicAndSimpleStatusBars.MOD_ID, "textures/gui/icons.png");
+    private static final Identifier emmmmnBarLocation = new Identifier(ClassicAndSimpleStatusBars.MOD_ID,
+            "textures/gui/foodbars/debuff-hunger.png");
+    private static final Identifier intermediateHealthBarLocation = new Identifier(ClassicAndSimpleStatusBars.MOD_ID,
+            "textures/gui/foodbars/intermediate.png");
+    private static final Identifier guiIconsLocation = new Identifier(ClassicAndSimpleStatusBars.MOD_ID,
+            "textures/gui/icons.png");
     public static boolean isUseSeparateIcons = true;
-    private static final Identifier hungerIcon = new Identifier(ClassicAndSimpleStatusBars.MOD_ID, "textures/gui/icons/hunger_icon.png");
-    private static final Identifier breatheIcon = new Identifier(ClassicAndSimpleStatusBars.MOD_ID, "textures/gui/icons/breathe_icon.png");
-    private static final Identifier healthIcon = new Identifier(ClassicAndSimpleStatusBars.MOD_ID, "textures/gui/icons/health_icon.png");
-    private static final Identifier armor_toughness = new Identifier(ClassicAndSimpleStatusBars.MOD_ID, "textures/gui/foodbars/armor_toughness.png"); // The official deleted it, and I can only do this
+    private static final Identifier hungerIcon = new Identifier(ClassicAndSimpleStatusBars.MOD_ID,
+            "textures/gui/icons/hunger_icon.png");
+    private static final Identifier breatheIcon = new Identifier(ClassicAndSimpleStatusBars.MOD_ID,
+            "textures/gui/icons/breathe_icon.png");
+    private static final Identifier healthIcon = new Identifier(ClassicAndSimpleStatusBars.MOD_ID,
+            "textures/gui/icons/health_icon.png");
+    private static final Identifier armor_toughness = new Identifier(ClassicAndSimpleStatusBars.MOD_ID,
+            "textures/gui/foodbars/armor_toughness.png"); // The official deleted it, and I can only do this
     private static final Identifier armor_full = new Identifier("minecraft", "textures/gui/sprites/hud/armor_full.png");
     public static boolean StopConflictRendering = true; // 支持 脱水Mod
+
     public static void isUseSeparateIconsIDEA(boolean is) {
         isUseSeparateIcons = is;
     }
+
     public static void StopConflictRenderingIDEA(boolean is) {
         StopConflictRendering = is;
     }
+
     private float intermediateFood = 0;
 
     public static boolean ArtifactsAir = false; // 奇异饰品-火烈鸟
     private static final Identifier HELIUM_FLAMINGO_ICON = new Identifier("artifacts", "textures/gui/icons.png");
+
     public static void ArtifactsIDEA(boolean b) {
         ArtifactsAir = b;
     }
@@ -72,7 +86,8 @@ public class FoodBar {
         }
     }
 
-    private void renderFoodValue(TextRenderer font, DrawContext context, int x, int y, PlayerEntity player, HungerManager FoodData) {
+    private void renderFoodValue(TextRenderer font, DrawContext context, int x, int y, PlayerEntity player,
+            HungerManager FoodData) {
         int gap = 1;
         if (isUseSeparateIcons) {
             context.drawTexture(hungerIcon,
@@ -94,19 +109,20 @@ public class FoodBar {
         }
         String text = helper.KeepOneDecimal(FoodData.getFoodLevel());
         int xx = x + 10;
-        context.drawText(font, text, xx, y - 9, 0xC3702D, false);
+        context.drawText(font, text, xx, y - 9, 0xDB8540, false);
         if (FoodData.getSaturationLevel() > 0) {
-            //第二部分
+            // 第二部分
             xx = xx + font.getWidth(text);
             text = "+" + helper.KeepOneDecimal(FoodData.getSaturationLevel());
-            context.drawText(font, text, xx, y - 9, 0xE7B700, false);
+            context.drawText(font, text, xx, y - 9, 0xfECC11, false);
         }
         if (player.getAir() < 300) { // max=300
             int siz = player.getAir() / 3;
-            siz = Math.max(siz, 0); //防止负数
+            siz = Math.max(siz, 0); // 防止负数
             text = String.valueOf(siz);
             int Y2 = y;
-            if (!StopConflictRendering) Y2 -= 10; // 如果口渴存在，在渲染时高度 + 10
+            if (!StopConflictRendering)
+                Y2 -= 10; // 如果口渴存在，在渲染时高度 + 10
             context.drawText(font, "%", x + 70 - font.getWidth("%"), Y2 - 9, 0x1E90FF, false);
             context.drawText(font, text, x + 70 - font.getWidth(text) - font.getWidth("%"), Y2 - 9, 0x1E90FF, false);
             if (isUseSeparateIcons) {
@@ -132,8 +148,10 @@ public class FoodBar {
                 int maxProgressTime;
                 if (swimTime != 0) {
                     int AirY = y;
-                    if (player.getAir() < 300) AirY -= 10; // 如果渲染了氧气值，在渲染时高度 + 10
-                    if (!StopConflictRendering) AirY -= 10; // 如果口渴存在，在渲染时高度 + 10
+                    if (player.getAir() < 300)
+                        AirY -= 10; // 如果渲染了氧气值，在渲染时高度 + 10
+                    if (!StopConflictRendering)
+                        AirY -= 10; // 如果口渴存在，在渲染时高度 + 10
                     if (swimTime > 0) {
                         maxProgressTime = Math.max(1, ModGameRules.HELIUM_FLAMINGO_FLIGHT_DURATION.get() * 20);
                     } else {
@@ -141,9 +159,10 @@ public class FoodBar {
                     }
                     int swimTimes = swimTime * 100 / maxProgressTime;
                     swimTimes = (swimTimes <= 0 ? -1 : 100 - swimTimes);
-                    String texts = Math.max(swimTimes, 0) + ""; //防止负数
+                    String texts = Math.max(swimTimes, 0) + ""; // 防止负数
                     context.drawText(font, "%", x + 70 - font.getWidth("%"), AirY - 9, 0xFFC0CB, false);
-                    context.drawText(font, texts, x + 70 - font.getWidth(texts) - font.getWidth("%"), AirY - 9, 0xFFC0CB, false);
+                    context.drawText(font, texts, x + 70 - font.getWidth(texts) - font.getWidth("%"), AirY - 9,
+                            0xFFC0CB, false);
                     context.drawTexture(HELIUM_FLAMINGO_ICON,
                             x + 70, AirY - 10,
                             (swimTimes < 0 ? 9 : 0), 0,
@@ -160,18 +179,22 @@ public class FoodBar {
                     tsssmp.getType() == EntityType.CAMEL ||
                     tsssmp.getType() == EntityType.MULE ||
                     tsssmp.getType() == EntityType.STRIDER ||
-                    tsssmp.getType() == EntityType.TRADER_LLAMA
-            ) {
+                    tsssmp.getType() == EntityType.TRADER_LLAMA) {
                 LivingEntity FsMount = (LivingEntity) tsssmp;
                 float MountHealthsMax = FsMount.getMaxHealth();
                 float MountHealths = Math.min(FsMount.getHealth(), MountHealthsMax);
                 if (MountHealths > 0) {
                     if (isUseSeparateIcons) {
-                        context.drawTexture(healthIcon,
+                        // context.drawTexture(healthIcon,
+                        // x, y - 19,
+                        // 0, 0,
+                        // 9, 9,
+                        // 9, 9); // 骑乘血量
+                        context.drawTexture(guiIconsLocation,
                                 x, y - 19,
-                                0, 0,
+                                88, 9,
                                 9, 9,
-                                9, 9); // 骑乘血量
+                                256, 256); // 骑乘血量
                     } else {
                         context.drawTexture(guiIconsLocation,
                                 x, y - 19,
@@ -179,7 +202,9 @@ public class FoodBar {
                                 9, 9,
                                 256, 256); // 骑乘血量
                     }
-                        context.drawText(font, helper.KeepOneDecimal(MountHealths) + "/" + helper.KeepOneDecimal(MountHealthsMax), x + 10, y - 19, 0xAE132B, false);
+                    context.drawText(font,
+                            helper.KeepOneDecimal(MountHealths) + "/" + helper.KeepOneDecimal(MountHealthsMax), x + 10,
+                            y - 19, 0xDB8540, false);
                 }
             }
         } else {
@@ -213,8 +238,9 @@ public class FoodBar {
         }
     }
 
-    private void renderFoodBar(DrawContext context, float partialTick, int x, int y, PlayerEntity player, HungerManager FoodData) {
-        //float maxFood = 20; // 不，不能这样用。
+    private void renderFoodBar(DrawContext context, float partialTick, int x, int y, PlayerEntity player,
+            HungerManager FoodData) {
+        // float maxFood = 20; // 不，不能这样用。
         float maxFood = FoodData.getPrevFoodLevel();
         float Food = Math.min(FoodData.getFoodLevel(), maxFood);
         float saturationProportion = FoodData.getSaturationLevel() / maxFood;
@@ -223,15 +249,16 @@ public class FoodBar {
         float FoodProportion;
         float intermediateProportion;
         if (Food < intermediateFood) {
-            //FoodProportion = Food / maxFood;
+            // FoodProportion = Food / maxFood;
             intermediateProportion = (intermediateFood - Food) / maxFood;
         } else {
-            //FoodProportion = intermediateFood / maxFood;
+            // FoodProportion = intermediateFood / maxFood;
             intermediateProportion = 0;
         }
         FoodProportion = Food / maxFood;
-        //if (FoodProportion > 1) FoodProportion = 1F;
-        //if (FoodProportion + intermediateProportion > 1) intermediateProportion = 1 - FoodProportion;
+        // if (FoodProportion > 1) FoodProportion = 1F;
+        // if (FoodProportion + intermediateProportion > 1) intermediateProportion = 1 -
+        // FoodProportion;
         int FoodWidth = (int) Math.ceil(80 * FoodProportion);
         int saturationWidth = (int) Math.ceil(80 * saturationProportion);
         int intermediateWidth = (int) Math.ceil(80 * intermediateProportion);
@@ -274,7 +301,8 @@ public class FoodBar {
         }
         // Update intermediate health
         this.intermediateFood += (InsFood - intermediateFood) * partialTick * 0.08;
-        //context.drawText(font, intermediateFood+" - " + intermediateWidth, x, y - 69, 0x1E90FF, false);
+        // context.drawText(font, intermediateFood+" - " + intermediateWidth, x, y - 69,
+        // 0x1E90FF, false);
         if (Math.abs(InsFood - intermediateFood) <= 0.25) {
             this.intermediateFood = InsFood;
         }

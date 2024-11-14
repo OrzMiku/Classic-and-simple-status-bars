@@ -11,21 +11,33 @@ import net.minecraft.util.Identifier;
 
 public class HealthBar {
     private static final MinecraftClient mc = MinecraftClient.getInstance();
-    private static final Identifier fullHealthBarLocation = new Identifier(ClassicAndSimpleStatusBars.MOD_ID, "textures/gui/healthbars/full.png");
-    private static final Identifier witherBarLocation = new Identifier(ClassicAndSimpleStatusBars.MOD_ID, "textures/gui/healthbars/wither.png");
-    private static final Identifier poisonBarLocation = new Identifier(ClassicAndSimpleStatusBars.MOD_ID, "textures/gui/healthbars/poison.png");
-    private static final Identifier frozenBarLocation = new Identifier(ClassicAndSimpleStatusBars.MOD_ID, "textures/gui/healthbars/frozen.png");
+    private static final Identifier fullHealthBarLocation = new Identifier(ClassicAndSimpleStatusBars.MOD_ID,
+            "textures/gui/healthbars/full.png");
+    private static final Identifier witherBarLocation = new Identifier(ClassicAndSimpleStatusBars.MOD_ID,
+            "textures/gui/healthbars/wither.png");
+    private static final Identifier poisonBarLocation = new Identifier(ClassicAndSimpleStatusBars.MOD_ID,
+            "textures/gui/healthbars/poison.png");
+    private static final Identifier frozenBarLocation = new Identifier(ClassicAndSimpleStatusBars.MOD_ID,
+            "textures/gui/healthbars/frozen.png");
     private Identifier currentBarLocation = fullHealthBarLocation;
-    private static final Identifier intermediateHealthBarLocation = new Identifier(ClassicAndSimpleStatusBars.MOD_ID, "textures/gui/healthbars/intermediate.png");
-    private static final Identifier emptyHealthBarLocation = new Identifier(ClassicAndSimpleStatusBars.MOD_ID, "textures/gui/healthbars/empty.png");
-    private static final Identifier absorptionBarLocation = new Identifier(ClassicAndSimpleStatusBars.MOD_ID, "textures/gui/healthbars/absorption.png");
+    private static final Identifier intermediateHealthBarLocation = new Identifier(ClassicAndSimpleStatusBars.MOD_ID,
+            "textures/gui/healthbars/intermediate.png");
+    private static final Identifier emptyHealthBarLocation = new Identifier(ClassicAndSimpleStatusBars.MOD_ID,
+            "textures/gui/healthbars/empty.png");
+    private static final Identifier absorptionBarLocation = new Identifier(ClassicAndSimpleStatusBars.MOD_ID,
+            "textures/gui/healthbars/absorption.png");
     public static boolean isUseSeparateIcons = true;
-    private static final Identifier guiIconsLocation = new Identifier(ClassicAndSimpleStatusBars.MOD_ID, "textures/gui/icons.png");
-    private static final Identifier armorIcon = new Identifier(ClassicAndSimpleStatusBars.MOD_ID, "textures/gui/icons/armor_icon.png");
-    private static final Identifier healthIcon = new Identifier(ClassicAndSimpleStatusBars.MOD_ID, "textures/gui/icons/health_icon.png");
+    private static final Identifier guiIconsLocation = new Identifier(ClassicAndSimpleStatusBars.MOD_ID,
+            "textures/gui/icons.png");
+    private static final Identifier armorIcon = new Identifier(ClassicAndSimpleStatusBars.MOD_ID,
+            "textures/gui/icons/armor_icon.png");
+    private static final Identifier healthIcon = new Identifier(ClassicAndSimpleStatusBars.MOD_ID,
+            "textures/gui/icons/health_icon.png");
+
     public static void isUseSeparateIconsIDEA(boolean is) {
         isUseSeparateIcons = is;
     }
+
     private float intermediateHealth = 0;
 
     public void render(DrawContext context, float tickDelta) {
@@ -79,16 +91,16 @@ public class HealthBar {
         String text;
         if (Absorption > 0) {
             text = helper.KeepOneDecimal(Health);
-            context.drawText(font, text, xx, y - 9, 0xAE132B, false);
+            context.drawText(font, text, xx, y - 9, 0xC02C38, false);
             xx = xx + font.getWidth(text);
             text = "+" + helper.KeepOneDecimal(Absorption);
-            context.drawText(font, text, xx, y - 9, 0xE7B700, false);
+            context.drawText(font, text, xx, y - 9, 0xfECC11, false);
             xx = xx + font.getWidth(text);
             text = "/" + helper.KeepOneDecimal(MaxHealth);
-            context.drawText(font, text, xx, y - 9, 0xAE132B, false);
+            context.drawText(font, text, xx, y - 9, 0xC02C38, false);
         } else {
             text = helper.KeepOneDecimal(Health) + "/" + helper.KeepOneDecimal(MaxHealth);
-            context.drawText(font, text, x + 10, y - 9, 0xAE132B, false);
+            context.drawText(font, text, x + 10, y - 9, 0xC02C38, false);
         }
         y -= gap;
         if (ARMOR > 0) {
@@ -115,17 +127,19 @@ public class HealthBar {
         // Calculate bar proportions
         float healthProportion;
         float intermediateProportion;
-        if (intermediateHealth > maxHealth) intermediateHealth = maxHealth;
+        if (intermediateHealth > maxHealth)
+            intermediateHealth = maxHealth;
         if (health < intermediateHealth) {
-            //healthProportion = health / maxHealth;
+            // healthProportion = health / maxHealth;
             intermediateProportion = (intermediateHealth - health) / maxHealth;
         } else {
-            //healthProportion = intermediateHealth / maxHealth;
+            // healthProportion = intermediateHealth / maxHealth;
             intermediateProportion = 0;
         }
-        //if (healthProportion > 1) healthProportion = 1F;
+        // if (healthProportion > 1) healthProportion = 1F;
         healthProportion = health / maxHealth;
-        //if (healthProportion + intermediateProportion > 1) intermediateProportion = 1 - healthProportion;
+        // if (healthProportion + intermediateProportion > 1) intermediateProportion = 1
+        // - healthProportion;
         int healthWidth = (int) Math.ceil(80 * healthProportion);
         int intermediateWidth = (int) Math.ceil(80 * intermediateProportion);
         // Display empty part
@@ -141,7 +155,8 @@ public class HealthBar {
                 80, 5);
         float absorption = Math.min(player.getAbsorptionAmount(), maxHealth);
         float absorptionProportion = absorption / maxHealth;
-        if (absorptionProportion > 1) absorptionProportion = 1F;
+        if (absorptionProportion > 1)
+            absorptionProportion = 1F;
         int absorptionWidth = (int) Math.ceil(80 * absorptionProportion);
         if (absorption > 0) {
             context.drawTexture(absorptionBarLocation,
