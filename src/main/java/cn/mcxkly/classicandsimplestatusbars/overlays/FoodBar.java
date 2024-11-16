@@ -116,6 +116,9 @@ public class FoodBar {
             text = "+" + helper.KeepOneDecimal(FoodData.getSaturationLevel());
             context.drawText(font, text, xx, y - 9, 0xfECC11, false);
         }
+        xx = xx + font.getWidth(text);
+        text = "/" + helper.KeepOneDecimal(FoodData.getPrevFoodLevel());
+        context.drawText(font, text, xx, y - 9, 0xDB8540, false);
         if (player.getAir() < 300) { // max=300
             int siz = player.getAir() / 3;
             siz = Math.max(siz, 0); // 防止负数
