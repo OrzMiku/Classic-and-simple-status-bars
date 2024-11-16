@@ -186,13 +186,13 @@ public class FoodBar {
                 if (MountHealths > 0) {
                     if (isUseSeparateIcons) {
                          context.drawTexture(mountHealthIcon,
-                         x, y - 19,
+                         x, y - 20,
                          0, 0,
                          9, 9,
                          9, 9); // 骑乘血量
                     } else {
                         context.drawTexture(guiIconsLocation,
-                                x, y - 19,
+                                x, y - 20,
                                 88, 9,
                                 9, 9,
                                 256, 256); // 骑乘血量
