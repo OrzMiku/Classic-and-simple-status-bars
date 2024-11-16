@@ -263,15 +263,15 @@ public class FoodBar {
 
         // Display empty part
         context.drawTexture(emptyHealthBarLocation,
-                x, y,
-                0, 0,
+                x + FoodWidth + intermediateWidth, y,
+                FoodWidth + intermediateWidth, 0,
                 80 - FoodWidth - intermediateWidth, 5,
                 80, 5);
 
         // 饱食度
         context.drawTexture(currentBarLocation,
-                x + 80 - FoodWidth, y,
-                80 - FoodWidth, 0,
+                x, y,
+                0, 0,
                 FoodWidth, 5,
                 80, 5);
 
@@ -284,8 +284,8 @@ public class FoodBar {
 
         // Display intermediate part
         context.drawTexture(intermediateHealthBarLocation,
-                x + 80 - FoodWidth - intermediateWidth, y,
-                80 - FoodWidth - intermediateWidth, 0,
+                x + FoodWidth, y,
+                FoodWidth, 0,
                 intermediateWidth, 5,
                 80, 5);
         int InsWidth = 0;
@@ -297,10 +297,9 @@ public class FoodBar {
             InsWidth = FoodWidth;
             InsFood = Food;
         }
-        // Update intermediate health
+
+        // Update intermediate food
         this.intermediateFood += (InsFood - intermediateFood) * partialTick * 0.08;
-        // context.drawText(font, intermediateFood+" - " + intermediateWidth, x, y - 69,
-        // 0x1E90FF, false);
         if (Math.abs(InsFood - intermediateFood) <= 0.25) {
             this.intermediateFood = InsFood;
         }
