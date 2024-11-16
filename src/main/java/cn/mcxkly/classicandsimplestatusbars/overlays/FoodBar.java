@@ -37,8 +37,8 @@ public class FoodBar {
             "textures/gui/icons/hunger_icon.png");
     private static final Identifier breatheIcon = new Identifier(ClassicAndSimpleStatusBars.MOD_ID,
             "textures/gui/icons/breathe_icon.png");
-    private static final Identifier healthIcon = new Identifier(ClassicAndSimpleStatusBars.MOD_ID,
-            "textures/gui/icons/health_icon.png");
+    private static final Identifier mountHealthIcon = new Identifier(ClassicAndSimpleStatusBars.MOD_ID,
+            "textures/gui/icons/mount_health_icon.png");
     private static final Identifier armor_toughness = new Identifier(ClassicAndSimpleStatusBars.MOD_ID,
             "textures/gui/foodbars/armor_toughness.png"); // The official deleted it, and I can only do this
     private static final Identifier armor_full = new Identifier("minecraft", "textures/gui/sprites/hud/armor_full.png");
@@ -185,16 +185,11 @@ public class FoodBar {
                 float MountHealths = Math.min(FsMount.getHealth(), MountHealthsMax);
                 if (MountHealths > 0) {
                     if (isUseSeparateIcons) {
-                        // context.drawTexture(healthIcon,
-                        // x, y - 19,
-                        // 0, 0,
-                        // 9, 9,
-                        // 9, 9); // 骑乘血量
-                        context.drawTexture(guiIconsLocation,
-                                x, y - 19,
-                                88, 9,
-                                9, 9,
-                                256, 256); // 骑乘血量
+                         context.drawTexture(mountHealthIcon,
+                         x, y - 19,
+                         0, 0,
+                         9, 9,
+                         9, 9); // 骑乘血量
                     } else {
                         context.drawTexture(guiIconsLocation,
                                 x, y - 19,
